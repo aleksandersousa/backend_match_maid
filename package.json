@@ -6,6 +6,8 @@
   "author": "aleksandersousa <aleksander-ssousa@outlook.com>",
   "license": "MIT",
   "scripts": {
+    "start": "node dist/server.js",
+    "build": "babel src --extesions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly --ignore-watch node_modules --no-notify src/server.js",
     "test": "jest"
   },
@@ -15,10 +17,16 @@
     "mysql": "^2.18.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/node": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-typescript": "^7.12.1",
     "@types/express": "^4.17.8",
     "@types/jest": "^26.0.15",
     "@typescript-eslint/eslint-plugin": "^4.6.0",
     "@typescript-eslint/parser": "^4.6.0",
+    "babel-plugin-module-resolver": "^4.0.0",
     "eslint": "^7.12.1",
     "eslint-config-standard": "^16.0.0",
     "eslint-plugin-import": "^2.22.1",
