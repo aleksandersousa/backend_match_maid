@@ -8,7 +8,7 @@ export class Services {
   private _washDishes: boolean
   private _cook: boolean
 
-  constructor (props: Services) {
+  constructor (props: Object) {
     Object.assign(this, props)
   }
 

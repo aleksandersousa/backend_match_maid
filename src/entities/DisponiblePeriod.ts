@@ -4,7 +4,7 @@ export class DisponiblePeriod {
   private _afternoon: boolean
   private _night: boolean
 
-  constructor (props: DisponiblePeriod) {
+  constructor (props: Object) {
     Object.assign(this, props)
   }
 

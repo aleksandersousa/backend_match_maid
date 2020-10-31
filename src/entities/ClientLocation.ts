@@ -9,7 +9,7 @@ export class ClientLocation {
   private _cep: string
   private _uf: string
 
-  constructor (props: ClientLocation) {
+  constructor (props: Object) {
     Object.assign(this, props)
   }
 

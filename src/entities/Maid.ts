@@ -7,7 +7,7 @@ export class Maid {
   private _birthDate: Date
   private _status: boolean
 
-  constructor (props: Maid) {
+  constructor (props: Object) {
     Object.assign(this, props)
   }
 

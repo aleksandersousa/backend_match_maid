@@ -21,6 +21,6 @@
     "paths": {} // alterar com os paths
   },
   "include": [
-    "src/**/*"
+    "src/**/*.ts"
   ]
 }

@@ -5,7 +5,7 @@ export class Rating {
   private _onTime: boolean
   private _arrivedOnTime: boolean
 
-  constructor (props: Rating) {
+  constructor (props: Object) {
     Object.assign(this, props)
   }
 

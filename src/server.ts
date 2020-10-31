@@ -1,8 +1,14 @@
-import express from 'express'
-import bodyParser from 'body-parser'
+import { app } from './app'
+import { db } from './db'
 
-const app = express()
+db.connect((err) => {
+  if (err) {
+    console.log('Error connecting to db: ' + err)
+    return
+  }
+  console.log('connected to db')
+})
 
-app.use(bodyParser.json())
-
-app.listen(3333)
+app.listen(3000, () => {
+  console.log('backend rodando na porta 3333..')
+})

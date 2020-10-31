@@ -8,7 +8,7 @@ export class DisponibleDays {
   private _saturday: boolean
   private _sunday: boolean
 
-  constructor (props: DisponibleDays) {
+  constructor (props: Object) {
     Object.assign(this, props)
   }
 

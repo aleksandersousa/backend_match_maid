@@ -4,7 +4,7 @@ export class PremiumState {
   private _dateTimeStart: Date
   private _dateTimeEnd: Date
 
-  constructor (props: PremiumState) {
+  constructor (props: Object) {
     Object.assign(this, props)
   }
 
