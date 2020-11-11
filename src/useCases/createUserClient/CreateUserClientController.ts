@@ -4,9 +4,7 @@ import { CreateUserClientUseCase } from './CreateUserClientUseCase'
 export class CreateUserClientController {
   private _createUserClientUseCase: CreateUserClientUseCase
 
-  constructor (
-    createUserClientUseCase: CreateUserClientUseCase
-  ) {
+  constructor (createUserClientUseCase: CreateUserClientUseCase) {
     this._createUserClientUseCase = createUserClientUseCase
   }
 
@@ -28,6 +26,7 @@ export class CreateUserClientController {
       })
     } catch (err) {
       return response.status(400).json({
+        error: true,
         message: err.message || 'Unexpected error.'
       })
     }

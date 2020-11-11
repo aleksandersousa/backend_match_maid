@@ -1,5 +1,5 @@
-import { Client } from 'src/entities/Client'
-import { IClientRepository } from 'src/repositories/IClientRepository'
+import { Client } from '../../entities/Client'
+import { IClientRepository } from '../../repositories/IClientRepository'
 import { ICreateUserClientRequestDTO } from './CreateUserClientDTO'
 
 export class CreateUserClientUseCase {

@@ -1,5 +1,5 @@
 import { IDatabase } from './IDatabase'
-import { Client } from 'src/entities/Client'
+import { Client } from '../entities/Client'
 import mysql from 'mysql'
 
 export class MySqlDatabase<T> implements IDatabase<T> {
@@ -35,7 +35,6 @@ export class MySqlDatabase<T> implements IDatabase<T> {
       if (results) {
         return new Client(results)
       }
-      return null
     }).catch((err) => {
       console.log('Error on database insert client querie: ' + err)
       return null

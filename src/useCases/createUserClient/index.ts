@@ -1,4 +1,4 @@
-import { MySqlClientsRepository } from 'src/repositories/implementations/MySqlClientsRepository'
+import { MySqlClientsRepository } from '../../repositories/implementations/MySqlClientsRepository'
 import { CreateUserClientController } from './CreateUserClientController'
 import { CreateUserClientUseCase } from './CreateUserClientUseCase'
 
