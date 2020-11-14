@@ -4,12 +4,8 @@ import { CreateUserClientUseCase } from './CreateUserClientUseCase'
 
 const clientRepository = new MySqlClientsRepository()
 
-const createUserClientUseCase = new CreateUserClientUseCase(
-  clientRepository
-)
+const createUserClientUseCase = new CreateUserClientUseCase(clientRepository)
 
-const createUserClientController = new CreateUserClientController(
-  createUserClientUseCase
-)
+const createUserClientController = new CreateUserClientController(createUserClientUseCase)
 
 export { createUserClientUseCase, createUserClientController }

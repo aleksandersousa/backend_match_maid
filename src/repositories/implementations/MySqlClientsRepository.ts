@@ -5,11 +5,11 @@ import { MySqlDatabase } from '../../config/MysqlDatabase'
 export class MySqlClientsRepository implements IClientRepository {
   private mysqlDatabase = new MySqlDatabase()
 
-  async findByEmail (email: string): Promise<Client> {
-    return await this.mysqlDatabase.findByEmail(email)
+  async findClientByEmail (email: string): Promise<Client> {
+    return await this.mysqlDatabase.findClientByEmail(email)
   }
 
-  async save (client: Client): Promise<void> {
-    return await this.mysqlDatabase.save(client)
+  async saveClient (client: Client): Promise<void> {
+    return await this.mysqlDatabase.saveClient(client)
   }
 }

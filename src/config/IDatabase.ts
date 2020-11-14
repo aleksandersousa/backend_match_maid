@@ -1,8 +1,8 @@
-import { Client } from 'src/entities/Client'
-
 export interface IDatabase<T> {
-  save(object: T): Promise<void>;
-  findByEmail(email: String): Promise<Client>;
+  saveClient(object: T): Promise<void>;
+  saveMaid(object: T, object2: T): Promise<void>;
+  findClientByEmail(email: String): Promise<Object>;
+  findMaidByEmail(email: String): Promise<Object>;
   // get(id: string): Promise<T>;
   // getAll(): Promise<T[]>;
   // update(id: string, object: T): Promise<void>;
