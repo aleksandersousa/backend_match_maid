@@ -5,22 +5,22 @@ describe('testing server routes', () => {
   it('should save new maid - POST/create/maid - success', async () => {
     const data = {
       cpf: '000.000.000-01',
-      name: 'Aleksander',
-      email: 'aleksander-ssousa@outlook.com',
+      name: 'Test User',
+      email: 'email@email.com',
       password: '123',
-      phoneNumber: '02177981645264',
+      phoneNumber: '00000000000000',
       birthDate: '1999-06-26 18:25:43',
       status: false,
       location: {
         maidCpf: '000.000.000-01',
         latitude: -14.525221,
         longitude: -40.363233,
-        street: 'Rua Santa Cruz',
-        houseNumber: '84',
-        neighborhood: 'Centro',
-        city: 'Poções',
-        cep: '45260-000',
-        uf: 'BA'
+        street: 'Street Test',
+        houseNumber: '00',
+        neighborhood: 'Test',
+        city: 'TestCity',
+        cep: '00000-000',
+        uf: 'TS'
       }
     }
 
