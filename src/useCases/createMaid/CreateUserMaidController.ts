@@ -17,7 +17,10 @@ export class CreateUserMaidController {
       phoneNumber,
       birthDate,
       status,
-      location
+      location,
+      disponibleDays,
+      disponiblePeriod,
+      services
     } = request.body
 
     try {
@@ -29,7 +32,10 @@ export class CreateUserMaidController {
         phoneNumber,
         birthDate,
         status,
-        location
+        location,
+        disponibleDays,
+        disponiblePeriod,
+        services
       })
       return response.status(201).send({
         error: false,

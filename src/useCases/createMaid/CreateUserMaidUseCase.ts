@@ -36,6 +36,14 @@ export class CreateUserMaidUseCase {
       }
     }
 
-    await this._maidRepository.saveMaid(maid, client, maid.location, client.location)
+    await this._maidRepository.saveMaid(
+      maid,
+      maid.location,
+      maid.disponibleDays,
+      maid.disponiblePeriod,
+      maid.services,
+      client,
+      client.location
+    )
   }
 }
