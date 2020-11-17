@@ -9,7 +9,15 @@ export class CreateUserClientController {
   }
 
   async handle (request: Request, response: Response): Promise<Response> {
-    const { cpf, name, email, password, phoneNumber, birthDate } = request.body
+    const {
+      cpf,
+      name,
+      email,
+      password,
+      phoneNumber,
+      birthDate,
+      location
+    } = request.body
 
     try {
       await this._createUserClientUseCase.execute({
@@ -18,7 +26,8 @@ export class CreateUserClientController {
         email,
         password,
         phoneNumber,
-        birthDate
+        birthDate,
+        location
       })
       return response.status(201).send({
         error: false,

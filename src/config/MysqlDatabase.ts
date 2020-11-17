@@ -1,9 +1,11 @@
 import { IDatabase } from './IDatabase'
 import { Client } from '../entities/Client'
+import { ClientLocation } from '../entities/ClientLocation'
 import { Maid } from '../entities/Maid'
+import { MaidLocation } from '../entities/MaidLocation'
 import mysql from 'mysql'
 
-export class MySqlDatabase<T> implements IDatabase<T> {
+export class MySqlDatabase implements IDatabase {
   private options = {
     host: 'localhost',
     user: 'root',
@@ -11,19 +13,28 @@ export class MySqlDatabase<T> implements IDatabase<T> {
     database: 'db_match_maid'
   }
 
-  async saveClient (object: T): Promise<void> {
+  async saveClient (client: Client, location: ClientLocation): Promise<void> {
+    const props = {
+      cpf: client.cpf,
+      name: client.name,
+      email: client.email,
+      password: client.password,
+      phoneNumber: client.phoneNumber,
+      birthDate: client.birthDate
+    }
+
     const db = mysql.createConnection(this.options)
-    db.query('INSERT INTO client SET ? ', object, (error, results) => {
+    db.query('INSERT INTO client SET ? ', props, (error, results) => {
       if (error) throw error
     })
     db.end()
+
+    this.saveClientLocation(location)
   }
 
-  async saveMaid (object: T, object2: T): Promise<void> {
-    this.saveClient(object2)
-
+  async saveClientLocation (location: ClientLocation): Promise<void> {
     const db = mysql.createConnection(this.options)
-    db.query('INSERT INTO maid SET ? ', object, (error, results) => {
+    db.query('INSERT INTO client_location SET ? ', location, (error, results) => {
       if (error) throw error
     })
     db.end()
@@ -50,6 +61,37 @@ export class MySqlDatabase<T> implements IDatabase<T> {
       console.log('Error on database insert client querie: ' + err)
       return null
     })
+  }
+
+  async saveMaid (maid: Maid, client: Client, maidLocation: MaidLocation,
+    clientLocation: ClientLocation
+  ): Promise<void> {
+    const props = {
+      cpf: maid.cpf,
+      name: maid.name,
+      email: maid.email,
+      password: maid.password,
+      phoneNumber: maid.phoneNumber,
+      birthDate: maid.birthDate
+    }
+
+    this.saveClient(client, clientLocation)
+
+    const db = mysql.createConnection(this.options)
+    db.query('INSERT INTO maid SET ? ', props, (error, results) => {
+      if (error) throw error
+    })
+    db.end()
+
+    this.saveMaidLocation(maidLocation)
+  }
+
+  async saveMaidLocation (location: MaidLocation): Promise<void> {
+    const db = mysql.createConnection(this.options)
+    db.query('INSERT INTO maid_location SET ? ', location, (error, results) => {
+      if (error) throw error
+    })
+    db.end()
   }
 
   async findMaidByEmail (email: string): Promise<Maid> {

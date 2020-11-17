@@ -1,3 +1,5 @@
+import { ClientLocation } from '../../entities/ClientLocation'
+
 export interface ICreateUserClientRequestDTO {
   cpf: string
   name: string
@@ -5,4 +7,5 @@ export interface ICreateUserClientRequestDTO {
   password: string
   phoneNumber: string
   birthDate: Date
+  location: ClientLocation
 }

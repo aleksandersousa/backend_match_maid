@@ -9,7 +9,16 @@ export class CreateUserMaidController {
   }
 
   async handle (request: Request, response: Response): Promise<Response> {
-    const { cpf, name, email, password, phoneNumber, birthDate, status } = request.body
+    const {
+      cpf,
+      name,
+      email,
+      password,
+      phoneNumber,
+      birthDate,
+      status,
+      location
+    } = request.body
 
     try {
       await this._createUserMaidUseCase.execute({
@@ -19,7 +28,8 @@ export class CreateUserMaidController {
         password,
         phoneNumber,
         birthDate,
-        status
+        status,
+        location
       })
       return response.status(201).send({
         error: false,

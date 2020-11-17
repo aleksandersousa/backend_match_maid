@@ -1,3 +1,5 @@
+import { MaidLocation } from '../../entities/MaidLocation'
+
 export class ICreateUserMaidRequestDTO {
   cpf: string
   name: string
@@ -6,4 +8,5 @@ export class ICreateUserMaidRequestDTO {
   phoneNumber: string
   birthDate: Date
   status: boolean
+  location: MaidLocation
 }

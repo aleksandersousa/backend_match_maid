@@ -1,7 +1,7 @@
 export class ClientLocation {
   public clientCpf: string
-  public longitude: number
   public latitude: number
+  public longitude: number
   public street: string
   public houseNumber: string
   public neighborhood: string
