@@ -1,11 +1,11 @@
 import { MySqlMaidRepository } from '../../repositories/implementations/MySqlMaidRepository'
-import { CreateUserMaidController } from './CreateMaidController'
-import { CreateUserMaidUseCase } from './CreateMaidUseCase'
+import { CreateMaidController } from './CreateMaidController'
+import { CreateMaidUseCase } from './CreateMaidUseCase'
 
 const maidRepository = new MySqlMaidRepository()
 
-const createUserMaidUseCase = new CreateUserMaidUseCase(maidRepository)
+const createMaidUseCase = new CreateMaidUseCase(maidRepository)
 
-const createUserMaidController = new CreateUserMaidController(createUserMaidUseCase)
+const createMaidController = new CreateMaidController(createMaidUseCase)
 
-export { createUserMaidUseCase, createUserMaidController }
+export { createMaidUseCase, createMaidController }

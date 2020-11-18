@@ -1,3 +1,4 @@
+import { Maid } from '../../entities/Maid'
 import { Client } from '../../entities/Client'
 import { IMaidRepository } from '../../repositories/IMaidRepository'
 import { ICreateMaidRequestDTO } from './CreateMaidDTO'
@@ -9,12 +10,14 @@ export class CreateMaidUseCase {
     this._maidRepository = maidRepository
   }
 
-  async execute (maid: ICreateMaidRequestDTO) {
-    const maidAlreadyExists = await this._maidRepository.findByEmail(maid.email)
+  async execute (data: ICreateMaidRequestDTO) {
+    const maidAlreadyExists = await this._maidRepository.findByEmail(data.email)
 
     if (maidAlreadyExists) {
       throw new Error('Maid already exists.')
     }
+
+    const maid = new Maid(data)
 
     const client: Client = {
       cpf: maid.cpf,

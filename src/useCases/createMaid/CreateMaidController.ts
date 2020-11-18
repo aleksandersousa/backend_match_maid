@@ -1,11 +1,11 @@
 import { Request, Response } from 'express'
 import { CreateMaidUseCase } from './CreateMaidUseCase'
 
-export class CreateUserMaidController {
+export class CreateMaidController {
   private _createMaidUseCase: CreateMaidUseCase
 
-  constructor (createUserMaidUseCase: CreateMaidUseCase) {
-    this._createMaidUseCase = createUserMaidUseCase
+  constructor (createMaidUseCase: CreateMaidUseCase) {
+    this._createMaidUseCase = createMaidUseCase
   }
 
   async handle (request: Request, response: Response): Promise<Response> {
