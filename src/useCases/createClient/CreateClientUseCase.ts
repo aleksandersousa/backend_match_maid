@@ -1,6 +1,7 @@
+import { ClientLocation } from '../../entities/ClientLocation'
 import { Client } from '../../entities/Client'
 import { IClientRepository } from '../../repositories/IClientRepository'
-import { ICreateClientRequestDTO } from './CreateClientDTO'
+import { IClientLocation, ICreateClientRequestDTO } from './CreateClientDTO'
 
 export class CreateClientUseCase {
   private _clientRepository: IClientRepository
@@ -9,7 +10,7 @@ export class CreateClientUseCase {
     this._clientRepository = clientRepository
   }
 
-  async execute (data: ICreateClientRequestDTO) {
+  async execute (data: ICreateClientRequestDTO, location: IClientLocation) {
     const clientAlreadyExists = await this._clientRepository.findClientByEmail(data.email)
 
     if (clientAlreadyExists) {
@@ -17,7 +18,8 @@ export class CreateClientUseCase {
     }
 
     const client = new Client(data)
+    const clientLocation = new ClientLocation(location)
 
-    await this._clientRepository.saveClient(client, client.location)
+    await this._clientRepository.saveClient(client, clientLocation)
   }
 }

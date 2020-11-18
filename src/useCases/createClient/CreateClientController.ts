@@ -26,9 +26,8 @@ export class CreateClientController {
         email,
         password,
         phoneNumber,
-        birthDate,
-        location
-      })
+        birthDate
+      }, location)
       return response.status(201).send({
         error: false,
         message: 'Client added successfuly!'

@@ -1,9 +1,45 @@
-import { DisponibleDays } from '../../entities/DisponibleDays'
-import { DisponiblePeriod } from '../../entities/DisponiblePeriod'
-import { Services } from '../../entities/Services'
-import { MaidLocation } from '../../entities/MaidLocation'
+export interface IMaidLocation {
+  maidCpf: string
+  latitude: number
+  longitude: number
+  street: string
+  houseNumber: string
+  neighborhood: string
+  city: string
+  cep: string
+  uf: string
+}
 
-export class ICreateMaidRequestDTO {
+export interface IMaidDisponibleDays {
+  maidCpf: string
+  monday: boolean
+  tuesday: boolean
+  wednesday: boolean
+  thursday: boolean
+  friday: boolean
+  saturday: boolean
+  sunday: boolean
+}
+
+export interface IMaidDisponiblePeriod {
+  maidCpf: string
+  mornig: boolean
+  afternoon: boolean
+  night: boolean
+}
+
+export interface IMaidServices {
+  maidCpf: string
+  nanny: boolean
+  careHouse: boolean
+  cleanHouse: boolean
+  ironClothes: boolean
+  washClothes: boolean
+  washDishes: boolean
+  cook: boolean
+}
+
+export interface ICreateMaidRequestDTO {
   cpf: string
   name: string
   email: string
@@ -11,8 +47,4 @@ export class ICreateMaidRequestDTO {
   phoneNumber: string
   birthDate: Date
   status: boolean
-  location: MaidLocation
-  disponibleDays: DisponibleDays
-  disponiblePeriod: DisponiblePeriod
-  services: Services
 }

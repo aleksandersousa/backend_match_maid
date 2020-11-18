@@ -31,12 +31,8 @@ export class CreateMaidController {
         password,
         phoneNumber,
         birthDate,
-        status,
-        location,
-        disponibleDays,
-        disponiblePeriod,
-        services
-      })
+        status
+      }, location, disponibleDays, disponiblePeriod, services)
       return response.status(201).send({
         error: false,
         message: 'Maid added successfuly!'

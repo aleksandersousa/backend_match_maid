@@ -1,7 +1,12 @@
 import { Maid } from '../../entities/Maid'
 import { Client } from '../../entities/Client'
 import { IMaidRepository } from '../../repositories/IMaidRepository'
-import { ICreateMaidRequestDTO } from './CreateMaidDTO'
+import { ClientLocation } from '../../entities/ClientLocation'
+import { MaidLocation } from '../../entities/MaidLocation'
+import { DisponibleDays } from '../../entities/DisponibleDays'
+import { DisponiblePeriod } from '../../entities/DisponiblePeriod'
+import { Services } from '../../entities/Services'
+import { ICreateMaidRequestDTO, IMaidLocation } from './CreateMaidDTO'
 
 export class CreateMaidUseCase {
   private _maidRepository: IMaidRepository
@@ -10,14 +15,18 @@ export class CreateMaidUseCase {
     this._maidRepository = maidRepository
   }
 
-  async execute (data: ICreateMaidRequestDTO) {
-    const maidAlreadyExists = await this._maidRepository.findByEmail(data.email)
+  async execute (data: ICreateMaidRequestDTO, location: IMaidLocation,
+    disponibleDays: DisponibleDays, disponiblePeriod: DisponiblePeriod, services: Services) {
+    const maidAlreadyExists = await this._maidRepository.findMaidByEmail(data.email)
 
     if (maidAlreadyExists) {
       throw new Error('Maid already exists.')
     }
 
     const maid = new Maid(data)
+    const maidDisponibleDays = new DisponibleDays(disponibleDays)
+    const maidDisponiblePeriod = new DisponiblePeriod(disponiblePeriod)
+    const maidServices = new Services(services)
 
     const client: Client = {
       cpf: maid.cpf,
@@ -25,28 +34,41 @@ export class CreateMaidUseCase {
       email: maid.email,
       password: maid.password,
       phoneNumber: maid.phoneNumber,
-      birthDate: maid.birthDate,
-      location: {
-        clientCpf: maid.location.maidCpf,
-        latitude: maid.location.latitude,
-        longitude: maid.location.longitude,
-        street: maid.location.street,
-        houseNumber: maid.location.houseNumber,
-        neighborhood: maid.location.neighborhood,
-        city: maid.location.city,
-        cep: maid.location.cep,
-        uf: maid.location.uf
-      }
+      birthDate: maid.birthDate
+    }
+
+    const clientLocation: ClientLocation = {
+      clientCpf: location.maidCpf,
+      latitude: location.latitude,
+      longitude: location.longitude,
+      street: location.street,
+      houseNumber: location.houseNumber,
+      neighborhood: location.neighborhood,
+      city: location.city,
+      cep: location.cep,
+      uf: location.uf
+    }
+
+    const maidLocation: MaidLocation = {
+      maidCpf: location.maidCpf,
+      latitude: location.latitude,
+      longitude: location.longitude,
+      street: location.street,
+      houseNumber: location.houseNumber,
+      neighborhood: location.neighborhood,
+      city: location.city,
+      cep: location.cep,
+      uf: location.uf
     }
 
     await this._maidRepository.saveMaid(
       maid,
-      maid.location,
-      maid.disponibleDays,
-      maid.disponiblePeriod,
-      maid.services,
+      maidLocation,
+      maidDisponibleDays,
+      maidDisponiblePeriod,
+      maidServices,
       client,
-      client.location
+      clientLocation
     )
   }
 }
