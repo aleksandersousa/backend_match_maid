@@ -31,7 +31,7 @@ export class MySqlMaidRepository implements IMaidRepository {
     }
 
     const db = mysql.createConnection(this.options)
-    db.query('INSERT INTO maid SET ? ', props, (error, results) => {
+    db.query('INSERT INTO maid SET ? ', props, (error: any, results: any) => {
       if (error) throw error
     })
     db.end()
@@ -42,12 +42,12 @@ export class MySqlMaidRepository implements IMaidRepository {
     this.saveMaidServices(services)
 
     const clientRepository = new MySqlClientsRepository()
-    clientRepository.saveClient(client, clientLocation)
+    await clientRepository.saveClient(client, clientLocation)
   }
 
   async saveMaidLocation (location: MaidLocation): Promise<void> {
     const db = mysql.createConnection(this.options)
-    db.query('INSERT INTO maid_location SET ? ', location, (error, results) => {
+    db.query('INSERT INTO maid_location SET ? ', location, (error: any, results: any) => {
       if (error) throw error
     })
     db.end()
@@ -55,7 +55,7 @@ export class MySqlMaidRepository implements IMaidRepository {
 
   async saveMaidDisponibleDays (disponibleDays: DisponibleDays):Promise<void> {
     const db = mysql.createConnection(this.options)
-    db.query('INSERT INTO disponible_days SET ? ', disponibleDays, (error, results) => {
+    db.query('INSERT INTO disponible_days SET ? ', disponibleDays, (error: any, results: any) => {
       if (error) throw error
     })
     db.end()
@@ -63,7 +63,7 @@ export class MySqlMaidRepository implements IMaidRepository {
 
   async saveMaidDisponiblePeriod (disponiblePeriod: DisponiblePeriod):Promise<void> {
     const db = mysql.createConnection(this.options)
-    db.query('INSERT INTO disponible_period SET ? ', disponiblePeriod, (error, results) => {
+    db.query('INSERT INTO disponible_period SET ? ', disponiblePeriod, (error: any, results: any) => {
       if (error) throw error
     })
     db.end()
@@ -71,7 +71,7 @@ export class MySqlMaidRepository implements IMaidRepository {
 
   async saveMaidServices (services: Services):Promise<void> {
     const db = mysql.createConnection(this.options)
-    db.query('INSERT INTO services SET ? ', services, (error, results) => {
+    db.query('INSERT INTO services SET ? ', services, (error: any, results: any) => {
       if (error) throw error
     })
     db.end()
@@ -80,7 +80,7 @@ export class MySqlMaidRepository implements IMaidRepository {
   async findMaidByEmail (email: string): Promise<Maid> {
     const db = mysql.createConnection(this.options)
     const getMaid = new Promise((resolve, reject) => {
-      db.query('SELECT * FROM maid WHERE email = ?', [email], (error, results) => {
+      db.query('SELECT * FROM maid WHERE email = ?', [email], (error: any, results: any) => {
         if (error) throw error
         if (results.length > 0) {
           return resolve(results[0])
@@ -95,8 +95,60 @@ export class MySqlMaidRepository implements IMaidRepository {
         return new Maid(results)
       }
     }).catch((err) => {
-      console.log('Error on database insert client querie: ' + err)
+      console.log('Error on search client email: ' + err)
       return null
     })
+  }
+
+  async findMaidByCpf (cpf: string): Promise<Maid> {
+    const db = mysql.createConnection(this.options)
+    const getMaid = new Promise((resolve, reject) => {
+      db.query('SELECT * FROM maid WHERE cpf = ?', [cpf], (error: any, results: any) => {
+        if (error) throw error
+        if (results.length > 0) {
+          return resolve(results[0])
+        }
+        return resolve(null)
+      })
+    })
+    db.end()
+
+    return getMaid.then(function (results) {
+      if (results) {
+        return new Maid(results)
+      }
+    }).catch((err) => {
+      console.log('Error on search maid cpf: ' + err)
+      return null
+    })
+  }
+
+  async deleteMaid (cpf: string): Promise<void> {
+    const db = mysql.createConnection(this.options)
+
+    const clientRepository = new MySqlClientsRepository()
+    await clientRepository.deleteClient(cpf)
+
+    db.query('DELETE FROM maid_location WHERE maidCpf = ?', cpf, (error: any, results: any) => {
+      if (error) throw error
+    })
+
+    db.query('DELETE FROM disponible_days WHERE maidCpf = ?', cpf, (error: any, results: any) => {
+      if (error) throw error
+    })
+
+    db.query('DELETE FROM disponible_period WHERE maidCpf = ?', cpf, (error: any, results: any) => {
+      if (error) throw error
+    })
+
+    db.query('DELETE FROM services WHERE maidCpf = ?', cpf, (error: any, results: any) => {
+      if (error) throw error
+    })
+
+    db.query('DELETE FROM maid WHERE cpf = ?', cpf, (error: any, results: any) => {
+      if (error) throw error
+    })
+
+    db.end()
   }
 }

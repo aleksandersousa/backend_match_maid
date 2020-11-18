@@ -7,7 +7,6 @@ import { DisponiblePeriod } from '../entities/DisponiblePeriod'
 import { Services } from '../entities/Services'
 
 export interface IMaidRepository {
-  findMaidByEmail(email: string): Promise<Maid>
   saveMaid(
     maid: Maid, location: MaidLocation, disponibleDays: DisponibleDays,
     disponiblePeriod: DisponiblePeriod, services: Services, client: Client,
@@ -17,5 +16,7 @@ export interface IMaidRepository {
   saveMaidDisponibleDays(disponibleDays: DisponibleDays): Promise<void>
   saveMaidDisponiblePeriod(disponiblePeriod: DisponiblePeriod): Promise<void>
   saveMaidServices(services: Services): Promise<void>
-  findMaidByEmail(email: string): Promise<Object>
+  findMaidByEmail(email: string): Promise<Maid>
+  findMaidByCpf(cpf: string): Promise<Maid>
+  deleteMaid(cpf: string): Promise<void>
 }
