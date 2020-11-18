@@ -7,10 +7,9 @@ describe('testing server routes', () => {
       cpf: '000.000.000-00',
       name: 'Test User',
       email: 'email@test.com',
-      password: '123',
+      password: '12345678',
       phoneNumber: '00000000000000',
       birthDate: '1999-06-26 18:25:43',
-      status: false,
       location: {
         clientCpf: '000.000.000-00',
         latitude: -14.525221,

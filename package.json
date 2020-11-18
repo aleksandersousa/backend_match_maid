@@ -16,7 +16,9 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "joiful": "^2.0.1",
     "mysql": "^2.18.1",
+    "reflect-metadata": "^0.1.13",
     "uuidv4": "^6.2.4"
   },
   "devDependencies": {
@@ -42,7 +44,6 @@
     "supertest": "^6.0.0",
     "ts-jest": "^26.4.3",
     "ts-node-dev": "^1.0.0",
-    "tsconfig-paths": "^3.9.0",
     "typescript": "^4.0.5"
   }
 }

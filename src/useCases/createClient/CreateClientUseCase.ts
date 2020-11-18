@@ -2,6 +2,7 @@ import { ClientLocation } from '../../entities/ClientLocation'
 import { Client } from '../../entities/Client'
 import { IClientRepository } from '../../repositories/IClientRepository'
 import { IClientLocation, ICreateClientRequestDTO } from './CreateClientDTO'
+import { ClientValidations } from '../../validations/ClientValidations'
 
 export class CreateClientUseCase {
   private _clientRepository: IClientRepository
@@ -19,6 +20,16 @@ export class CreateClientUseCase {
 
     const client = new Client(data)
     const clientLocation = new ClientLocation(location)
+    const clientValidations = new ClientValidations()
+
+    const errorClient = clientValidations.checkClientError(client)
+    const errorClientLocation = clientValidations.checkClientLocationError(clientLocation)
+
+    if (errorClient) {
+      throw new Error(errorClient.message)
+    } else if (errorClientLocation) {
+      throw new Error(errorClientLocation.message)
+    }
 
     await this._clientRepository.saveClient(client, clientLocation)
   }
