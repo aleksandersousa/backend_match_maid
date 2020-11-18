@@ -1,15 +1,15 @@
 import { Client } from '../../entities/Client'
 import { IMaidRepository } from '../../repositories/IMaidRepository'
-import { ICreateUserMaidRequestDTO } from './CreateUserMaidDTO'
+import { ICreateMaidRequestDTO } from './CreateMaidDTO'
 
-export class CreateUserMaidUseCase {
+export class CreateMaidUseCase {
   private _maidRepository: IMaidRepository
 
   constructor (maidRepository: IMaidRepository) {
     this._maidRepository = maidRepository
   }
 
-  async execute (maid: ICreateUserMaidRequestDTO) {
+  async execute (maid: ICreateMaidRequestDTO) {
     const maidAlreadyExists = await this._maidRepository.findByEmail(maid.email)
 
     if (maidAlreadyExists) {

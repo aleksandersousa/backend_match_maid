@@ -1,11 +1,11 @@
 import { MySqlClientsRepository } from '../../repositories/implementations/MySqlClientsRepository'
-import { CreateUserClientController } from './CreateUserClientController'
-import { CreateUserClientUseCase } from './CreateUserClientUseCase'
+import { CreateClientController } from './CreateClientController'
+import { CreateClientUseCase } from './CreateClientUseCase'
 
 const clientRepository = new MySqlClientsRepository()
 
-const createUserClientUseCase = new CreateUserClientUseCase(clientRepository)
+const createClientUseCase = new CreateClientUseCase(clientRepository)
 
-const createUserClientController = new CreateUserClientController(createUserClientUseCase)
+const createUserClientController = new CreateClientController(createClientUseCase)
 
-export { createUserClientUseCase, createUserClientController }
+export { createClientUseCase, createUserClientController }

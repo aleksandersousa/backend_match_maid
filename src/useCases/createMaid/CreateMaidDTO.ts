@@ -3,7 +3,7 @@ import { DisponiblePeriod } from '../../entities/DisponiblePeriod'
 import { Services } from '../../entities/Services'
 import { MaidLocation } from '../../entities/MaidLocation'
 
-export class ICreateUserMaidRequestDTO {
+export class ICreateMaidRequestDTO {
   cpf: string
   name: string
   email: string

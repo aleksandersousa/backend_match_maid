@@ -1,6 +1,6 @@
 import { MySqlMaidRepository } from '../../repositories/implementations/MySqlMaidRepository'
-import { CreateUserMaidController } from './CreateUserMaidController'
-import { CreateUserMaidUseCase } from './CreateUserMaidUseCase'
+import { CreateUserMaidController } from './CreateMaidController'
+import { CreateUserMaidUseCase } from './CreateMaidUseCase'
 
 const maidRepository = new MySqlMaidRepository()
 

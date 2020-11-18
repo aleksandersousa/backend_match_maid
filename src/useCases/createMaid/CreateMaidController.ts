@@ -1,11 +1,11 @@
 import { Request, Response } from 'express'
-import { CreateUserMaidUseCase } from './CreateUserMaidUseCase'
+import { CreateMaidUseCase } from './CreateMaidUseCase'
 
 export class CreateUserMaidController {
-  private _createUserMaidUseCase: CreateUserMaidUseCase
+  private _createMaidUseCase: CreateMaidUseCase
 
-  constructor (createUserMaidUseCase: CreateUserMaidUseCase) {
-    this._createUserMaidUseCase = createUserMaidUseCase
+  constructor (createUserMaidUseCase: CreateMaidUseCase) {
+    this._createMaidUseCase = createUserMaidUseCase
   }
 
   async handle (request: Request, response: Response): Promise<Response> {
@@ -24,7 +24,7 @@ export class CreateUserMaidController {
     } = request.body
 
     try {
-      await this._createUserMaidUseCase.execute({
+      await this._createMaidUseCase.execute({
         cpf,
         name,
         email,

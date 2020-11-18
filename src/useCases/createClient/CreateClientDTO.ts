@@ -1,6 +1,6 @@
 import { ClientLocation } from '../../entities/ClientLocation'
 
-export interface ICreateUserClientRequestDTO {
+export interface ICreateClientRequestDTO {
   cpf: string
   name: string
   email: string
