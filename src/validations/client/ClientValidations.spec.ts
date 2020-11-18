@@ -1,0 +1,48 @@
+import { ClientLocation } from '../../entities/ClientLocation'
+import { Client } from '../../entities/Client'
+import { ClientValidations } from './ClientValidations'
+
+describe('testing client validations', () => {
+  let client: Client
+  let clientValidations: ClientValidations
+  let clientLocation: ClientLocation
+
+  beforeAll(() => {
+    const data = {
+      cpf: '000.000.000-00',
+      name: 'Test User',
+      email: 'email@test.com',
+      password: '12345678',
+      phoneNumber: '00000000000000',
+      birthDate: '1999-06-26 18:25:43'
+    }
+
+    const location = {
+      clientCpf: '000.000.000-00',
+      latitude: -14.525221,
+      longitude: -40.363233,
+      street: 'Street Test',
+      houseNumber: '00',
+      neighborhood: 'Test',
+      city: 'TestCity',
+      cep: '00000-000',
+      uf: 'TS'
+    }
+
+    client = new Client(data)
+    clientLocation = new ClientLocation(location)
+    clientValidations = new ClientValidations()
+  })
+
+  it('should check if has error on client attributes', () => {
+    const clientError = clientValidations.checkClientError(client)
+
+    expect(clientError || false).toBe(false)
+  })
+
+  it('should check if has error on clientLocation attributes', () => {
+    const clientLocationError = clientValidations.checkClientLocationError(clientLocation)
+
+    expect(clientLocationError || false).toBe(false)
+  })
+})

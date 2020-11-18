@@ -1,5 +1,5 @@
-import { Client } from '../entities/Client'
-import { ClientLocation } from '../entities/ClientLocation'
+import { Client } from '../../entities/Client'
+import { ClientLocation } from '../../entities/ClientLocation'
 
 export interface IClientValidations {
   checkClientError(client: Client): void
