@@ -6,6 +6,6 @@ const clientRepository = new MySqlClientsRepository()
 
 const createClientUseCase = new CreateClientUseCase(clientRepository)
 
-const createUserClientController = new CreateClientController(createClientUseCase)
+const createClientController = new CreateClientController(createClientUseCase)
 
-export { createClientUseCase, createUserClientController }
+export { createClientUseCase, createClientController }
