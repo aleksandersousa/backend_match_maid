@@ -34,15 +34,15 @@ describe('testing client validations', () => {
     clientValidations = new ClientValidations()
   })
 
-  it('should check if has error on client attributes', () => {
-    const clientError = clientValidations.checkClientError(client)
+  it('should detect error in client attributes', () => {
+    const error = clientValidations.checkClientError(client)
 
-    expect(clientError || false).toBe(false)
+    expect(error || false).toBe(false)
   })
 
   it('should check if has error on clientLocation attributes', () => {
-    const clientLocationError = clientValidations.checkClientLocationError(clientLocation)
+    const error = clientValidations.checkClientLocationError(clientLocation)
 
-    expect(clientLocationError || false).toBe(false)
+    expect(error || false).toBe(false)
   })
 })

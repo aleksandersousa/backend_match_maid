@@ -8,7 +8,7 @@ export class DisponiblePeriod {
   public maidCpf: string
 
   @jf.boolean().required()
-  public mornig: boolean
+  public morning: boolean
 
   @jf.boolean().required()
   public afternoon: boolean
