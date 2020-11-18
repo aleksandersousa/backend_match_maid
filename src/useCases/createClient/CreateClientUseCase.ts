@@ -2,7 +2,7 @@ import { ClientLocation } from '../../entities/ClientLocation'
 import { Client } from '../../entities/Client'
 import { IClientRepository } from '../../repositories/IClientRepository'
 import { IClientLocation, ICreateClientRequestDTO } from './CreateClientDTO'
-import { ClientValidations } from '../../validations/ClientValidations'
+import { ClientValidations } from '../../validations/client/ClientValidations'
 
 export class CreateClientUseCase {
   private _clientRepository: IClientRepository

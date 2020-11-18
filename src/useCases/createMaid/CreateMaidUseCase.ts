@@ -7,6 +7,8 @@ import { DisponibleDays } from '../../entities/DisponibleDays'
 import { DisponiblePeriod } from '../../entities/DisponiblePeriod'
 import { Services } from '../../entities/Services'
 import { ICreateMaidRequestDTO, IMaidLocation } from './CreateMaidDTO'
+import { MaidValidations } from '../../validations/maid/MaidValidations'
+import { ClientValidations } from '../../validations/client/ClientValidations'
 
 export class CreateMaidUseCase {
   private _maidRepository: IMaidRepository
@@ -16,7 +18,8 @@ export class CreateMaidUseCase {
   }
 
   async execute (data: ICreateMaidRequestDTO, location: IMaidLocation,
-    disponibleDays: DisponibleDays, disponiblePeriod: DisponiblePeriod, services: Services) {
+    disponibleDays: DisponibleDays, disponiblePeriod: DisponiblePeriod, services: Services
+  ) {
     const maidAlreadyExists = await this._maidRepository.findMaidByEmail(data.email)
 
     if (maidAlreadyExists) {
@@ -27,6 +30,9 @@ export class CreateMaidUseCase {
     const maidDisponibleDays = new DisponibleDays(disponibleDays)
     const maidDisponiblePeriod = new DisponiblePeriod(disponiblePeriod)
     const maidServices = new Services(services)
+
+    const maidValidations = new MaidValidations()
+    const clientValidations = new ClientValidations()
 
     const client: Client = {
       cpf: maid.cpf,
@@ -59,6 +65,33 @@ export class CreateMaidUseCase {
       city: location.city,
       cep: location.cep,
       uf: location.uf
+    }
+
+    const maidError = maidValidations.checkMaidError(maid)
+    const maidLocationError = maidValidations.checkMaidLocationError(maidLocation)
+    const disponibleDaysError = maidValidations.checkMaidDisponibleDaysError(disponibleDays)
+    const disponiblePeriodError = maidValidations.checkMaidDisponiblePeriodError(
+      disponiblePeriod
+    )
+    const servicesError = maidValidations.checkMaidServicesError(services)
+
+    const clientError = clientValidations.checkClientError(client)
+    const clientLocationError = clientValidations.checkClientLocationError(clientLocation)
+
+    if (maidError) {
+      throw new Error(maidError.message)
+    } else if (maidLocationError) {
+      throw new Error(maidLocationError.message)
+    } else if (disponibleDaysError) {
+      throw new Error(disponibleDaysError.message)
+    } else if (disponiblePeriodError) {
+      throw new Error(disponiblePeriodError.message)
+    } else if (servicesError) {
+      throw new Error(servicesError.message)
+    } else if (clientError) {
+      throw new Error(clientError.message)
+    } else if (clientLocationError) {
+      throw new Error(clientLocationError.message)
     }
 
     await this._maidRepository.saveMaid(
