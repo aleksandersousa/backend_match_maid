@@ -34,16 +34,16 @@ export class CreateMaidUseCase {
     const maidValidations = new MaidValidations()
     const clientValidations = new ClientValidations()
 
-    const client: Client = {
+    const client = new Client({
       cpf: maid.cpf,
       name: maid.name,
       email: maid.email,
       password: maid.password,
       phoneNumber: maid.phoneNumber,
       birthDate: maid.birthDate
-    }
+    })
 
-    const clientLocation: ClientLocation = {
+    const clientLocation = new ClientLocation({
       clientCpf: location.maidCpf,
       latitude: location.latitude,
       longitude: location.longitude,
@@ -53,9 +53,9 @@ export class CreateMaidUseCase {
       city: location.city,
       cep: location.cep,
       uf: location.uf
-    }
+    })
 
-    const maidLocation: MaidLocation = {
+    const maidLocation = new MaidLocation({
       maidCpf: location.maidCpf,
       latitude: location.latitude,
       longitude: location.longitude,
@@ -65,15 +65,16 @@ export class CreateMaidUseCase {
       city: location.city,
       cep: location.cep,
       uf: location.uf
-    }
+    })
 
     const maidError = maidValidations.checkMaidError(maid)
     const maidLocationError = maidValidations.checkMaidLocationError(maidLocation)
-    const disponibleDaysError = maidValidations.checkMaidDisponibleDaysError(disponibleDays)
+    const disponibleDaysError = maidValidations.checkMaidDisponibleDaysError(
+      maidDisponibleDays)
     const disponiblePeriodError = maidValidations.checkMaidDisponiblePeriodError(
-      disponiblePeriod
+      maidDisponiblePeriod
     )
-    const servicesError = maidValidations.checkMaidServicesError(services)
+    const servicesError = maidValidations.checkMaidServicesError(maidServices)
 
     const clientError = clientValidations.checkClientError(client)
     const clientLocationError = clientValidations.checkClientLocationError(clientLocation)
