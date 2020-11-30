@@ -19,4 +19,5 @@ export interface IMaidRepository {
   findMaidByEmail(email: string): Promise<Maid>
   findMaidByCpf(cpf: string): Promise<Maid>
   deleteMaid(cpf: string): Promise<void>
+  updateMaid(maid: Maid): Promise<void>
 }

@@ -151,4 +151,29 @@ export class MySqlMaidRepository implements IMaidRepository {
 
     db.end()
   }
+
+  async updateMaid (maid: Maid) {
+    const db = mysql.createConnection(this.options)
+    const sqlQuerie = `UPDATE maid SET 
+      cpf = ?, 
+      name = ?, 
+      email = ?, 
+      password = ?,
+      phoneNumber = ?,
+      birthDate = ?,
+      status = ? WHERE cpf = ?`
+    db.query(sqlQuerie, [
+      maid.cpf,
+      maid.name,
+      maid.email,
+      maid.password,
+      maid.phoneNumber,
+      maid.birthDate,
+      maid.status,
+      maid.cpf
+    ], (error, results) => {
+      if (error) throw error
+    })
+    db.end()
+  }
 }
