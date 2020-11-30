@@ -86,4 +86,56 @@ export class MySqlClientsRepository implements IClientRepository {
     })
     db.end()
   }
+
+  async updateClient (client: Client): Promise<void> {
+    const db = mysql.createConnection(this.options)
+    const sqlQuerie = `UPDATE client SET 
+      cpf = ?, 
+      name = ?, 
+      email = ?, 
+      password = ?,
+      phoneNumber = ?,
+      birthDate = ? WHERE cpf = ?`
+    db.query(sqlQuerie, [
+      client.cpf,
+      client.name,
+      client.email,
+      client.password,
+      client.phoneNumber,
+      client.birthDate,
+      client.cpf
+    ], (error, results) => {
+      if (error) throw error
+    })
+    db.end()
+  }
+
+  async updateClientLocation (location: ClientLocation): Promise<void> {
+    const db = mysql.createConnection(this.options)
+    const sqlQuerie = `UPDATE client SET 
+      clientCpf = ?, 
+      latitude = ?, 
+      longitude = ?, 
+      street = ?,
+      houseNumber = ?,
+      neighborhood = ?,
+      city = ?,
+      cep = ?,
+      uf = ? WHERE cpf = ?`
+    db.query(sqlQuerie, [
+      location.clientCpf,
+      location.latitude,
+      location.longitude,
+      location.street,
+      location.houseNumber,
+      location.neighborhood,
+      location.city,
+      location.cep,
+      location.uf,
+      location.clientCpf
+    ], (error, results) => {
+      if (error) throw error
+    })
+    db.end()
+  }
 }

@@ -4,9 +4,9 @@ import { Maid } from '../../entities/Maid'
 import { MaidLocation } from '../../entities/MaidLocation'
 import { IMaidRepository } from '../IMaidRepository'
 import { MySqlClientsRepository } from './MySqlClientsRepository'
-import { DisponibleDays } from 'src/entities/DisponibleDays'
-import { DisponiblePeriod } from 'src/entities/DisponiblePeriod'
-import { Services } from 'src/entities/Services'
+import { DisponibleDays } from '../../entities/DisponibleDays'
+import { DisponiblePeriod } from '../../entities/DisponiblePeriod'
+import { Services } from '../../entities/Services'
 import mysql from 'mysql'
 
 export class MySqlMaidRepository implements IMaidRepository {

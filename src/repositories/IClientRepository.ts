@@ -7,4 +7,6 @@ export interface IClientRepository {
   saveClient(client: Client, location: ClientLocation): Promise<void>
   saveClientLocation(location: ClientLocation): Promise<void>
   deleteClient(cpf: string): Promise<void>
+  updateClient(client: Client): Promise<void>
+  updateClientLocation(location: ClientLocation): Promise<void>
 }
