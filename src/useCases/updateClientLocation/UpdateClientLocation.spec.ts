@@ -2,7 +2,7 @@ import request from 'supertest'
 import { app } from '../../app'
 
 describe('testing server routes', () => {
-  it('should update client - PUT/update/client - success', async () => {
+  it('should update client location - PUT/update/client/clientLocation - success', async () => {
     const data = {
       clientCpf: '000.000.000-00',
       latitude: -14.525221,

@@ -176,4 +176,31 @@ export class MySqlMaidRepository implements IMaidRepository {
     })
     db.end()
   }
+
+  async updateMaidDisponibleDays (disponibleDays: DisponibleDays) {
+    const db = mysql.createConnection(this.options)
+    const sqlQuerie = `UPDATE disponible_days SET 
+      maidCpf = ?, 
+      monday = ?, 
+      tuesday = ?, 
+      wednesday = ?,
+      thursday = ?,
+      friday = ?,
+      saturday = ?,
+      sunday = ? WHERE maidCpf = ?`
+    db.query(sqlQuerie, [
+      disponibleDays.maidCpf,
+      disponibleDays.monday,
+      disponibleDays.tuesday,
+      disponibleDays.wednesday,
+      disponibleDays.thursday,
+      disponibleDays.friday,
+      disponibleDays.saturday,
+      disponibleDays.sunday,
+      disponibleDays.maidCpf
+    ], (error, results) => {
+      if (error) throw error
+    })
+    db.end()
+  }
 }
