@@ -9,7 +9,7 @@ export class DeleteMaidController {
   }
 
   async handle (request: Request, response: Response) {
-    const cpf = request.query.cpf as string
+    const cpf = request.params.cpf
 
     try {
       await this._deleteMaidUseCase.execute({ cpf })
