@@ -20,5 +20,6 @@ export interface IMaidRepository {
   findMaidByCpf(cpf: string): Promise<Maid>
   deleteMaid(cpf: string): Promise<void>
   updateMaid(maid: Maid): Promise<void>
+  updateMaidLocation(location: MaidLocation): Promise<void>
   updateMaidDisponibleDays(disponibleDays: DisponibleDays): Promise<void>
 }

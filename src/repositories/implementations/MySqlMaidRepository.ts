@@ -53,7 +53,7 @@ export class MySqlMaidRepository implements IMaidRepository {
     db.end()
   }
 
-  async saveMaidDisponibleDays (disponibleDays: DisponibleDays):Promise<void> {
+  async saveMaidDisponibleDays (disponibleDays: DisponibleDays): Promise<void> {
     const db = mysql.createConnection(this.options)
     db.query('INSERT INTO disponible_days SET ? ', disponibleDays, (error: any, results: any) => {
       if (error) throw error
@@ -61,7 +61,7 @@ export class MySqlMaidRepository implements IMaidRepository {
     db.end()
   }
 
-  async saveMaidDisponiblePeriod (disponiblePeriod: DisponiblePeriod):Promise<void> {
+  async saveMaidDisponiblePeriod (disponiblePeriod: DisponiblePeriod): Promise<void> {
     const db = mysql.createConnection(this.options)
     db.query('INSERT INTO disponible_period SET ? ', disponiblePeriod, (error: any, results: any) => {
       if (error) throw error
@@ -69,7 +69,7 @@ export class MySqlMaidRepository implements IMaidRepository {
     db.end()
   }
 
-  async saveMaidServices (services: Services):Promise<void> {
+  async saveMaidServices (services: Services): Promise<void> {
     const db = mysql.createConnection(this.options)
     db.query('INSERT INTO services SET ? ', services, (error: any, results: any) => {
       if (error) throw error
@@ -171,6 +171,35 @@ export class MySqlMaidRepository implements IMaidRepository {
       maid.birthDate,
       maid.status,
       maid.cpf
+    ], (error, results) => {
+      if (error) throw error
+    })
+    db.end()
+  }
+
+  async updateMaidLocation (location: MaidLocation) {
+    const db = mysql.createConnection(this.options)
+    const sqlQuerie = `UPDATE maid_location SET 
+      maidCpf = ?, 
+      latitude = ?, 
+      longitude = ?, 
+      street = ?,
+      houseNumber = ?,
+      neighborhood = ?,
+      city = ?,
+      cep = ?,
+      uf = ? WHERE maidCpf = ?`
+    db.query(sqlQuerie, [
+      location.maidCpf,
+      location.latitude,
+      location.longitude,
+      location.street,
+      location.houseNumber,
+      location.neighborhood,
+      location.city,
+      location.cep,
+      location.uf,
+      location.maidCpf
     ], (error, results) => {
       if (error) throw error
     })
