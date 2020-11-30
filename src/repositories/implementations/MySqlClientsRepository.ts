@@ -112,7 +112,7 @@ export class MySqlClientsRepository implements IClientRepository {
 
   async updateClientLocation (location: ClientLocation): Promise<void> {
     const db = mysql.createConnection(this.options)
-    const sqlQuerie = `UPDATE client SET 
+    const sqlQuerie = `UPDATE client_location SET 
       clientCpf = ?, 
       latitude = ?, 
       longitude = ?, 
@@ -121,7 +121,7 @@ export class MySqlClientsRepository implements IClientRepository {
       neighborhood = ?,
       city = ?,
       cep = ?,
-      uf = ? WHERE cpf = ?`
+      uf = ? WHERE clientCpf = ?`
     db.query(sqlQuerie, [
       location.clientCpf,
       location.latitude,

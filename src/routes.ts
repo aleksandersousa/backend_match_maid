@@ -4,6 +4,7 @@ import { createMaidController } from './useCases/createMaid'
 import { deleteClientController } from './useCases/deleteClient'
 import { deleteMaidController } from './useCases/deleteMaid'
 import { updateClientController } from './useCases/updateClient'
+import { updateClientLocationController } from './useCases/updateClientLocation'
 
 const router = Router()
 
@@ -25,6 +26,10 @@ router.delete('/delete/maid/:cpf', (request, response) => {
 
 router.put('/update/client/:cpf', (request, response) => {
   return updateClientController.handle(request, response)
+})
+
+router.put('/update/clientLocation/:clientCpf', (request, response) => {
+  return updateClientLocationController.handle(request, response)
 })
 
 export { router }
