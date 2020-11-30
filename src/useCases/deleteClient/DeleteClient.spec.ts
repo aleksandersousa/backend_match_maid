@@ -3,10 +3,7 @@ import { app } from '../../app'
 
 describe('testing server routes', () => {
   it('should delete client - DELETE/delete/client - success', async () => {
-    const data = { cpf: '000.000.000-00' }
-
-    const { body } = await request(app).delete('/delete/client').query(data)
-
+    const { body } = await request(app).delete('/delete/client/000.000.000-00')
     expect(body).toEqual({})
   })
 })

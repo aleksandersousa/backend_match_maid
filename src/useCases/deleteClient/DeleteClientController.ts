@@ -9,7 +9,7 @@ export class DeleteClientController {
   }
 
   async handle (request: Request, response: Response): Promise<Response> {
-    const cpf = request.query.cpf as string
+    const cpf = request.params.cpf
 
     try {
       await this._deleteClientUseCase.execute({ cpf })
