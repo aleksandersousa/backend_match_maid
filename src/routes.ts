@@ -9,6 +9,7 @@ import { updateDisponibleDaysController } from './useCases/updateDisponibleDays'
 import { udpateDisponiblePeriodController } from './useCases/updateDisponiblePeriod'
 import { updateMaidController } from './useCases/updateMaid'
 import { updateMaidLocationController } from './useCases/updateMaidLocation'
+import { updateServicesController } from './useCases/updateServices'
 
 const router = Router()
 
@@ -50,6 +51,10 @@ router.put('/update/maid/disponibleDays/:maidCpf', (request, response) => {
 
 router.put('/update/maid/disponiblePeriod/:maidCpf', (request, response) => {
   return udpateDisponiblePeriodController.handle(request, response)
+})
+
+router.put('/update/maid/services/:maidCpf', (request, response) => {
+  return updateServicesController.handle(request, response)
 })
 
 export { router }

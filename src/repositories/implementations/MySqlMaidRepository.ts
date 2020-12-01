@@ -252,7 +252,8 @@ export class MySqlMaidRepository implements IMaidRepository {
 
   async updateMaidServices (services: Services) {
     const db = mysql.createConnection(this.options)
-    const sqlQuerie = `UPDATE services SET 
+    const sqlQuerie = `UPDATE services SET
+      maidCpf = ?,
       nanny = ?, 
       carehouse = ?, 
       cleanHouse = ?, 
@@ -262,6 +263,7 @@ export class MySqlMaidRepository implements IMaidRepository {
       cook = ? WHERE maidCpf = ?`
     db.query(sqlQuerie, [
       services.maidCpf,
+      services.nanny,
       services.careHouse,
       services.cleanHouse,
       services.ironClothes,
