@@ -6,6 +6,7 @@ import { deleteMaidController } from './useCases/deleteMaid'
 import { updateClientController } from './useCases/updateClient'
 import { updateClientLocationController } from './useCases/updateClientLocation'
 import { updateDisponibleDaysController } from './useCases/updateDisponibleDays'
+import { udpateDisponiblePeriodController } from './useCases/updateDisponiblePeriod'
 import { updateMaidController } from './useCases/updateMaid'
 import { updateMaidLocationController } from './useCases/updateMaidLocation'
 
@@ -45,6 +46,10 @@ router.put('/update/maid/location/:maidCpf', (request, response) => {
 
 router.put('/update/maid/disponibleDays/:maidCpf', (request, response) => {
   return updateDisponibleDaysController.handle(request, response)
+})
+
+router.put('/update/maid/disponiblePeriod/:maidCpf', (request, response) => {
+  return udpateDisponiblePeriodController.handle(request, response)
 })
 
 export { router }

@@ -232,4 +232,44 @@ export class MySqlMaidRepository implements IMaidRepository {
     })
     db.end()
   }
+
+  async updateMaidDisponiblePeriod (disponiblePeriod: DisponiblePeriod) {
+    const db = mysql.createConnection(this.options)
+    const sqlQuerie = `UPDATE disponible_period SET 
+      maidCpf = ?, 
+      morning = ?, 
+      afternoon = ?, 
+      night = ? WHERE maidCpf = ?`
+    db.query(sqlQuerie, [
+      disponiblePeriod.maidCpf,
+      disponiblePeriod.morning,
+      disponiblePeriod.afternoon,
+      disponiblePeriod.night,
+      disponiblePeriod.maidCpf
+    ])
+    db.end()
+  }
+
+  async updateMaidServices (services: Services) {
+    const db = mysql.createConnection(this.options)
+    const sqlQuerie = `UPDATE services SET 
+      nanny = ?, 
+      carehouse = ?, 
+      cleanHouse = ?, 
+      ironClothes = ?,
+      washClothes = ?,
+      washDishes = ?,
+      cook = ? WHERE maidCpf = ?`
+    db.query(sqlQuerie, [
+      services.maidCpf,
+      services.careHouse,
+      services.cleanHouse,
+      services.ironClothes,
+      services.washClothes,
+      services.washDishes,
+      services.cook,
+      services.maidCpf
+    ])
+    db.end()
+  }
 }

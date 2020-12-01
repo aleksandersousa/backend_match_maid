@@ -22,4 +22,6 @@ export interface IMaidRepository {
   updateMaid(maid: Maid): Promise<void>
   updateMaidLocation(location: MaidLocation): Promise<void>
   updateMaidDisponibleDays(disponibleDays: DisponibleDays): Promise<void>
+  updateMaidDisponiblePeriod(disponiblePeriod: DisponiblePeriod): Promise<void>
+  updateMaidServices(services: Services): Promise<void>
 }
