@@ -21,13 +21,14 @@ export interface IMaidRepository {
   saveMaidDisponibleDays(disponibleDays: DisponibleDays): Promise<void>
   saveMaidDisponiblePeriod(disponiblePeriod: DisponiblePeriod): Promise<void>
   saveMaidServices(services: Services): Promise<void>
-  rateMaid(rating: Rating): Promise<void>
   findMaidByEmail(email: string): Promise<Maid>
   findMaidByCpf(cpf: string): Promise<Maid>
+  findRatingByCpf(cpf: string): Promise<Rating>
   deleteMaid(cpf: string): Promise<void>
   updateMaid(maid: Maid): Promise<void>
   updateMaidLocation(location: MaidLocation): Promise<void>
   updateMaidDisponibleDays(disponibleDays: DisponibleDays): Promise<void>
   updateMaidDisponiblePeriod(disponiblePeriod: DisponiblePeriod): Promise<void>
   updateMaidServices(services: Services): Promise<void>
+  updateMaidRating(rating: Rating): Promise<void>
 }

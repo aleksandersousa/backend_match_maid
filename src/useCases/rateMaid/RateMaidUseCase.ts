@@ -1,4 +1,4 @@
-import { MaidValidations } from 'src/validations/maid/MaidValidations'
+import { MaidValidations } from '../../validations/maid/MaidValidations'
 import { Rating } from '../../entities/Rating'
 import { IMaidRepository } from '../../repositories/IMaidRepository'
 
@@ -10,12 +10,6 @@ export class RateMaidUseCase {
   }
 
   async execute (data: Rating) {
-    const maidExists = await this._maidRepository.findMaidByCpf(data.maidCpf)
-
-    if (!maidExists) {
-      throw new Error('Maid does not exist.')
-    }
-
     const rating = new Rating(data)
     const maidValidations = new MaidValidations()
 
@@ -25,6 +19,6 @@ export class RateMaidUseCase {
       throw new Error(error.message)
     }
 
-    await this._maidRepository.rateMaid(rating)
+    await this._maidRepository.updateMaidRating(rating)
   }
 }

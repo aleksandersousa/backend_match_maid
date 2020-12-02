@@ -22,10 +22,6 @@ router.post('/create/maid', (request, response) => {
   return createMaidController.handle(request, response)
 })
 
-router.post('/create/maid/rating', (request, response) => {
-  return rateMaidController.handle(request, response)
-})
-
 router.delete('/delete/client/:cpf', (request, response) => {
   return deleteClientController.handle(request, response)
 })
@@ -60,6 +56,10 @@ router.put('/update/maid/disponiblePeriod/:maidCpf', (request, response) => {
 
 router.put('/update/maid/services/:maidCpf', (request, response) => {
   return updateServicesController.handle(request, response)
+})
+
+router.post('/update/maid/rating', (request, response) => {
+  return rateMaidController.handle(request, response)
 })
 
 export { router }

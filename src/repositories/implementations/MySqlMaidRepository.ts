@@ -78,14 +78,6 @@ export class MySqlMaidRepository implements IMaidRepository {
     db.end()
   }
 
-  async rateMaid (rating: Rating): Promise<void> {
-    const db = mysql.createConnection(this.options)
-    db.query('INSERT INTO rating SET ? ', rating, (error: any, results: any) => {
-      if (error) throw error
-    })
-    db.end()
-  }
-
   async findMaidByEmail (email: string): Promise<Maid> {
     const db = mysql.createConnection(this.options)
     const getMaid = new Promise((resolve, reject) => {
@@ -128,6 +120,29 @@ export class MySqlMaidRepository implements IMaidRepository {
       }
     }).catch((err) => {
       console.log('Error on search maid cpf: ' + err)
+      return null
+    })
+  }
+
+  async findRatingByCpf (cpf: string): Promise<Rating> {
+    const db = mysql.createConnection(this.options)
+    const getRating = new Promise((resolve, reject) => {
+      db.query('SELECT * FROM rating WHERE maidCpf = ?', [cpf], (error: any, results: any) => {
+        if (error) throw error
+        if (results.length > 0) {
+          return resolve(results[0])
+        }
+        return resolve(null)
+      })
+    })
+    db.end()
+
+    return getRating.then(function (results) {
+      if (results) {
+        return new Rating(results)
+      }
+    }).catch((err) => {
+      console.log('Error on search rating cpf: ' + err)
       return null
     })
   }
@@ -285,6 +300,36 @@ export class MySqlMaidRepository implements IMaidRepository {
     ], (error: any, results: any) => {
       if (error) throw error
     })
+    db.end()
+  }
+
+  async updateMaidRating (rating: Rating): Promise<void> {
+    const db = mysql.createConnection(this.options)
+
+    const ratingAlreadyExists = await this.findRatingByCpf(rating.maidCpf)
+
+    if (ratingAlreadyExists) {
+      const sqlQuerie = `UPDATE rating SET
+        maidCpf = ?,
+        stars = ?,
+        goodWork = ?,
+        onTime = ?,
+        arrivedOnTime = ? WHERE maidCpf = ?`
+      db.query(sqlQuerie, [
+        rating.maidCpf,
+        rating.stars,
+        rating.goodWork,
+        rating.onTime,
+        rating.arrivedOnTime,
+        rating.maidCpf
+      ], (error: any, results: any) => {
+        if (error) throw error
+      })
+    } else {
+      db.query('INSERT INTO rating SET ?', rating, (error: any, response: any) => {
+        if (error) throw error
+      })
+    }
     db.end()
   }
 }
