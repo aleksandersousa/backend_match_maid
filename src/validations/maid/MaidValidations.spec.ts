@@ -1,3 +1,4 @@
+import { Rating } from '../../entities/Rating'
 import { DisponibleDays } from '../../entities/DisponibleDays'
 import { DisponiblePeriod } from '../../entities/DisponiblePeriod'
 import { Maid } from '../../entities/Maid'
@@ -11,6 +12,7 @@ describe('Testing maid validations', () => {
   let disponibleDays: DisponibleDays
   let disponiblePeriod: DisponiblePeriod
   let services: Services
+  let rating: Rating
   let maidValidations: MaidValidations
 
   beforeAll(() => {
@@ -65,11 +67,20 @@ describe('Testing maid validations', () => {
       cook: false
     }
 
+    const rat = {
+      maidCpf: '000.000.000-01',
+      stars: 8.7,
+      goodWork: true,
+      onTime: true,
+      arrivedOnTime: false
+    }
+
     maid = new Maid(data)
     maidLocation = new MaidLocation(location)
     disponibleDays = new DisponibleDays(days)
     disponiblePeriod = new DisponiblePeriod(period)
     services = new Services(serv)
+    rating = new Rating(rat)
     maidValidations = new MaidValidations()
   })
 
@@ -99,6 +110,12 @@ describe('Testing maid validations', () => {
 
   it('should detect error in services attributes', () => {
     const error = maidValidations.checkMaidServicesError(services)
+
+    expect(error || false).toBe(false)
+  })
+
+  it('should detect error in rating attributes', () => {
+    const error = maidValidations.checkMaidRatingError(rating)
 
     expect(error || false).toBe(false)
   })

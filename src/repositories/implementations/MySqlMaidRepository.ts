@@ -8,6 +8,7 @@ import { DisponibleDays } from '../../entities/DisponibleDays'
 import { DisponiblePeriod } from '../../entities/DisponiblePeriod'
 import { Services } from '../../entities/Services'
 import mysql from 'mysql'
+import { Rating } from '../../entities/Rating'
 
 export class MySqlMaidRepository implements IMaidRepository {
   private options = {
@@ -72,6 +73,14 @@ export class MySqlMaidRepository implements IMaidRepository {
   async saveMaidServices (services: Services): Promise<void> {
     const db = mysql.createConnection(this.options)
     db.query('INSERT INTO services SET ? ', services, (error: any, results: any) => {
+      if (error) throw error
+    })
+    db.end()
+  }
+
+  async rateMaid (rating: Rating): Promise<void> {
+    const db = mysql.createConnection(this.options)
+    db.query('INSERT INTO rating SET ? ', rating, (error: any, results: any) => {
       if (error) throw error
     })
     db.end()
@@ -171,7 +180,7 @@ export class MySqlMaidRepository implements IMaidRepository {
       maid.birthDate,
       maid.status,
       maid.cpf
-    ], (error, results) => {
+    ], (error: any, results: any) => {
       if (error) throw error
     })
     db.end()
@@ -200,7 +209,7 @@ export class MySqlMaidRepository implements IMaidRepository {
       location.cep,
       location.uf,
       location.maidCpf
-    ], (error, results) => {
+    ], (error: any, results: any) => {
       if (error) throw error
     })
     db.end()
@@ -227,7 +236,7 @@ export class MySqlMaidRepository implements IMaidRepository {
       disponibleDays.saturday,
       disponibleDays.sunday,
       disponibleDays.maidCpf
-    ], (error, results) => {
+    ], (error: any, results: any) => {
       if (error) throw error
     })
     db.end()
@@ -246,7 +255,9 @@ export class MySqlMaidRepository implements IMaidRepository {
       disponiblePeriod.afternoon,
       disponiblePeriod.night,
       disponiblePeriod.maidCpf
-    ])
+    ], (error: any, results: any) => {
+      if (error) throw error
+    })
     db.end()
   }
 
@@ -271,7 +282,9 @@ export class MySqlMaidRepository implements IMaidRepository {
       services.washDishes,
       services.cook,
       services.maidCpf
-    ])
+    ], (error: any, results: any) => {
+      if (error) throw error
+    })
     db.end()
   }
 }

@@ -3,6 +3,7 @@ import { createClientController } from './useCases/createClient'
 import { createMaidController } from './useCases/createMaid'
 import { deleteClientController } from './useCases/deleteClient'
 import { deleteMaidController } from './useCases/deleteMaid'
+import { rateMaidController } from './useCases/rateMaid'
 import { updateClientController } from './useCases/updateClient'
 import { updateClientLocationController } from './useCases/updateClientLocation'
 import { updateDisponibleDaysController } from './useCases/updateDisponibleDays'
@@ -19,6 +20,10 @@ router.post('/create/client', (request, response) => {
 
 router.post('/create/maid', (request, response) => {
   return createMaidController.handle(request, response)
+})
+
+router.post('/create/maid/rating', (request, response) => {
+  return rateMaidController.handle(request, response)
 })
 
 router.delete('/delete/client/:cpf', (request, response) => {

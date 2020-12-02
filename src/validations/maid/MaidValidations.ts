@@ -1,4 +1,5 @@
 import * as jf from 'joiful'
+import { Rating } from '../../entities/Rating'
 import { DisponibleDays } from '../../entities/DisponibleDays'
 import { DisponiblePeriod } from '../../entities/DisponiblePeriod'
 import { Maid } from '../../entities/Maid'
@@ -29,6 +30,11 @@ export class MaidValidations implements IMaidValidations {
 
   checkMaidServicesError (services: Services) {
     const { error } = jf.validate(services)
+    return error
+  }
+
+  checkMaidRatingError (rating: Rating) {
+    const { error } = jf.validate(rating)
     return error
   }
 }
