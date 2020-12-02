@@ -1,6 +1,7 @@
 import { MaidValidations } from '../../validations/maid/MaidValidations'
 import { Rating } from '../../entities/Rating'
 import { IMaidRepository } from '../../repositories/IMaidRepository'
+import { IRateMaidResquestDTO } from './RateMaidDTO'
 
 export class RateMaidUseCase {
   private _maidRepository: IMaidRepository
@@ -9,7 +10,7 @@ export class RateMaidUseCase {
     this._maidRepository = maidRepository
   }
 
-  async execute (data: Rating) {
+  async execute (data: IRateMaidResquestDTO) {
     const rating = new Rating(data)
     const maidValidations = new MaidValidations()
 

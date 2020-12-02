@@ -1,6 +1,7 @@
 import { MaidLocation } from '../../entities/MaidLocation'
 import { IMaidRepository } from '../../repositories/IMaidRepository'
 import { MaidValidations } from '../../validations/maid/MaidValidations'
+import { IUpdateMaidLocationRequestDTO } from './UpdateMaidLocationDTO'
 
 export class UpdateMaidLocationUseCase {
   private _maidRepository: IMaidRepository
@@ -9,7 +10,7 @@ export class UpdateMaidLocationUseCase {
     this._maidRepository = maidRepository
   }
 
-  async execute (data: MaidLocation, maidCpf: string) {
+  async execute (data: IUpdateMaidLocationRequestDTO, maidCpf: string) {
     const maidAlreadyExists = await this._maidRepository.findMaidByCpf(maidCpf)
 
     if (!maidAlreadyExists) {

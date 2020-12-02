@@ -1,4 +1,4 @@
-export interface RateMaidResquestDTO {
+export interface IRateMaidResquestDTO {
   maidCpf: string,
   stars: number,
   goodWork: boolean,

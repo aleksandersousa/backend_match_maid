@@ -1,6 +1,7 @@
 import { DisponiblePeriod } from '../../entities/DisponiblePeriod'
 import { MaidValidations } from '../../validations/maid/MaidValidations'
 import { IMaidRepository } from '../../repositories/IMaidRepository'
+import { IUpdateDisponiblePeriodDTO } from './UpdateDisponiblePeriodDTO'
 
 export class UpdateDisponiblePeriodUseCase {
   private _maidRepository: IMaidRepository
@@ -9,7 +10,7 @@ export class UpdateDisponiblePeriodUseCase {
     this._maidRepository = maidRepository
   }
 
-  async execute (data: DisponiblePeriod, maidCpf: string) {
+  async execute (data: IUpdateDisponiblePeriodDTO, maidCpf: string) {
     const maidAlreadyExists = await this._maidRepository.findMaidByCpf(maidCpf)
 
     if (!maidAlreadyExists) {

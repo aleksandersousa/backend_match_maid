@@ -1,4 +1,4 @@
-export interface UpdateMaidLocationRequestDTO {
+export interface IUpdateMaidLocationRequestDTO {
   maidCpf: string,
   latitude: number,
   longitude: number,
