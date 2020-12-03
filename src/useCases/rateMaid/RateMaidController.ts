@@ -9,8 +9,8 @@ export class RateMaidController {
   }
 
   async handle (request: Request, response: Response): Promise<Response> {
+    const id = request.params.id as unknown as number
     const {
-      maidCpf,
       stars,
       goodWork,
       onTime,
@@ -19,12 +19,11 @@ export class RateMaidController {
 
     try {
       await this._rateMaidUseCase.execute({
-        maidCpf,
         stars,
         goodWork,
         onTime,
         arrivedOnTime
-      })
+      }, id)
       return response.status(201).send({
         error: false,
         message: 'Rated maid successfuly!'

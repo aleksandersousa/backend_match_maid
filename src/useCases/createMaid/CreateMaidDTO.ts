@@ -4,6 +4,7 @@ export interface IMaidLocation {
   longitude: number
   street: string
   houseNumber: string
+  complement: string
   neighborhood: string
   city: string
   cep: string
@@ -47,4 +48,8 @@ export interface ICreateMaidRequestDTO {
   phoneNumber: string
   birthDate: Date
   status: boolean
+  bibliography: string
+  pricePerHour: number
+  numberOfVisits: number
+  image: string
 }

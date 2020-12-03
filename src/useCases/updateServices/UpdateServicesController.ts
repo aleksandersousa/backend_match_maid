@@ -9,9 +9,8 @@ export class UpdateServicesController {
   }
 
   async handle (request: Request, response: Response): Promise<Response> {
-    const id = request.params.maidCpf
+    const id = request.params.id as unknown as number
     const {
-      maidCpf,
       nanny,
       careHouse,
       cleanHouse,
@@ -23,7 +22,6 @@ export class UpdateServicesController {
 
     try {
       this._updateServicesUseCase.execute({
-        maidCpf,
         nanny,
         careHouse,
         cleanHouse,

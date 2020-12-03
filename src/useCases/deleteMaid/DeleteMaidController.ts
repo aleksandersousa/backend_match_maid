@@ -9,10 +9,10 @@ export class DeleteMaidController {
   }
 
   async handle (request: Request, response: Response) {
-    const cpf = request.params.cpf
+    const id = request.params.id as unknown as number
 
     try {
-      await this._deleteMaidUseCase.execute({ cpf })
+      await this._deleteMaidUseCase.execute({ id })
       return response.status(204).send()
     } catch (err) {
       return response.status(400).json({

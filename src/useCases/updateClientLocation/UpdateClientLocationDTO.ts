@@ -1,9 +1,9 @@
 export interface IUpdateClientLocationRequestDTO {
-  clientCpf: string,
   latitude: number
   longitude: number
   street: string
   houseNumber: string
+  complement: string
   neighborhood: string
   city: string
   cep: string

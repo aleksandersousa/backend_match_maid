@@ -16,7 +16,7 @@ export class DisponiblePeriod {
   @jf.boolean().required()
   public night: boolean
 
-  constructor (props: Object) {
+  constructor (props: DisponiblePeriod) {
     Object.assign(this, props)
   }
 }

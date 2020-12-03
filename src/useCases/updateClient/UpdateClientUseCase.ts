@@ -10,8 +10,8 @@ export class UpdateClientUseCase {
     this._clientRepository = clientRepository
   }
 
-  async execute (data: IUpdateClientRequestDTO, cpf: string) {
-    const clientExists = await this._clientRepository.findClientByCpf(cpf)
+  async execute (data: IUpdateClientRequestDTO, id: number) {
+    const clientExists = await this._clientRepository.findClientById(id)
 
     if (!clientExists) {
       throw new Error('Client does not exist.')
@@ -26,6 +26,6 @@ export class UpdateClientUseCase {
       throw new Error(error.message)
     }
 
-    await this._clientRepository.updateClient(client)
+    await this._clientRepository.updateClient(client, id)
   }
 }

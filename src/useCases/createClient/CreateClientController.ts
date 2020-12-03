@@ -16,6 +16,7 @@ export class CreateClientController {
       password,
       phoneNumber,
       birthDate,
+      image,
       location
     } = request.body
 
@@ -26,7 +27,8 @@ export class CreateClientController {
         email,
         password,
         phoneNumber,
-        birthDate
+        birthDate,
+        image
       }, location)
       return response.status(201).send({
         error: false,

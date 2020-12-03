@@ -1,6 +1,8 @@
 import * as jf from 'joiful'
 
 export class Maid {
+  public readonly id: number
+
   @jf
     .string()
     .max(15)
@@ -40,7 +42,23 @@ export class Maid {
   @jf.boolean().required()
   public status: boolean
 
-  constructor (props: Object) {
+  @jf.string().required()
+  public bibliography: string
+
+  @jf
+    .number()
+    .max(65)
+    .precision(2)
+    .required()
+  public pricePerHour: number
+
+  @jf.number().required()
+  public numberOfVisits: number
+
+  @jf.string().required()
+  public image: string
+
+  constructor (props: Omit<Maid, 'id'>) {
     Object.assign(this, props)
   }
 }

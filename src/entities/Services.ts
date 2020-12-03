@@ -28,7 +28,7 @@ export class Services {
   @jf.boolean().required()
   public cook: boolean
 
-  constructor (props: Object) {
+  constructor (props: Services) {
     Object.assign(this, props)
   }
 }

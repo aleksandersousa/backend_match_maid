@@ -13,9 +13,16 @@ export class CreateClientUseCase {
 
   async execute (data: ICreateClientRequestDTO, location: IClientLocation) {
     const clientAlreadyExists = await this._clientRepository.findClientByEmail(data.email)
+    const clients = await this._clientRepository.getClients()
 
     if (clientAlreadyExists) {
       throw new Error('Client already exists.')
+    }
+
+    for (let i = 0; i < clients.length; i++) {
+      if (clients[i].cpf === data.cpf) {
+        throw new Error('Error: ER_DUP_ENTRY: Duplicate entry cpf for key client.cpf')
+      }
     }
 
     const client = new Client(data)

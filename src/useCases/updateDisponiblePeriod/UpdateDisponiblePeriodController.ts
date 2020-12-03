@@ -9,9 +9,8 @@ export class UpdateDisponiblePeriodController {
   }
 
   async handle (request: Request, response: Response): Promise<Response> {
-    const id = request.params.maidCpf
+    const id = request.params.id as unknown as number
     const {
-      maidCpf,
       morning,
       afternoon,
       night
@@ -19,7 +18,6 @@ export class UpdateDisponiblePeriodController {
 
     try {
       this._updateMaidDisponiblePeriodUseCase.execute({
-        maidCpf,
         morning,
         afternoon,
         night

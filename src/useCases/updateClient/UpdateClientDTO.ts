@@ -5,4 +5,5 @@ export interface IUpdateClientRequestDTO {
   password: string
   phoneNumber: string
   birthDate: Date
+  image: string
 }

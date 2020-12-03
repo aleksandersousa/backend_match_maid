@@ -37,7 +37,10 @@ export class Client {
   @jf.date().required()
   public birthDate: Date
 
-  constructor (props: Object) {
+  @jf.string().required()
+  public image: string
+
+  constructor (props: Client) {
     Object.assign(this, props)
   }
 }

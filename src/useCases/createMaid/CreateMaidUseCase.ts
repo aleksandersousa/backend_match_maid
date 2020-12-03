@@ -9,24 +9,36 @@ import { Services } from '../../entities/Services'
 import { ICreateMaidRequestDTO, IMaidLocation } from './CreateMaidDTO'
 import { MaidValidations } from '../../validations/maid/MaidValidations'
 import { ClientValidations } from '../../validations/client/ClientValidations'
+import { MySqlClientsRepository } from 'src/repositories/implementations/MySqlClientsRepository'
 
 export class CreateMaidUseCase {
   private _maidRepository: IMaidRepository
+  private _clientRepository: MySqlClientsRepository
 
   constructor (maidRepository: IMaidRepository) {
     this._maidRepository = maidRepository
+    this._clientRepository = new MySqlClientsRepository()
   }
 
   async execute (data: ICreateMaidRequestDTO, location: IMaidLocation,
     disponibleDays: DisponibleDays, disponiblePeriod: DisponiblePeriod, services: Services
   ) {
     const maidAlreadyExists = await this._maidRepository.findMaidByEmail(data.email)
+    const clientAlreadyExists = await this._clientRepository.findClientByEmail(data.email)
+    const existingMaids: [Maid] = await this._maidRepository.getMaids()
 
-    if (maidAlreadyExists) {
-      throw new Error('Maid already exists.')
+    if (maidAlreadyExists || clientAlreadyExists) {
+      throw new Error('There is already a registration with this email.')
+    }
+
+    for (let i = 0; i < existingMaids.length; i++) {
+      if (existingMaids[i].cpf === data.cpf) {
+        throw new Error('Error: ER_DUP_ENTRY: Duplicate entry cpf for key maid.cpf')
+      }
     }
 
     const maid = new Maid(data)
+    const maidLocation = new MaidLocation(location)
     const maidDisponibleDays = new DisponibleDays(disponibleDays)
     const maidDisponiblePeriod = new DisponiblePeriod(disponiblePeriod)
     const maidServices = new Services(services)
@@ -40,7 +52,8 @@ export class CreateMaidUseCase {
       email: maid.email,
       password: maid.password,
       phoneNumber: maid.phoneNumber,
-      birthDate: maid.birthDate
+      birthDate: maid.birthDate,
+      image: maid.image
     })
 
     const clientLocation = new ClientLocation({
@@ -49,18 +62,7 @@ export class CreateMaidUseCase {
       longitude: location.longitude,
       street: location.street,
       houseNumber: location.houseNumber,
-      neighborhood: location.neighborhood,
-      city: location.city,
-      cep: location.cep,
-      uf: location.uf
-    })
-
-    const maidLocation = new MaidLocation({
-      maidCpf: location.maidCpf,
-      latitude: location.latitude,
-      longitude: location.longitude,
-      street: location.street,
-      houseNumber: location.houseNumber,
+      complement: location.complement,
       neighborhood: location.neighborhood,
       city: location.city,
       cep: location.cep,
@@ -70,7 +72,8 @@ export class CreateMaidUseCase {
     const maidError = maidValidations.checkMaidError(maid)
     const maidLocationError = maidValidations.checkMaidLocationError(maidLocation)
     const disponibleDaysError = maidValidations.checkMaidDisponibleDaysError(
-      maidDisponibleDays)
+      maidDisponibleDays
+    )
     const disponiblePeriodError = maidValidations.checkMaidDisponiblePeriodError(
       maidDisponiblePeriod
     )

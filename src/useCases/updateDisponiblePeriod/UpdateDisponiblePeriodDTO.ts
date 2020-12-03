@@ -1,6 +1,5 @@
 export interface IUpdateDisponiblePeriodDTO {
-  maidCpf: string
-  mornig: boolean
+  morning: boolean
   afternoon: boolean
   night: boolean
 }

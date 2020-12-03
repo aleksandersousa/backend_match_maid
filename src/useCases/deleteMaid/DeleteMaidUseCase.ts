@@ -9,12 +9,12 @@ export class DeleteMaidUseCase {
   }
 
   async execute (data: IDeleteMaidRequestDTO) {
-    const maidExists = await this._maidRepository.findMaidByCpf(data.cpf)
+    const maidExists = await this._maidRepository.findMaidById(data.id)
 
     if (!maidExists) {
       throw new Error('Maid does not exist.')
     }
 
-    await this._maidRepository.deleteMaid(data.cpf)
+    await this._maidRepository.deleteMaid(data.id)
   }
 }

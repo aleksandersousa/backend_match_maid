@@ -10,7 +10,7 @@ describe('testing server routes', () => {
       night: true
     }
 
-    const { body } = await request(app).delete('/update/maid/disponiblePeriod/000.000.000-01').send(data)
+    const { body } = await request(app).delete('/update/maid/disponiblePeriod/1').send(data)
 
     expect(body).toEqual({})
   })

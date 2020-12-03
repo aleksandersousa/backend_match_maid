@@ -14,7 +14,8 @@ describe('testing client validations', () => {
       email: 'email@test.com',
       password: '12345678',
       phoneNumber: '00000000000000',
-      birthDate: '1999-06-26 18:25:43'
+      birthDate: '1999-06-26 18:25:43',
+      image: 'image'
     }
 
     const location = {
@@ -23,14 +24,15 @@ describe('testing client validations', () => {
       longitude: -40.363233,
       street: 'Street Test',
       houseNumber: '00',
+      complement: 'test',
       neighborhood: 'Test',
       city: 'TestCity',
       cep: '00000-000',
       uf: 'TS'
     }
 
-    client = new Client(data)
-    clientLocation = new ClientLocation(location)
+    client = new Client(data as unknown as Client)
+    clientLocation = new ClientLocation(location as unknown as ClientLocation)
     clientValidations = new ClientValidations()
   })
 

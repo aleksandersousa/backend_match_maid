@@ -9,14 +9,15 @@ export class UpdateClientController {
   }
 
   async handle (request: Request, response: Response): Promise<Response> {
-    const id = request.params.cpf
+    const id = request.params.id as unknown as number
     const {
       cpf,
       name,
       email,
       password,
       phoneNumber,
-      birthDate
+      birthDate,
+      image
     } = request.body
 
     try {
@@ -26,7 +27,8 @@ export class UpdateClientController {
         email,
         password,
         phoneNumber,
-        birthDate
+        birthDate,
+        image
       }, id)
       return response.status(204).send()
     } catch (err) {

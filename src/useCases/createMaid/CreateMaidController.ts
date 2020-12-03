@@ -17,6 +17,10 @@ export class CreateMaidController {
       phoneNumber,
       birthDate,
       status,
+      bibliography,
+      pricePerHour,
+      numberOfVisits,
+      image,
       location,
       disponibleDays,
       disponiblePeriod,
@@ -31,14 +35,19 @@ export class CreateMaidController {
         password,
         phoneNumber,
         birthDate,
-        status
+        status,
+        bibliography,
+        pricePerHour,
+        numberOfVisits,
+        image
       }, location, disponibleDays, disponiblePeriod, services)
+
       return response.status(201).send({
         error: false,
         message: 'Maid added successfuly!'
       })
     } catch (err) {
-      return response.status(400).json({
+      return response.status(400).send({
         error: true,
         message: err.message || 'Unexpected error.'
       })

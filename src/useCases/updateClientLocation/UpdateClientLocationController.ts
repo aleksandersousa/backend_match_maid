@@ -9,13 +9,13 @@ export class UpdateClientLocationController {
   }
 
   async handle (request: Request, response: Response): Promise<Response> {
-    const id = request.params.clientCpf
+    const id = request.params.id as unknown as number
     const {
-      clientCpf,
       latitude,
       longitude,
       street,
       houseNumber,
+      complement,
       neighborhood,
       city,
       cep,
@@ -24,11 +24,11 @@ export class UpdateClientLocationController {
 
     try {
       await this._updateClientLocationUseCase.execute({
-        clientCpf,
         latitude,
         longitude,
         street,
         houseNumber,
+        complement,
         neighborhood,
         city,
         cep,

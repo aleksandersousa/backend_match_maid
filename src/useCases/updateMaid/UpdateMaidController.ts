@@ -9,7 +9,7 @@ export class UpdateMaidController {
   }
 
   async handle (request: Request, response: Response): Promise<Response> {
-    const id = request.params.maidCpf
+    const id = request.params.id as unknown as number
     const {
       cpf,
       name,
@@ -17,7 +17,11 @@ export class UpdateMaidController {
       password,
       phoneNumber,
       birthDate,
-      status
+      status,
+      bibliography,
+      pricePerHour,
+      numberOfVisits,
+      image
     } = request.body
 
     try {
@@ -28,7 +32,11 @@ export class UpdateMaidController {
         password,
         phoneNumber,
         birthDate,
-        status
+        status,
+        bibliography,
+        pricePerHour,
+        numberOfVisits,
+        image
       }, id)
       return response.status(204).send()
     } catch (err) {

@@ -9,12 +9,12 @@ export class DeleteClientUseCase {
   }
 
   async execute (data: IDeleteClientRequestDTO) {
-    const clientExists = await this._clientRepository.findClientByCpf(data.cpf)
+    const clientExists = await this._clientRepository.findClientById(data.id)
 
     if (!clientExists) {
       throw new Error('Client does not exist.')
     }
 
-    await this._clientRepository.deleteClient(data.cpf)
+    await this._clientRepository.deleteClient(data.id)
   }
 }

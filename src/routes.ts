@@ -3,6 +3,7 @@ import { createClientController } from './useCases/createClient'
 import { createMaidController } from './useCases/createMaid'
 import { deleteClientController } from './useCases/deleteClient'
 import { deleteMaidController } from './useCases/deleteMaid'
+import { listAllMaidsController } from './useCases/listAllMaids'
 import { rateMaidController } from './useCases/rateMaid'
 import { updateClientController } from './useCases/updateClient'
 import { updateClientLocationController } from './useCases/updateClientLocation'
@@ -22,44 +23,48 @@ router.post('/create/maid', (request, response) => {
   return createMaidController.handle(request, response)
 })
 
-router.delete('/delete/client/:cpf', (request, response) => {
+router.delete('/delete/client/:id', (request, response) => {
   return deleteClientController.handle(request, response)
 })
 
-router.delete('/delete/maid/:cpf', (request, response) => {
+router.delete('/delete/maid/:id', (request, response) => {
   return deleteMaidController.handle(request, response)
 })
 
-router.put('/update/client/:cpf', (request, response) => {
+router.put('/update/client/:id', (request, response) => {
   return updateClientController.handle(request, response)
 })
 
-router.put('/update/client/clientLocation/:clientCpf', (request, response) => {
+router.put('/update/client/clientLocation/:id', (request, response) => {
   return updateClientLocationController.handle(request, response)
 })
 
-router.put('/update/maid/:cpf', (request, response) => {
+router.put('/update/maid/:id', (request, response) => {
   return updateMaidController.handle(request, response)
 })
 
-router.put('/update/maid/location/:maidCpf', (request, response) => {
+router.put('/update/maid/location/:id', (request, response) => {
   return updateMaidLocationController.handle(request, response)
 })
 
-router.put('/update/maid/disponibleDays/:maidCpf', (request, response) => {
+router.put('/update/maid/disponibleDays/:id', (request, response) => {
   return updateDisponibleDaysController.handle(request, response)
 })
 
-router.put('/update/maid/disponiblePeriod/:maidCpf', (request, response) => {
+router.put('/update/maid/disponiblePeriod/:id', (request, response) => {
   return udpateDisponiblePeriodController.handle(request, response)
 })
 
-router.put('/update/maid/services/:maidCpf', (request, response) => {
+router.put('/update/maid/services/:id', (request, response) => {
   return updateServicesController.handle(request, response)
 })
 
-router.post('/update/maid/rating', (request, response) => {
+router.post('/update/maid/rating/:id', (request, response) => {
   return rateMaidController.handle(request, response)
+})
+
+router.get('/get/maids', (request, response) => {
+  return listAllMaidsController.handle(request, response)
 })
 
 export { router }

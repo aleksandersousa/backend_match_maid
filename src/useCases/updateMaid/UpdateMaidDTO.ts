@@ -6,4 +6,8 @@ export interface IUpdateMaidRequestDTO {
   phoneNumber: string
   birthDate: Date
   status: boolean
+  bibliography: string
+  pricePerHour: number
+  numberOfVisits: number
+  image: string
 }

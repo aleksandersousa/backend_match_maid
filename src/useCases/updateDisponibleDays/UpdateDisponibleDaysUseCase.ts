@@ -10,14 +10,24 @@ export class UpdateDisponibleDaysUseCase {
     this._maidRepository = maidRepository
   }
 
-  async execute (data: IUpdateDisponibleDaysRequestDTO, maidCpf: string) {
-    const maidAlreadyExists = await this._maidRepository.findMaidByCpf(maidCpf)
+  async execute (data: IUpdateDisponibleDaysRequestDTO, id: number) {
+    const maidAlreadyExists = await this._maidRepository.findMaidById(id)
 
     if (!maidAlreadyExists) {
       throw new Error('Maid does not exist.')
     }
 
-    const disponibleDays = new DisponibleDays(data)
+    const disponibleDays = new DisponibleDays({
+      maidCpf: maidAlreadyExists.cpf,
+      monday: data.monday,
+      tuesday: data.tuesday,
+      wednesday: data.wednesday,
+      thursday: data.thursday,
+      friday: data.friday,
+      saturday: data.saturday,
+      sunday: data.sunday
+    })
+
     const maidValidations = new MaidValidations()
 
     const error = maidValidations.checkMaidDisponibleDaysError(disponibleDays)

@@ -22,18 +22,11 @@ export class MySqlMaidRepository implements IMaidRepository {
     disponiblePeriod: DisponiblePeriod, services: Services, client: Client,
     clientLocation: ClientLocation
   ): Promise<void> {
-    const props = {
-      cpf: maid.cpf,
-      name: maid.name,
-      email: maid.email,
-      password: maid.password,
-      phoneNumber: maid.phoneNumber,
-      birthDate: maid.birthDate
-    }
-
     const db = mysql.createConnection(this.options)
-    db.query('INSERT INTO maid SET ? ', props, (error: any, results: any) => {
-      if (error) throw error
+    db.query('INSERT INTO maid SET ? ', maid, (error: any, results: any) => {
+      if (error) {
+        throw new Error(error)
+      }
     })
     db.end()
 
@@ -93,7 +86,7 @@ export class MySqlMaidRepository implements IMaidRepository {
 
     return getMaid.then(function (results) {
       if (results) {
-        return new Maid(results)
+        return new Maid(results as Maid)
       }
     }).catch((err) => {
       console.log('Error on search client email: ' + err)
@@ -101,10 +94,10 @@ export class MySqlMaidRepository implements IMaidRepository {
     })
   }
 
-  async findMaidByCpf (cpf: string): Promise<Maid> {
+  async findMaidById (id: number): Promise<Maid> {
     const db = mysql.createConnection(this.options)
     const getMaid = new Promise((resolve, reject) => {
-      db.query('SELECT * FROM maid WHERE cpf = ?', [cpf], (error: any, results: any) => {
+      db.query('SELECT * FROM maid WHERE id = ?', [id], (error: any, results: any) => {
         if (error) throw error
         if (results.length > 0) {
           return resolve(results[0])
@@ -116,7 +109,7 @@ export class MySqlMaidRepository implements IMaidRepository {
 
     return getMaid.then(function (results) {
       if (results) {
-        return new Maid(results)
+        return new Maid(results as Maid)
       }
     }).catch((err) => {
       console.log('Error on search maid cpf: ' + err)
@@ -139,7 +132,7 @@ export class MySqlMaidRepository implements IMaidRepository {
 
     return getRating.then(function (results) {
       if (results) {
-        return new Rating(results)
+        return new Rating(results as Rating)
       }
     }).catch((err) => {
       console.log('Error on search rating cpf: ' + err)
@@ -147,36 +140,36 @@ export class MySqlMaidRepository implements IMaidRepository {
     })
   }
 
-  async deleteMaid (cpf: string): Promise<void> {
+  async deleteMaid (id: number): Promise<void> {
     const db = mysql.createConnection(this.options)
 
     const clientRepository = new MySqlClientsRepository()
-    await clientRepository.deleteClient(cpf)
+    await clientRepository.deleteClient(id)
 
-    db.query('DELETE FROM maid_location WHERE maidCpf = ?', cpf, (error: any, results: any) => {
+    db.query('DELETE FROM maid_location WHERE id = ?', id, (error: any, results: any) => {
       if (error) throw error
     })
 
-    db.query('DELETE FROM disponible_days WHERE maidCpf = ?', cpf, (error: any, results: any) => {
+    db.query('DELETE FROM disponible_days WHERE id = ?', id, (error: any, results: any) => {
       if (error) throw error
     })
 
-    db.query('DELETE FROM disponible_period WHERE maidCpf = ?', cpf, (error: any, results: any) => {
+    db.query('DELETE FROM disponible_period WHERE id = ?', id, (error: any, results: any) => {
       if (error) throw error
     })
 
-    db.query('DELETE FROM services WHERE maidCpf = ?', cpf, (error: any, results: any) => {
+    db.query('DELETE FROM services WHERE id = ?', id, (error: any, results: any) => {
       if (error) throw error
     })
 
-    db.query('DELETE FROM maid WHERE cpf = ?', cpf, (error: any, results: any) => {
+    db.query('DELETE FROM maid WHERE id = ?', id, (error: any, results: any) => {
       if (error) throw error
     })
 
     db.end()
   }
 
-  async updateMaid (maid: Maid) {
+  async updateMaid (maid: Maid, id: number) {
     const db = mysql.createConnection(this.options)
     const sqlQuerie = `UPDATE maid SET 
       cpf = ?, 
@@ -185,7 +178,7 @@ export class MySqlMaidRepository implements IMaidRepository {
       password = ?,
       phoneNumber = ?,
       birthDate = ?,
-      status = ? WHERE cpf = ?`
+      status = ? WHERE id = ?`
     db.query(sqlQuerie, [
       maid.cpf,
       maid.name,
@@ -194,7 +187,7 @@ export class MySqlMaidRepository implements IMaidRepository {
       maid.phoneNumber,
       maid.birthDate,
       maid.status,
-      maid.cpf
+      id
     ], (error: any, results: any) => {
       if (error) throw error
     })
@@ -331,5 +324,181 @@ export class MySqlMaidRepository implements IMaidRepository {
       })
     }
     db.end()
+  }
+
+  async getMaids (): Promise<[Maid]> {
+    const db = mysql.createConnection(this.options)
+    const get = new Promise((resolve, reject) => {
+      db.query('SELECT * FROM maid', (error: any, results: any) => {
+        if (error) throw error
+        if (results.length > 0) {
+          return resolve(results)
+        }
+        return resolve([])
+      })
+    })
+    db.end()
+
+    return get.then((results) => {
+      if (results) {
+        return results as unknown as [Maid]
+      }
+    }).catch((err) => {
+      throw new Error(err)
+    })
+  }
+
+  async getAllMaids (): Promise<[Object]> {
+    const db = mysql.createConnection(this.options)
+
+    const getMaids = this.getMaids()
+
+    const getLocations = new Promise((resolve, reject) => {
+      db.query('SELECT * FROM maid_location', (error: any, results: any) => {
+        if (error) throw error
+        if (results.length > 0) {
+          return resolve(results)
+        }
+        return resolve([])
+      })
+    })
+
+    const getDisponibleDays = new Promise((resolve, reject) => {
+      db.query('SELECT * FROM disponible_days', (error: any, results: any) => {
+        if (error) throw error
+        if (results.length > 0) {
+          return resolve(results)
+        }
+        return resolve([])
+      })
+    })
+
+    const getDisponiblePeriod = new Promise((resolve, reject) => {
+      db.query('SELECT * FROM disponible_period', (error: any, results: any) => {
+        if (error) throw error
+        if (results.length > 0) {
+          return resolve(results)
+        }
+        return resolve([])
+      })
+    })
+
+    const getServices = new Promise((resolve, reject) => {
+      db.query('SELECT * FROM services', (error: any, results: any) => {
+        if (error) throw error
+        if (results.length > 0) {
+          return resolve(results)
+        }
+        return resolve([])
+      })
+    })
+
+    const locationList = await getLocations.then((results: any) => {
+      if (results) {
+        const locations = [] as unknown as [MaidLocation]
+        for (let i = 0; i < results.length; i++) {
+          locations.push(new MaidLocation(results[i]))
+        }
+        return locations
+      }
+    }).catch((err) => {
+      console.log('Error on getting maid locations: ' + err)
+      return null
+    })
+
+    const disponibleDaysList = await getDisponibleDays.then((results: any) => {
+      if (results) {
+        const disponibleDays = [] as unknown as [DisponibleDays]
+        for (let i = 0; i < results.length; i++) {
+          disponibleDays.push(new DisponibleDays(results[i]))
+        }
+        return disponibleDays
+      }
+    }).catch((err) => {
+      console.log('Error on getting disponible days: ' + err)
+      return null
+    })
+
+    const disponiblePeriodList = await getDisponiblePeriod.then((results: any) => {
+      if (results) {
+        const disponiblePeriods = [] as unknown as [DisponiblePeriod]
+        for (let i = 0; i < results.length; i++) {
+          disponiblePeriods.push(new DisponiblePeriod(results[i]))
+        }
+        return disponiblePeriods
+      }
+    }).catch((err) => {
+      console.log('Error on getting disponible period: ' + err)
+      return null
+    })
+
+    const servicesList = await getServices.then((results: any) => {
+      if (results) {
+        const services = [] as unknown as [Services]
+        for (let i = 0; i < results.length; i++) {
+          services.push(new Services(results[i]))
+        }
+        return services
+      }
+    }).catch((err) => {
+      console.log('Error on getting services: ' + err)
+      return null
+    })
+
+    const maids = getMaids.then((results: any) => {
+      if (results) {
+        const maids = []
+        for (let i = 0; i < results.length; i++) {
+          const maid = {
+            id: results[i].id,
+            name: results[i].name,
+            email: results[i].email,
+            phoneNumber: results[i].phoneNumber,
+            birthDate: results[i].birthDate,
+            status: !!results[i].status
+          }
+          const locations = locationList[i]
+          const disponibleDays = {
+            maidCpf: disponibleDaysList[i].maidCpf,
+            monday: !!disponibleDaysList[i].monday,
+            tuesday: !!disponibleDaysList[i].tuesday,
+            wednesday: !!disponibleDaysList[i].wednesday,
+            thursday: !!disponibleDaysList[i].thursday,
+            friday: !!disponibleDaysList[i].friday,
+            saturday: !!disponibleDaysList[i].saturday,
+            sunday: !!disponibleDaysList[i].sunday
+          }
+          const disponiblePeriods = {
+            maidCpf: disponiblePeriodList[i].maidCpf,
+            morning: !!disponiblePeriodList[i].morning,
+            afternoon: !!disponiblePeriodList[i].afternoon,
+            night: !!disponiblePeriodList[i].night
+          }
+          const services = {
+            maidCpf: servicesList[i].maidCpf,
+            nanny: !!servicesList[i].nanny,
+            careHouse: !!servicesList[i].careHouse,
+            cleanHouse: !!servicesList[i].cleanHouse,
+            ironClothes: !!servicesList[i].ironClothes,
+            washClothes: !!servicesList[i].washClothes,
+            washDishes: !!servicesList[i].washDishes,
+            cook: !!servicesList[i].cook
+          }
+          maids.push({
+            maid,
+            locations,
+            disponibleDays,
+            disponiblePeriods,
+            services
+          })
+        }
+        return maids
+      }
+    }).catch((err) => {
+      console.log('Error on getting all maids: ' + err)
+      return null
+    })
+
+    return maids
   }
 }

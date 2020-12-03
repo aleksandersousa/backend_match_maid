@@ -4,6 +4,7 @@ export interface IClientLocation {
   longitude: number
   street: string
   houseNumber: string
+  complement: string
   neighborhood: string
   city: string
   cep: string
@@ -16,4 +17,5 @@ export interface ICreateClientRequestDTO {
   password: string
   phoneNumber: string
   birthDate: Date
+  image: string
 }

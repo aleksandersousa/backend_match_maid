@@ -1,5 +1,4 @@
 export interface IUpdateServicesRequestDTO {
-  maidCpf: string
   nanny: boolean
   careHouse: boolean
   cleanHouse: boolean

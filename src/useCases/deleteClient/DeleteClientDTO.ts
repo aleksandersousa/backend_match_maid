@@ -1,3 +1,3 @@
 export interface IDeleteClientRequestDTO {
-  cpf: string
+  id: number
 }

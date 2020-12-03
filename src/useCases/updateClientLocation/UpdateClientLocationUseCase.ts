@@ -10,14 +10,26 @@ export class UpdateClientLocationUseCase {
     this._clientRepository = clientRepository
   }
 
-  async execute (data: IUpdateClientLocationRequestDTO, clientCpf: string) {
-    const clientExists = await this._clientRepository.findClientByCpf(clientCpf)
+  async execute (data: IUpdateClientLocationRequestDTO, id: number) {
+    const clientExists = await this._clientRepository.findClientById(id)
 
     if (!clientExists) {
       throw new Error('Client does not exist.')
     }
 
-    const clientLocation = new ClientLocation(data)
+    const clientLocation = new ClientLocation({
+      clientCpf: clientExists.cpf,
+      latitude: data.latitude,
+      longitude: data.longitude,
+      street: data.street,
+      houseNumber: data.houseNumber,
+      complement: data.complement,
+      neighborhood: data.neighborhood,
+      city: data.city,
+      cep: data.cep,
+      uf: data.uf
+    })
+
     const clientValidations = new ClientValidations()
 
     const error = clientValidations.checkClientLocationError(clientLocation)

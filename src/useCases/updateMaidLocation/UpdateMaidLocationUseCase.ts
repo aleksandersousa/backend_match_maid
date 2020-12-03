@@ -10,14 +10,26 @@ export class UpdateMaidLocationUseCase {
     this._maidRepository = maidRepository
   }
 
-  async execute (data: IUpdateMaidLocationRequestDTO, maidCpf: string) {
-    const maidAlreadyExists = await this._maidRepository.findMaidByCpf(maidCpf)
+  async execute (data: IUpdateMaidLocationRequestDTO, id: number) {
+    const maidAlreadyExists = await this._maidRepository.findMaidById(id)
 
     if (!maidAlreadyExists) {
       throw new Error('Maid does not exist.')
     }
 
-    const maidLocation = new MaidLocation(data)
+    const maidLocation = new MaidLocation({
+      maidCpf: maidAlreadyExists.cpf,
+      latitude: data.latitude,
+      longitude: data.longitude,
+      street: data.street,
+      houseNumber: data.houseNumber,
+      complement: data.complement,
+      neighborhood: data.neighborhood,
+      city: data.city,
+      cep: data.cep,
+      uf: data.uf
+    })
+
     const maidValidations = new MaidValidations()
 
     const error = maidValidations.checkMaidLocationError(maidLocation)

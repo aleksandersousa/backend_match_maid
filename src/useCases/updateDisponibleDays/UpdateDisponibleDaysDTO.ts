@@ -1,5 +1,4 @@
 export interface IUpdateDisponibleDaysRequestDTO {
-  maidCpf: string
   monday: boolean
   tuesday: boolean
   wednesday: boolean

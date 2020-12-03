@@ -9,13 +9,13 @@ export class UpdateMaidLocationController {
   }
 
   async handle (request: Request, response: Response): Promise<Response> {
-    const id = request.params.maidCpf
+    const id = request.params.id as unknown as number
     const {
-      maidCpf,
       latitude,
       longitude,
       street,
       houseNumber,
+      complement,
       neighborhood,
       city,
       cep,
@@ -24,11 +24,11 @@ export class UpdateMaidLocationController {
 
     try {
       this._updateMaidLocationUseCase.execute({
-        maidCpf,
         latitude,
         longitude,
         street,
         houseNumber,
+        complement,
         neighborhood,
         city,
         cep,

@@ -9,10 +9,10 @@ export class DeleteClientController {
   }
 
   async handle (request: Request, response: Response): Promise<Response> {
-    const cpf = request.params.cpf
+    const id = request.params.id as unknown as number
 
     try {
-      await this._deleteClientUseCase.execute({ cpf })
+      await this._deleteClientUseCase.execute({ id })
       return response.status(204).send()
     } catch (err) {
       return response.status(400).json({

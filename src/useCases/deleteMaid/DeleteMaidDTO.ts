@@ -1,3 +1,3 @@
 export interface IDeleteMaidRequestDTO {
-  cpf: string
+  id: number
 }

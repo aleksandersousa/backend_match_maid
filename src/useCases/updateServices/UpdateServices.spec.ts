@@ -14,7 +14,7 @@ describe('testing server routes', () => {
       cook: false
     }
 
-    const { body } = await request(app).delete('/update/maid/services/000.000.000-01').send(data)
+    const { body } = await request(app).delete('/update/maid/services/1').send(data)
 
     expect(body).toEqual({})
   })

@@ -11,7 +11,7 @@ describe('testing server routes', () => {
       arrivedOnTime: false
     }
 
-    const { body } = await request(app).post('/update/maid/rating').send(data)
+    const { body } = await request(app).post('/update/maid/rating/1').send(data)
 
     expect(body).toEqual({
       error: false,

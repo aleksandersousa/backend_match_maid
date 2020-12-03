@@ -9,9 +9,8 @@ export class UpdateDisponibleDaysController {
   }
 
   async handle (request: Request, response: Response): Promise<Response> {
-    const id = request.params.maidCpf
+    const id = request.params.id as unknown as number
     const {
-      maidCpf,
       monday,
       tuesday,
       wednesday,
@@ -23,7 +22,6 @@ export class UpdateDisponibleDaysController {
 
     try {
       await this._updateDisponibleDaysUseCase.execute({
-        maidCpf,
         monday,
         tuesday,
         wednesday,

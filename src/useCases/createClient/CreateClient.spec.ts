@@ -10,11 +10,13 @@ describe('testing server routes', () => {
       password: '12345678',
       phoneNumber: '00000000000000',
       birthDate: '1999-06-26 18:25:43',
+      image: 'image',
       location: {
         clientCpf: '000.000.000-00',
         latitude: -14.525221,
         longitude: -40.363233,
         street: 'Street Test',
+        complement: 'test',
         houseNumber: '00',
         neighborhood: 'Test',
         city: 'TestCity',

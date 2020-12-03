@@ -27,7 +27,7 @@ export class Rating {
     .required()
   public arrivedOnTime: boolean
 
-  constructor (props: Object) {
+  constructor (props: Rating) {
     Object.assign(this, props)
   }
 }

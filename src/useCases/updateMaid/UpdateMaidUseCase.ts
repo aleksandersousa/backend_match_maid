@@ -10,8 +10,8 @@ export class UpdateMaidUseCase {
     this._maidRepository = maidRepository
   }
 
-  async execute (data: IUpdateMaidRequestDTO, cpf: string) {
-    const maidAlreadyExists = await this._maidRepository.findMaidByCpf(cpf)
+  async execute (data: IUpdateMaidRequestDTO, id: number) {
+    const maidAlreadyExists = await this._maidRepository.findMaidById(id)
 
     if (!maidAlreadyExists) {
       throw new Error('Maid does not exist.')
@@ -26,6 +26,6 @@ export class UpdateMaidUseCase {
       throw new Error(error.message)
     }
 
-    await this._maidRepository.updateMaid(maid)
+    await this._maidRepository.updateMaid(maid, id)
   }
 }

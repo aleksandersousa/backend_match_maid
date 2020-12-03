@@ -35,6 +35,11 @@ export class MaidLocation {
 
   @jf
     .string()
+    .required()
+  public complement: string
+
+  @jf
+    .string()
     .min(1)
     .max(50)
     .required()
@@ -54,7 +59,7 @@ export class MaidLocation {
     .required()
   public uf: string
 
-  constructor (props: Object) {
+  constructor (props: MaidLocation) {
     Object.assign(this, props)
   }
 }

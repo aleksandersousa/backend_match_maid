@@ -10,8 +10,21 @@ export class RateMaidUseCase {
     this._maidRepository = maidRepository
   }
 
-  async execute (data: IRateMaidResquestDTO) {
-    const rating = new Rating(data)
+  async execute (data: IRateMaidResquestDTO, id: number) {
+    const maidAlreadyExists = await this._maidRepository.findMaidById(id)
+
+    if (!maidAlreadyExists) {
+      throw new Error('Maid does not exist.')
+    }
+
+    const rating = new Rating({
+      maidCpf: maidAlreadyExists.cpf,
+      stars: data.stars,
+      goodWork: data.goodWork,
+      onTime: data.onTime,
+      arrivedOnTime: data.arrivedOnTime
+    })
+
     const maidValidations = new MaidValidations()
 
     const error = maidValidations.checkMaidRatingError(rating)

@@ -10,14 +10,24 @@ export class UpdateServicesUseCase {
     this._maidRepository = maidRepository
   }
 
-  async execute (data: IUpdateServicesRequestDTO, maidCpf: string) {
-    const maidAlreadyExists = await this._maidRepository.findMaidByCpf(maidCpf)
+  async execute (data: IUpdateServicesRequestDTO, id: number) {
+    const maidAlreadyExists = await this._maidRepository.findMaidById(id)
 
     if (!maidAlreadyExists) {
       throw new Error('Maid does not exist.')
     }
 
-    const services = new Services(data)
+    const services = new Services({
+      maidCpf: maidAlreadyExists.cpf,
+      nanny: data.nanny,
+      careHouse: data.careHouse,
+      cleanHouse: data.cleanHouse,
+      ironClothes: data.ironClothes,
+      washClothes: data.washClothes,
+      washDishes: data.washDishes,
+      cook: data.cook
+    })
+
     const maidValidations = new MaidValidations()
 
     const error = maidValidations.checkMaidServicesError(services)

@@ -23,7 +23,11 @@ describe('Testing maid validations', () => {
       password: '12345678',
       phoneNumber: '00000000000000',
       birthDate: '1999-06-26 18:25:43',
-      status: false
+      status: false,
+      bibliography: 'bibliography',
+      pricePerHour: 0.00,
+      numberOfVisits: 0,
+      image: 'image'
     }
 
     const location = {
@@ -32,6 +36,7 @@ describe('Testing maid validations', () => {
       longitude: -40.363233,
       street: 'Street Test',
       houseNumber: '00',
+      complement: 'test',
       neighborhood: 'Test',
       city: 'TestCity',
       cep: '00000-000',
@@ -75,7 +80,7 @@ describe('Testing maid validations', () => {
       arrivedOnTime: false
     }
 
-    maid = new Maid(data)
+    maid = new Maid(data as unknown as Maid)
     maidLocation = new MaidLocation(location)
     disponibleDays = new DisponibleDays(days)
     disponiblePeriod = new DisponiblePeriod(period)

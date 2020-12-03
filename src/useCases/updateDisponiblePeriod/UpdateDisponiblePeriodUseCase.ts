@@ -10,14 +10,20 @@ export class UpdateDisponiblePeriodUseCase {
     this._maidRepository = maidRepository
   }
 
-  async execute (data: IUpdateDisponiblePeriodDTO, maidCpf: string) {
-    const maidAlreadyExists = await this._maidRepository.findMaidByCpf(maidCpf)
+  async execute (data: IUpdateDisponiblePeriodDTO, id: number) {
+    const maidAlreadyExists = await this._maidRepository.findMaidById(id)
 
     if (!maidAlreadyExists) {
       throw new Error('Maid does not exist.')
     }
 
-    const disponiblePeriod = new DisponiblePeriod(data)
+    const disponiblePeriod = new DisponiblePeriod({
+      maidCpf: maidAlreadyExists.cpf,
+      morning: data.morning,
+      afternoon: data.afternoon,
+      night: data.night
+    })
+
     const maidValidations = new MaidValidations()
 
     const error = maidValidations.checkMaidDisponiblePeriodError(disponiblePeriod)
