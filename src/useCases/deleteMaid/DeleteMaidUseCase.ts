@@ -15,6 +15,6 @@ export class DeleteMaidUseCase {
       throw new Error('Maid does not exist.')
     }
 
-    await this._maidRepository.deleteMaid(data.id)
+    await this._maidRepository.deleteMaid(maidExists.cpf)
   }
 }

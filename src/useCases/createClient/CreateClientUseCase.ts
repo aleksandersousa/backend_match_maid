@@ -17,6 +17,8 @@ export class CreateClientUseCase {
 
     if (clientAlreadyExists) {
       throw new Error('Client already exists.')
+    } else if (data.cpf !== location.clientCpf) {
+      throw new Error('Cpfs different.')
     }
 
     for (let i = 0; i < clients.length; i++) {

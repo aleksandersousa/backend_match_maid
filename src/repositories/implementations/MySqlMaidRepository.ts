@@ -15,7 +15,8 @@ export class MySqlMaidRepository implements IMaidRepository {
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'db_match_maid'
+    database: 'db_match_maid',
+    multipleStatements: true
   }
 
   async saveMaid (maid: Maid, maidLocation: MaidLocation, disponibleDays: DisponibleDays,
@@ -112,8 +113,7 @@ export class MySqlMaidRepository implements IMaidRepository {
         return new Maid(results as Maid)
       }
     }).catch((err) => {
-      console.log('Error on search maid cpf: ' + err)
-      return null
+      throw new Error(err)
     })
   }
 
@@ -140,29 +140,21 @@ export class MySqlMaidRepository implements IMaidRepository {
     })
   }
 
-  async deleteMaid (id: number): Promise<void> {
+  async deleteMaid (cpf: string): Promise<void> {
     const db = mysql.createConnection(this.options)
 
     const clientRepository = new MySqlClientsRepository()
-    await clientRepository.deleteClient(id)
+    await clientRepository.deleteClient(cpf)
 
-    db.query('DELETE FROM maid_location WHERE id = ?', id, (error: any, results: any) => {
-      if (error) throw error
-    })
+    const sqlQuerie = `
+      DELETE FROM maid_location WHERE maidCpf = ?;
+      DELETE FROM disponible_days WHERE maidCpf = ?;
+      DELETE FROM disponible_period WHERE maidCpf = ?;
+      DELETE FROM services WHERE maidCpf = ?;
+      DELETE FROM maid WHERE cpf = ?;
+    `
 
-    db.query('DELETE FROM disponible_days WHERE id = ?', id, (error: any, results: any) => {
-      if (error) throw error
-    })
-
-    db.query('DELETE FROM disponible_period WHERE id = ?', id, (error: any, results: any) => {
-      if (error) throw error
-    })
-
-    db.query('DELETE FROM services WHERE id = ?', id, (error: any, results: any) => {
-      if (error) throw error
-    })
-
-    db.query('DELETE FROM maid WHERE id = ?', id, (error: any, results: any) => {
+    db.query(sqlQuerie, [cpf, cpf, cpf, cpf, cpf], (error: any, results: any) => {
       if (error) throw error
     })
 
@@ -324,6 +316,129 @@ export class MySqlMaidRepository implements IMaidRepository {
       })
     }
     db.end()
+  }
+
+  async getMaid (id: number): Promise<Object> {
+    const db = mysql.createConnection(this.options)
+
+    const getMaid = await this.findMaidById(id)
+
+    if (!getMaid) {
+      throw new Error('Maid does not exist.')
+    }
+
+    const getLocation = new Promise((resolve, reject) => {
+      db.query('SELECT * FROM maid_location WHERE maidCpf = ?', getMaid.cpf, (error: any, results: any) => {
+        if (error) {
+          throw new Error(error)
+        }
+        if (results.length > 0) {
+          return resolve(results[0])
+        }
+        return resolve(null)
+      })
+    })
+
+    const getDisponibleDays = new Promise((resolve, reject) => {
+      db.query('SELECT * FROM disponible_days WHERE maidCpf = ?', getMaid.cpf, (error: any, results: any) => {
+        if (error) {
+          throw new Error(error)
+        }
+        if (results.length > 0) {
+          return resolve(results[0])
+        }
+        return resolve(null)
+      })
+    })
+
+    const getDisponiblePeriod = new Promise((resolve, reject) => {
+      db.query('SELECT * FROM disponible_period WHERE maidCpf = ?', getMaid.cpf, (error: any, results: any) => {
+        if (error) {
+          throw new Error(error)
+        }
+        if (results.length > 0) {
+          return resolve(results[0])
+        }
+        return resolve(null)
+      })
+    })
+
+    const getServices = new Promise((resolve, reject) => {
+      db.query('SELECT * FROM services WHERE maidCpf = ?', getMaid.cpf, (error: any, results: any) => {
+        if (error) {
+          throw new Error(error)
+        }
+        if (results.length > 0) {
+          return resolve(results[0])
+        }
+        return resolve(null)
+      })
+    })
+
+    const getRating = new Promise((resolve, reject) => {
+      db.query('SELECT * FROM rating WHERE maidCpf = ?', getMaid.cpf, (error: any, results: any) => {
+        if (error) {
+          throw new Error(error)
+        }
+        if (results.length > 0) {
+          return resolve(results[0])
+        }
+        return resolve(null)
+      })
+    })
+
+    db.end()
+
+    const location = await getLocation.then((results) => {
+      if (results) {
+        return results
+      }
+    }).catch((err) => {
+      throw new Error(err)
+    })
+
+    const disponibleDays = await getDisponibleDays.then((results) => {
+      if (results) {
+        return results
+      }
+    }).catch((err) => {
+      throw new Error(err)
+    })
+
+    const disponiblePeriod = await getDisponiblePeriod.then((results) => {
+      if (results) {
+        return results
+      }
+    }).catch((err) => {
+      throw new Error(err)
+    })
+
+    const services = await getServices.then((results) => {
+      if (results) {
+        return results
+      }
+    }).catch((err) => {
+      throw new Error(err)
+    })
+
+    const rating = await getRating.then((results) => {
+      if (results) {
+        return results
+      }
+    }).catch((err) => {
+      throw new Error(err)
+    })
+
+    const maid = {
+      maid: getMaid,
+      location: location,
+      disponible_days: disponibleDays,
+      disponible_period: disponiblePeriod,
+      services: services,
+      rating: rating
+    }
+
+    return maid
   }
 
   async getMaids (): Promise<[Maid]> {

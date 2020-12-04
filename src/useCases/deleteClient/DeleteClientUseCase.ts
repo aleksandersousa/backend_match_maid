@@ -15,6 +15,6 @@ export class DeleteClientUseCase {
       throw new Error('Client does not exist.')
     }
 
-    await this._clientRepository.deleteClient(data.id)
+    await this._clientRepository.deleteClient(clientExists.cpf)
   }
 }

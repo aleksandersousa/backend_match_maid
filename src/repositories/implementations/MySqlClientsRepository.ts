@@ -8,7 +8,8 @@ export class MySqlClientsRepository implements IClientRepository {
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'db_match_maid'
+    database: 'db_match_maid',
+    multipleStatements: true
   }
 
   async findClientByEmail (email: string): Promise<Client> {
@@ -67,14 +68,13 @@ export class MySqlClientsRepository implements IClientRepository {
     db.end()
   }
 
-  async deleteClient (id: number): Promise<void> {
+  async deleteClient (cpf: string): Promise<void> {
     const db = mysql.createConnection(this.options)
-    const client = await this.findClientById(id)
-
-    db.query('DELETE FROM client_location WHERE clientCpf = ?', client.cpf, (error, results) => {
-      if (error) throw error
-    })
-    db.query('DELETE FROM client WHERE id = ?', id, (error, results) => {
+    const sqlQuery = `
+      DELETE FROM client_location WHERE clientCpf = ?;
+      DELETE FROM client WHERE cpf = ?;
+    `
+    db.query(sqlQuery, [cpf, cpf], (error, results) => {
       if (error) throw error
     })
     db.end()
@@ -82,13 +82,13 @@ export class MySqlClientsRepository implements IClientRepository {
 
   async updateClient (client: Client, id: number): Promise<void> {
     const db = mysql.createConnection(this.options)
-    const sqlQuerie = `UPDATE client SET  
+    const sqlQuery = `UPDATE client SET  
       name = ?, 
       email = ?, 
       password = ?,
       phoneNumber = ?,
       birthDate = ? WHERE id = ?`
-    db.query(sqlQuerie, [
+    db.query(sqlQuery, [
       client.name,
       client.email,
       client.password,
@@ -104,7 +104,7 @@ export class MySqlClientsRepository implements IClientRepository {
 
   async updateClientLocation (location: ClientLocation): Promise<void> {
     const db = mysql.createConnection(this.options)
-    const sqlQuerie = `UPDATE client_location SET 
+    const sqlQuery = `UPDATE client_location SET 
       clientCpf = ?, 
       latitude = ?, 
       longitude = ?, 
@@ -114,7 +114,7 @@ export class MySqlClientsRepository implements IClientRepository {
       city = ?,
       cep = ?,
       uf = ? WHERE clientCpf = ?`
-    db.query(sqlQuerie, [
+    db.query(sqlQuery, [
       location.clientCpf,
       location.latitude,
       location.longitude,

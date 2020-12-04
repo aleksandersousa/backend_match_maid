@@ -29,6 +29,9 @@ export class CreateMaidUseCase {
 
     if (maidAlreadyExists || clientAlreadyExists) {
       throw new Error('There is already a registration with this email.')
+    } else if (data.cpf !== location.maidCpf || data.cpf !== disponibleDays.maidCpf ||
+      data.cpf !== disponiblePeriod.maidCpf || data.cpf !== services.maidCpf) {
+      throw new Error('Cpfs differents.')
     }
 
     for (let i = 0; i < existingMaids.length; i++) {
