@@ -1,0 +1,13 @@
+{
+	"cpf": "000.000.000-01",
+  "name": "Test User",
+  "email": "email@test.com",
+  "password": "12345678",
+  "phoneNumber": "00000000000000",
+  "birthDate": "1999-06-26T18:25:43",
+  "status": false,
+  "bibliography": "",
+  "pricePerHour": 0.00,
+  "numberOfVisits": 0,
+  "image": "",
+}

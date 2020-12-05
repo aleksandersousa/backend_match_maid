@@ -1,0 +1,11 @@
+{
+	"latitude": -14.525221,
+	"longitude": -40.363233,
+	"street": "Test Street",
+	"houseNumber": "00",
+	"complement": "test",
+	"neighborhood": "Test",
+	"city": "Test City",
+	"cep": "00000-000",
+	"uf": "TS"
+}

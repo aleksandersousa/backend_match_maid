@@ -1,0 +1,9 @@
+{
+  "cpf": "000.000.000-00",
+  "name": "Test User",
+  "email": "email@email.com",
+  "password": "12345678",
+  "phoneNumber": "00000000000000",
+  "birthDate": "1999-06-26T18:25:43",
+  "image": "image"
+}

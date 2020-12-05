@@ -1,0 +1,92 @@
+[
+  {
+    "maid": {
+      "name": "Test User",
+      "email": "email@ema.com",
+      "phoneNumber": "00000000000000",
+      "birthDate": "1999-06-26T03:00:00.000Z"
+    },
+    "location": {
+      "maidCpf": "000.000.000-01",
+      "longitude": -40.363233,
+      "latitude": -14.525221,
+      "street": "Test Street",
+      "houseNumber": "00",
+      "neighborhood": "Test",
+      "city": "Test City",
+      "cep": "00000-000",
+      "uf": "TS"
+    },
+    "disponibleDay": {
+      "maidCpf": "000.000.000-01",
+      "monday": 0,
+      "tuesday": 0,
+      "wednesday": 1,
+      "thursday": 0,
+      "friday": 0,
+      "saturday": 1,
+      "sunday": 1
+    },
+    "disponiblePeriod": {
+      "maidCpf": "000.000.000-01",
+      "morning": 1,
+      "afternoon": 1,
+      "night": 0
+    },
+    "service": {
+      "maidCpf": "000.000.000-01",
+      "nanny": 0,
+      "careHouse": 0,
+      "cleanHouse": 1,
+      "ironClothes": 1,
+      "washClothes": 1,
+      "washDishes": 1,
+      "cook": 0
+    }
+  },
+  {
+    "maid": {
+      "name": "Test User",
+      "email": "email@email.com",
+      "phoneNumber": "00000000000000",
+      "birthDate": "1999-06-26T03:00:00.000Z"
+    },
+    "location": {
+      "maidCpf": "000.000.000-02",
+      "longitude": -40.363233,
+      "latitude": -14.525221,
+      "street": "Test Street",
+      "houseNumber": "00",
+      "neighborhood": "Test",
+      "city": "Test City",
+      "cep": "00000-000",
+      "uf": "TS"
+    },
+    "disponibleDay": {
+      "maidCpf": "000.000.000-02",
+      "monday": 0,
+      "tuesday": 0,
+      "wednesday": 1,
+      "thursday": 0,
+      "friday": 0,
+      "saturday": 1,
+      "sunday": 1
+    },
+    "disponiblePeriod": {
+      "maidCpf": "000.000.000-02",
+      "morning": 1,
+      "afternoon": 1,
+      "night": 0
+    },
+    "service": {
+      "maidCpf": "000.000.000-02",
+      "nanny": 0,
+      "careHouse": 0,
+      "cleanHouse": 1,
+      "ironClothes": 1,
+      "washClothes": 1,
+      "washDishes": 1,
+      "cook": 0
+    }
+  }
+]

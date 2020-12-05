@@ -1,0 +1,10 @@
+{
+	"maidCpf": "000.000.000-01",
+	"nanny": false,
+	"careHouse": false,
+	"cleanHouse": true,
+	"ironClothes": true,
+	"washClothes": true,
+	"washDishes": true,
+	"cook": false
+}

@@ -1,0 +1,51 @@
+{
+    "cpf": "000.000.000-01",
+    "name": "Test User",
+    "email": "email@test.com",
+    "password": "12345678",
+    "phoneNumber": "00000000000000",
+    "birthDate": "1999-06-26T18:25:43",
+    "status": false,
+    "bibliography": "bibliography",
+    "pricePerHour": 0.00,
+    "numberOfVisits": 0,
+    "image": "image",
+    "location": {
+        "maidCpf": "000.000.000-01",
+        "latitude": -14.525221,
+        "longitude": -40.363233,
+        "street": "Test Street",
+        "houseNumber": "00",
+        "complement": "test",
+        "neighborhood": "Test",
+        "city": "Test City",
+        "cep": "00000-000",
+        "uf": "TS"
+    },
+    "disponibleDays": {
+        "maidCpf": "000.000.000-01",
+        "monday": false,
+        "tuesday": false,
+        "wednesday": true,
+        "thursday": false,
+        "friday": false,
+        "saturday": true,
+        "sunday": true
+    },
+    "disponiblePeriod": {
+        "maidCpf": "000.000.000-01",
+        "morning": true,
+        "afternoon": true,
+        "night": false
+    },
+    "services": {
+        "maidCpf": "000.000.000-01",
+        "nanny": false,
+        "careHouse": false,
+        "cleanHouse": true,
+        "ironClothes": true,
+        "washClothes": true,
+        "washDishes": true,
+        "cook": false
+    }
+}
