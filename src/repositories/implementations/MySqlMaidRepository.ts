@@ -3,7 +3,6 @@ import { ClientLocation } from '../../entities/ClientLocation'
 import { Maid } from '../../entities/Maid'
 import { MaidLocation } from '../../entities/MaidLocation'
 import { IMaidRepository } from '../IMaidRepository'
-import { MySqlClientsRepository } from './MySqlClientsRepository'
 import { DisponibleDays } from '../../entities/DisponibleDays'
 import { DisponiblePeriod } from '../../entities/DisponiblePeriod'
 import { Services } from '../../entities/Services'
@@ -24,20 +23,28 @@ export class MySqlMaidRepository implements IMaidRepository {
     clientLocation: ClientLocation
   ): Promise<void> {
     const db = mysql.createConnection(this.options)
-    db.query('INSERT INTO maid SET ? ', maid, (error: any, results: any) => {
+    const sqlQuery = `
+      INSERT INTO maid SET ?;
+      INSERT INTO maid_location SET ?;
+      INSERT INTO disponible_days SET ?;
+      INSERT INTO disponible_period SET ?;
+      INSERT INTO services SET ?;
+      INSERT INTO client SET ?;
+      INSERT INTO client_location SET ?;`
+    db.query(sqlQuery, [
+      maid,
+      maidLocation,
+      disponibleDays,
+      disponiblePeriod,
+      services,
+      client,
+      clientLocation
+    ], (error: any, results: any) => {
       if (error) {
-        throw new Error(error)
+        return new Error(error)
       }
     })
     db.end()
-
-    this.saveMaidLocation(maidLocation)
-    this.saveMaidDisponibleDays(disponibleDays)
-    this.saveMaidDisponiblePeriod(disponiblePeriod)
-    this.saveMaidServices(services)
-
-    const clientRepository = new MySqlClientsRepository()
-    await clientRepository.saveClient(client, clientLocation)
   }
 
   async saveMaidLocation (location: MaidLocation): Promise<void> {
@@ -143,18 +150,17 @@ export class MySqlMaidRepository implements IMaidRepository {
   async deleteMaid (cpf: string): Promise<void> {
     const db = mysql.createConnection(this.options)
 
-    const clientRepository = new MySqlClientsRepository()
-    await clientRepository.deleteClient(cpf)
-
-    const sqlQuerie = `
+    const sqlQuery = `
       DELETE FROM maid_location WHERE maidCpf = ?;
       DELETE FROM disponible_days WHERE maidCpf = ?;
       DELETE FROM disponible_period WHERE maidCpf = ?;
       DELETE FROM services WHERE maidCpf = ?;
       DELETE FROM maid WHERE cpf = ?;
+      DELETE FROM client_location WHERE cpf = ?;
+      DELETE FROM client WHERE cpf = ?;
     `
 
-    db.query(sqlQuerie, [cpf, cpf, cpf, cpf, cpf], (error: any, results: any) => {
+    db.query(sqlQuery, [cpf, cpf, cpf, cpf, cpf, cpf, cpf], (error: any, results: any) => {
       if (error) throw error
     })
 
@@ -163,7 +169,7 @@ export class MySqlMaidRepository implements IMaidRepository {
 
   async updateMaid (maid: Maid, id: number) {
     const db = mysql.createConnection(this.options)
-    const sqlQuerie = `UPDATE maid SET 
+    const sqlQuery = `UPDATE maid SET 
       cpf = ?, 
       name = ?, 
       email = ?, 
@@ -171,7 +177,7 @@ export class MySqlMaidRepository implements IMaidRepository {
       phoneNumber = ?,
       birthDate = ?,
       status = ? WHERE id = ?`
-    db.query(sqlQuerie, [
+    db.query(sqlQuery, [
       maid.cpf,
       maid.name,
       maid.email,
@@ -188,7 +194,7 @@ export class MySqlMaidRepository implements IMaidRepository {
 
   async updateMaidLocation (location: MaidLocation) {
     const db = mysql.createConnection(this.options)
-    const sqlQuerie = `UPDATE maid_location SET 
+    const sqlQuery = `UPDATE maid_location SET 
       maidCpf = ?, 
       latitude = ?, 
       longitude = ?, 
@@ -198,7 +204,7 @@ export class MySqlMaidRepository implements IMaidRepository {
       city = ?,
       cep = ?,
       uf = ? WHERE maidCpf = ?`
-    db.query(sqlQuerie, [
+    db.query(sqlQuery, [
       location.maidCpf,
       location.latitude,
       location.longitude,
@@ -217,7 +223,7 @@ export class MySqlMaidRepository implements IMaidRepository {
 
   async updateMaidDisponibleDays (disponibleDays: DisponibleDays) {
     const db = mysql.createConnection(this.options)
-    const sqlQuerie = `UPDATE disponible_days SET 
+    const sqlQuery = `UPDATE disponible_days SET 
       maidCpf = ?, 
       monday = ?, 
       tuesday = ?, 
@@ -226,7 +232,7 @@ export class MySqlMaidRepository implements IMaidRepository {
       friday = ?,
       saturday = ?,
       sunday = ? WHERE maidCpf = ?`
-    db.query(sqlQuerie, [
+    db.query(sqlQuery, [
       disponibleDays.maidCpf,
       disponibleDays.monday,
       disponibleDays.tuesday,
@@ -244,12 +250,12 @@ export class MySqlMaidRepository implements IMaidRepository {
 
   async updateMaidDisponiblePeriod (disponiblePeriod: DisponiblePeriod) {
     const db = mysql.createConnection(this.options)
-    const sqlQuerie = `UPDATE disponible_period SET 
+    const sqlQuery = `UPDATE disponible_period SET 
       maidCpf = ?, 
       morning = ?, 
       afternoon = ?, 
       night = ? WHERE maidCpf = ?`
-    db.query(sqlQuerie, [
+    db.query(sqlQuery, [
       disponiblePeriod.maidCpf,
       disponiblePeriod.morning,
       disponiblePeriod.afternoon,
@@ -263,7 +269,7 @@ export class MySqlMaidRepository implements IMaidRepository {
 
   async updateMaidServices (services: Services) {
     const db = mysql.createConnection(this.options)
-    const sqlQuerie = `UPDATE services SET
+    const sqlQuery = `UPDATE services SET
       maidCpf = ?,
       nanny = ?, 
       carehouse = ?, 
@@ -272,7 +278,7 @@ export class MySqlMaidRepository implements IMaidRepository {
       washClothes = ?,
       washDishes = ?,
       cook = ? WHERE maidCpf = ?`
-    db.query(sqlQuerie, [
+    db.query(sqlQuery, [
       services.maidCpf,
       services.nanny,
       services.careHouse,
@@ -294,13 +300,13 @@ export class MySqlMaidRepository implements IMaidRepository {
     const ratingAlreadyExists = await this.findRatingByCpf(rating.maidCpf)
 
     if (ratingAlreadyExists) {
-      const sqlQuerie = `UPDATE rating SET
+      const sqlQuery = `UPDATE rating SET
         maidCpf = ?,
         stars = ?,
         goodWork = ?,
         onTime = ?,
         arrivedOnTime = ? WHERE maidCpf = ?`
-      db.query(sqlQuerie, [
+      db.query(sqlQuery, [
         rating.maidCpf,
         rating.stars,
         rating.goodWork,

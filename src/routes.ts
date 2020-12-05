@@ -3,6 +3,7 @@ import { createClientController } from './useCases/createClient'
 import { createMaidController } from './useCases/createMaid'
 import { deleteClientController } from './useCases/deleteClient'
 import { deleteMaidController } from './useCases/deleteMaid'
+import { getClientByIdController } from './useCases/getClientById'
 import { findMaidByIdController } from './useCases/getMaidById'
 import { listAllClientsController } from './useCases/listAllClients'
 import { listAllMaidsController } from './useCases/listAllMaids'
@@ -63,6 +64,10 @@ router.put('/update/maid/services/:id', (request, response) => {
 
 router.post('/update/maid/rating/:id', (request, response) => {
   return rateMaidController.handle(request, response)
+})
+
+router.get('/get/client/:id', (request, response) => {
+  return getClientByIdController.handle(request, response)
 })
 
 router.get('/get/clients', (request, response) => {

@@ -52,17 +52,21 @@ export class MySqlClientsRepository implements IClientRepository {
 
   async saveClient (client: Client, location: ClientLocation): Promise<void> {
     const db = mysql.createConnection(this.options)
-    db.query('INSERT INTO client SET ? ', client, (error, results) => {
-      if (error) throw error
+    const sqlQuery = `
+      INSERT INTO client SET ?;
+      INSERT INTO client_location SET ?;
+    `
+    db.query(sqlQuery, [client, location], (error: any, results: any) => {
+      if (error) {
+        return new Error(error)
+      }
     })
     db.end()
-
-    this.saveClientLocation(location)
   }
 
   async saveClientLocation (location: ClientLocation): Promise<void> {
     const db = mysql.createConnection(this.options)
-    db.query('INSERT INTO client_location SET ? ', location, (error, results) => {
+    db.query(' ', location, (error, results) => {
       if (error) throw error
     })
     db.end()
@@ -129,6 +133,54 @@ export class MySqlClientsRepository implements IClientRepository {
       if (error) throw error
     })
     db.end()
+  }
+
+  async getClient (id: number): Promise<Object> {
+    const db = mysql.createConnection(this.options)
+
+    const getClient = await this.findClientById(id)
+
+    if (!getClient) {
+      throw new Error('Client does not exist.')
+    }
+
+    const getLocation = new Promise((resolve, reject) => {
+      db.query('SELECT * FROM client_location WHERE clientCpf = ?', getClient.cpf, (error: any, results: any) => {
+        if (error) {
+          throw new Error(error)
+        }
+        if (results.length > 0) {
+          return resolve(results[0])
+        }
+        return resolve(null)
+      })
+    })
+
+    db.end()
+
+    const location = await getLocation.then((results) => {
+      if (results) {
+        return results
+      }
+    }).catch((err) => {
+      throw new Error(err)
+    })
+
+    const tempClient = {
+      id: getClient.id,
+      name: getClient.name,
+      email: getClient.email,
+      phoneNumber: getClient.phoneNumber,
+      birthDate: getClient.birthDate,
+      image: getClient.image
+    }
+
+    const client = {
+      client: tempClient,
+      location: location
+    }
+
+    return client
   }
 
   async getClients (): Promise<[Client]> {
