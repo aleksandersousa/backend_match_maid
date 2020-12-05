@@ -156,7 +156,7 @@ export class MySqlMaidRepository implements IMaidRepository {
       DELETE FROM disponible_period WHERE maidCpf = ?;
       DELETE FROM services WHERE maidCpf = ?;
       DELETE FROM maid WHERE cpf = ?;
-      DELETE FROM client_location WHERE cpf = ?;
+      DELETE FROM client_location WHERE Clientcpf = ?;
       DELETE FROM client WHERE cpf = ?;
     `
 
