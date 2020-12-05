@@ -154,4 +154,44 @@ export class MySqlClientsRepository implements IClientRepository {
       throw new Error(error)
     })
   }
+
+  async listAllClients (): Promise<[Object]> {
+    const db = mysql.createConnection(this.options)
+
+    const getClients = await this.getClients()
+
+    const getLocations = new Promise((resolve, reject) => {
+      db.query('SELECT * FROM client_location', (error: any, results: any) => {
+        if (error) throw error
+        if (results.length > 0) {
+          return resolve(results)
+        }
+        return resolve([])
+      })
+    })
+
+    db.end()
+
+    const locationList = await getLocations.then((results: any) => {
+      if (results) {
+        const locations = [] as unknown as [ClientLocation]
+        for (let i = 0; i < results.length; i++) {
+          locations.push(new ClientLocation(results[i]))
+        }
+        return locations
+      }
+    }).catch((err) => {
+      return new Error(err)
+    })
+
+    const clients = []
+    for (let i = 0; i < getClients.length; i++) {
+      clients.push({
+        client: getClients[i],
+        location: locationList[i]
+      })
+    }
+
+    return clients as [Object]
+  }
 }

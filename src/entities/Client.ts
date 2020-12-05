@@ -1,6 +1,8 @@
 import * as jf from 'joiful'
 
 export class Client {
+  public readonly id: number
+
   @jf
     .string()
     .max(15)
@@ -40,7 +42,7 @@ export class Client {
   @jf.string().required()
   public image: string
 
-  constructor (props: Client) {
+  constructor (props: Omit<Client, 'id'>) {
     Object.assign(this, props)
   }
 }

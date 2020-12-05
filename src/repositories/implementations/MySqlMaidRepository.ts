@@ -429,8 +429,21 @@ export class MySqlMaidRepository implements IMaidRepository {
       throw new Error(err)
     })
 
+    const tempMaid = {
+      id: 1,
+      name: getMaid.name,
+      email: getMaid.email,
+      phoneNumber: getMaid.phoneNumber,
+      birthDate: getMaid.birthDate,
+      status: !!getMaid.status,
+      bibliography: getMaid.bibliography,
+      pricePerHour: getMaid.pricePerHour,
+      numberOfVisits: getMaid.numberOfVisits,
+      image: getMaid.image
+    }
+
     const maid = {
-      maid: getMaid,
+      maid: tempMaid,
       location: location,
       disponible_days: disponibleDays,
       disponible_period: disponiblePeriod,
@@ -570,7 +583,11 @@ export class MySqlMaidRepository implements IMaidRepository {
             email: results[i].email,
             phoneNumber: results[i].phoneNumber,
             birthDate: results[i].birthDate,
-            status: !!results[i].status
+            status: !!results[i].status,
+            bibliography: results[i].bibliography,
+            pricePerHour: results[i].pricePerHour,
+            numberOfVisits: results[i].numberOfVisits,
+            image: results[i].image
           }
           const locations = locationList[i]
           const disponibleDays = {

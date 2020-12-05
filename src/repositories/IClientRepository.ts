@@ -10,4 +10,5 @@ export interface IClientRepository {
   updateClient(client: Client, id: number): Promise<void>
   updateClientLocation(location: ClientLocation): Promise<void>
   getClients(): Promise<[Client]>
+  listAllClients(): Promise<[Object]>
 }
