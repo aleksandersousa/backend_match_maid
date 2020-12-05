@@ -430,7 +430,7 @@ export class MySqlMaidRepository implements IMaidRepository {
     })
 
     const tempMaid = {
-      id: 1,
+      id: getMaid.id,
       name: getMaid.name,
       email: getMaid.email,
       phoneNumber: getMaid.phoneNumber,

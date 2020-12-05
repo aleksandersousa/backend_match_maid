@@ -186,8 +186,16 @@ export class MySqlClientsRepository implements IClientRepository {
 
     const clients = []
     for (let i = 0; i < getClients.length; i++) {
+      const client = {
+        id: getClients[i].id,
+        name: getClients[i].name,
+        email: getClients[i].email,
+        phoneNumber: getClients[i].phoneNumber,
+        birthDate: getClients[i].birthDate,
+        image: getClients[i].image
+      }
       clients.push({
-        client: getClients[i],
+        client: client,
         location: locationList[i]
       })
     }
