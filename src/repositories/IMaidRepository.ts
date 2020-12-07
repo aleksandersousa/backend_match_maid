@@ -17,10 +17,6 @@ export interface IMaidRepository {
     client: Client,
     clientLocation: ClientLocation
   ): Promise<void>
-  saveMaidLocation(location: MaidLocation): Promise<void>
-  saveMaidDisponibleDays(disponibleDays: DisponibleDays): Promise<void>
-  saveMaidDisponiblePeriod(disponiblePeriod: DisponiblePeriod): Promise<void>
-  saveMaidServices(services: Services): Promise<void>
   findMaidByEmail(email: string): Promise<Maid>
   findMaidById(id: number): Promise<Maid>
   findRatingByCpf(cpf: string): Promise<Rating>

@@ -64,14 +64,6 @@ export class MySqlClientsRepository implements IClientRepository {
     db.end()
   }
 
-  async saveClientLocation (location: ClientLocation): Promise<void> {
-    const db = mysql.createConnection(this.options)
-    db.query(' ', location, (error, results) => {
-      if (error) throw error
-    })
-    db.end()
-  }
-
   async deleteClient (cpf: string): Promise<void> {
     const db = mysql.createConnection(this.options)
     const sqlQuery = `

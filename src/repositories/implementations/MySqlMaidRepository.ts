@@ -47,38 +47,6 @@ export class MySqlMaidRepository implements IMaidRepository {
     db.end()
   }
 
-  async saveMaidLocation (location: MaidLocation): Promise<void> {
-    const db = mysql.createConnection(this.options)
-    db.query('INSERT INTO maid_location SET ? ', location, (error: any, results: any) => {
-      if (error) throw error
-    })
-    db.end()
-  }
-
-  async saveMaidDisponibleDays (disponibleDays: DisponibleDays): Promise<void> {
-    const db = mysql.createConnection(this.options)
-    db.query('INSERT INTO disponible_days SET ? ', disponibleDays, (error: any, results: any) => {
-      if (error) throw error
-    })
-    db.end()
-  }
-
-  async saveMaidDisponiblePeriod (disponiblePeriod: DisponiblePeriod): Promise<void> {
-    const db = mysql.createConnection(this.options)
-    db.query('INSERT INTO disponible_period SET ? ', disponiblePeriod, (error: any, results: any) => {
-      if (error) throw error
-    })
-    db.end()
-  }
-
-  async saveMaidServices (services: Services): Promise<void> {
-    const db = mysql.createConnection(this.options)
-    db.query('INSERT INTO services SET ? ', services, (error: any, results: any) => {
-      if (error) throw error
-    })
-    db.end()
-  }
-
   async findMaidByEmail (email: string): Promise<Maid> {
     const db = mysql.createConnection(this.options)
     const getMaid = new Promise((resolve, reject) => {
