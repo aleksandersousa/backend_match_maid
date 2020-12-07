@@ -6,8 +6,8 @@
   "phoneNumber": "00000000000000",
   "birthDate": "1999-06-26T18:25:43",
   "status": false,
-  "bibliography": "",
+  "bibliography": "bibliography",
   "pricePerHour": 0.00,
   "numberOfVisits": 0,
-  "image": "",
+  "image": "image"
 }
