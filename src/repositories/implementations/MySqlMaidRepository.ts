@@ -563,9 +563,19 @@ export class MySqlMaidRepository implements IMaidRepository {
             numberOfVisits: results[i].numberOfVisits,
             image: results[i].image
           }
-          const locations = locationList[i]
+          const locations = {
+            latitude: locationList[i].latitude,
+            longitude: locationList[i].longitude,
+            street: locationList[i].street,
+            houseNumber: locationList[i].houseNumber,
+            neighborhood: locationList[i].neighborhood,
+            complement: locationList[i].complement,
+            city: locationList[i].city,
+            cep: locationList[i].cep,
+            uf: locationList[i].uf
+          }
+
           const disponibleDays = {
-            // maidCpf: disponibleDaysList[i].maidCpf,
             monday: !!disponibleDaysList[i].monday,
             tuesday: !!disponibleDaysList[i].tuesday,
             wednesday: !!disponibleDaysList[i].wednesday,
@@ -575,13 +585,11 @@ export class MySqlMaidRepository implements IMaidRepository {
             sunday: !!disponibleDaysList[i].sunday
           }
           const disponiblePeriods = {
-            // maidCpf: disponiblePeriodList[i].maidCpf,
             morning: !!disponiblePeriodList[i].morning,
             afternoon: !!disponiblePeriodList[i].afternoon,
             night: !!disponiblePeriodList[i].night
           }
           const services = {
-            // maidCpf: servicesList[i].maidCpf,
             nanny: !!servicesList[i].nanny,
             careHouse: !!servicesList[i].careHouse,
             cleanHouse: !!servicesList[i].cleanHouse,
