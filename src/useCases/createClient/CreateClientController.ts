@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { CreateClientUseCase } from './CreateClientUseCase'
+import bcrypt from 'bcrypt'
 
 export class CreateClientController {
   private _createClientUseCase: CreateClientUseCase
@@ -21,11 +22,13 @@ export class CreateClientController {
     } = request.body
 
     try {
+      const hashedPassword = await bcrypt.hash(password, 10)
+
       await this._createClientUseCase.execute({
         cpf,
         name,
         email,
-        password,
+        password: hashedPassword,
         phoneNumber,
         birthDate,
         image

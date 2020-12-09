@@ -11,7 +11,6 @@ export class Client {
 
   @jf
     .string()
-    .min(1)
     .max(50)
     .required()
   public name: string
@@ -26,7 +25,6 @@ export class Client {
   @jf
     .string()
     .min(8)
-    .max(20)
     .required()
   public password: string
 

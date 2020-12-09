@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { CreateMaidUseCase } from './CreateMaidUseCase'
+import bcrypt from 'bcrypt'
 
 export class CreateMaidController {
   private _createMaidUseCase: CreateMaidUseCase
@@ -28,11 +29,13 @@ export class CreateMaidController {
     } = request.body
 
     try {
+      const hashedPassword = await bcrypt.hash(password, 10)
+
       await this._createMaidUseCase.execute({
         cpf,
         name,
         email,
-        password,
+        password: hashedPassword,
         phoneNumber,
         birthDate,
         status,

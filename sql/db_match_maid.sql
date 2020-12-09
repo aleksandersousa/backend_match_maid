@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS client (
   cpf VARCHAR(15) UNIQUE NOT NULL,
   name VARCHAR(50) NOT NULL,
   email VARCHAR(50) NOT NULL,
-  password VARCHAR(20) NOT NULL,
+  password TEXT NOT NULL,
   phoneNumber VARCHAR(17),
   birthDate DATE,
   image TEXT
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS maid (
   cpf VARCHAR(15) UNIQUE NOT NULL,
   name VARCHAR(50) NOT NULL,
   email VARCHAR(50) NOT NULL,
-  password VARCHAR(20) NOT NULL,
+  password TEXT NOT NULL,
   phoneNumber VARCHAR(17) NOT NULL,
   birthDate DATE NOT NULL,
   status BOOLEAN DEFAULT 0,

@@ -16,7 +16,7 @@ export class CreateClientUseCase {
     const clients = await this._clientRepository.getClients()
 
     if (clientAlreadyExists) {
-      throw new Error('Client already exists.')
+      throw new Error('There is already a registration with this email.')
     } else if (data.cpf !== location.clientCpf) {
       throw new Error('Cpfs different.')
     }

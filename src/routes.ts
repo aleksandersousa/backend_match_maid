@@ -7,6 +7,7 @@ import { getClientByIdController } from './useCases/getClientById'
 import { findMaidByIdController } from './useCases/getMaidById'
 import { listAllClientsController } from './useCases/listAllClients'
 import { listAllMaidsController } from './useCases/listAllMaids'
+import { loginController } from './useCases/login'
 import { rateMaidController } from './useCases/rateMaid'
 import { updateClientController } from './useCases/updateClient'
 import { updateClientLocationController } from './useCases/updateClientLocation'
@@ -17,6 +18,10 @@ import { updateMaidLocationController } from './useCases/updateMaidLocation'
 import { updateServicesController } from './useCases/updateServices'
 
 const router = Router()
+
+router.post('/login', (request, response) => {
+  return loginController.handle(request, response)
+})
 
 router.post('/create/client', (request, response) => {
   return createClientController.handle(request, response)

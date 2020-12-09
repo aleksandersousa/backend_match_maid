@@ -26,7 +26,6 @@ export class Maid {
   @jf
     .string()
     .min(8)
-    .max(20)
     .required()
   public password: string
 
