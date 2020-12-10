@@ -29,7 +29,8 @@ describe('testing server routes', () => {
 
     expect(body).toEqual({
       error: false,
-      message: 'Client added successfuly!'
+      accessToken: '',
+      refreshToken: ''
     })
   })
 })

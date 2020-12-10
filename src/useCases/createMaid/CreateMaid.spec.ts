@@ -59,7 +59,8 @@ describe('testing server routes', () => {
 
     expect(body).toEqual({
       error: false,
-      message: 'Maid added successfuly!'
+      accessToken: '',
+      refreshToken: ''
     })
   })
 })
