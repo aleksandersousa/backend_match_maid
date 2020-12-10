@@ -1,5 +1,6 @@
-[
-  {
+{
+  "error": false,
+  "results": {
     "maid": {
       "id": 1,
       "name": "Test User",
@@ -12,18 +13,19 @@
       "numberOfVisits": 0,
       "image": "image"
     },
-    "locations": {
-      "latitude": -14.525221,
+    "location": {
+      "maidCpf": "000.000.000-01",
       "longitude": -40.363233,
+      "latitude": -14.525221,
       "street": "Test Street Updated",
       "houseNumber": "00",
-      "neighborhood": "Test",
       "complement": "test",
+      "neighborhood": "Test",
       "city": "Test City",
       "cep": "00000-000",
       "uf": "TS"
     },
-    "disponibleDays": {
+    "disponible_days": {
       "monday": false,
       "tuesday": false,
       "wednesday": true,
@@ -32,7 +34,7 @@
       "saturday": true,
       "sunday": true
     },
-    "disponiblePeriods": {
+    "disponible_period": {
       "morning": true,
       "afternoon": true,
       "night": false
@@ -46,7 +48,7 @@
       "washDishes": true,
       "cook": false
     },
-    "ratings": [],
-    "interactions": []
+    "rating": [],
+    "getInteractions": []
   }
-]
+}

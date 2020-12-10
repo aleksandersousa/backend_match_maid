@@ -1,0 +1,25 @@
+{
+  "error": false,
+  "results": {
+    "client": {
+      "id": 1,
+      "name": "Test User",
+      "email": "email@tet.com",
+      "phoneNumber": "00000000000000",
+      "birthDate": "1999-06-26T03:00:00.000Z",
+      "image": "image"
+    },
+    "location": {
+      "clientCpf": "000.000.000-01",
+      "longitude": -40.363233,
+      "latitude": -14.525221,
+      "street": "Test Street",
+      "houseNumber": "00",
+      "complement": "test",
+      "neighborhood": "Test",
+      "city": "Test City",
+      "cep": "00000-000",
+      "uf": "TS"
+    }
+  }
+}
