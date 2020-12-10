@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS client (
   password TEXT NOT NULL,
   phoneNumber VARCHAR(17),
   birthDate DATE,
-  image TEXT
+  image MEDIUMTEXT
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS maid (
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS maid (
   bibliography TINYTEXT NOT NULL,
   pricePerHour DECIMAL (65, 2) NOT NULL,
   numberOfVisits BIGINT DEFAULT 0,
-  image TEXT
+  image MEDIUMTEXT
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS client_location (
