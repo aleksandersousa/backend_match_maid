@@ -17,7 +17,7 @@ export class UpdateDisponiblePeriodController {
     } = request.body
 
     try {
-      this._updateMaidDisponiblePeriodUseCase.execute({
+      await this._updateMaidDisponiblePeriodUseCase.execute({
         morning,
         afternoon,
         night

@@ -21,7 +21,7 @@ export class UpdateServicesController {
     } = request.body
 
     try {
-      this._updateServicesUseCase.execute({
+      await this._updateServicesUseCase.execute({
         nanny,
         careHouse,
         cleanHouse,

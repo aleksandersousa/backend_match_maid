@@ -23,7 +23,7 @@ export class UpdateMaidLocationController {
     } = request.body
 
     try {
-      this._updateMaidLocationUseCase.execute({
+      await this._updateMaidLocationUseCase.execute({
         latitude,
         longitude,
         street,
