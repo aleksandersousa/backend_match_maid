@@ -6,7 +6,7 @@
   "author": "aleksandersousa <aleksander-ssousa@outlook.com>",
   "license": "MIT",
   "engines": {
-    "node": "10.19.0"
+    "node": "10.x"
   },
   "scripts": {
     "start": "node dist/server.js",
