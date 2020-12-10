@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '../endpoints.config'
+import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '../endpoints'
 import { client } from './initRedis'
 import jwt from 'jsonwebtoken'
 
@@ -36,7 +36,7 @@ const verifyAccessToken = (request: any, response: any, next: any) => {
   jwt.verify(token, ACCESS_TOKEN_SECRET, (err: any, payload: any) => {
     if (err) {
       const message = err.name === 'JsonWebTokenError' ? 'Unauthorized' : err.message
-      return next(new Error(message))
+      return response.status(403).send({ error: message })
     }
 
     request.payload = payload
@@ -70,7 +70,7 @@ const signRefreshToken = (email: any) => {
 
 const verifyRefreshToken = (refreshToken: any) => {
   return new Promise((resolve, reject) => {
-    jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, payload) => {
+    jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err: any, payload: any) => {
       if (err) {
         return reject(err)
       }
@@ -88,8 +88,6 @@ const verifyRefreshToken = (refreshToken: any) => {
 
         return reject(new Error('Unauthorized.'))
       })
-
-      return resolve(refreshToken)
     })
   })
 }

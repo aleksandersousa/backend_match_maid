@@ -13,7 +13,7 @@ export class LogoutController {
 
     try {
       await this._logoutUseCase.execute({ refreshToken })
-      return response.status(204)
+      return response.status(204).send({})
     } catch (err) {
       return response.status(400).send({
         error: true,

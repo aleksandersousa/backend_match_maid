@@ -10,21 +10,10 @@ export class LogoutUseCase {
 
     const userEmail = await verifyRefreshToken(data.refreshToken) as string
 
-    const del = new Promise((resolve, reject) => {
-      client.del(userEmail, (err, val) => {
-        if (err) {
-          return reject(new Error(err.message))
-        }
-        return resolve(val)
-      })
-    })
-
-    return await del.then((results) => {
-      if (results) {
-        return results
+    client.del(userEmail, (err, val) => {
+      if (err) {
+        return new Error(err.message)
       }
-    }).catch((err) => {
-      return new Error(err)
     })
   }
 }

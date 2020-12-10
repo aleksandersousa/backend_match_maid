@@ -1,6 +1,6 @@
 import { app } from './app'
-import { PORT } from './endpoints.config'
+import { PORT } from './endpoints'
 
-app.listen(3333, () => {
+app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`)
 })
