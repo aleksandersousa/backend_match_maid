@@ -285,6 +285,7 @@ export class MySqlMaidRepository implements IMaidRepository {
 
   async getMaid (id: number): Promise<Object> {
     const db = mysql.createConnection(this.options)
+    const interactionsRepository = new MySqlInteractionRepository()
 
     const getMaid = await this.findMaidById(id)
 
@@ -346,17 +347,19 @@ export class MySqlMaidRepository implements IMaidRepository {
           throw new Error(error)
         }
         if (results.length > 0) {
-          return resolve(results[0])
+          return resolve(results)
         }
-        return resolve(null)
+        return resolve([])
       })
     })
+
+    const getInteractions = await interactionsRepository.getInteractionsById(getMaid.id)
 
     db.end()
 
     const location = await getLocation.then((results) => {
       if (results) {
-        return results
+        return results as MaidLocation
       }
     }).catch((err) => {
       throw new Error(err)
@@ -364,7 +367,7 @@ export class MySqlMaidRepository implements IMaidRepository {
 
     const disponibleDays = await getDisponibleDays.then((results) => {
       if (results) {
-        return results
+        return results as DisponibleDays
       }
     }).catch((err) => {
       throw new Error(err)
@@ -372,7 +375,7 @@ export class MySqlMaidRepository implements IMaidRepository {
 
     const disponiblePeriod = await getDisponiblePeriod.then((results) => {
       if (results) {
-        return results
+        return results as DisponiblePeriod
       }
     }).catch((err) => {
       throw new Error(err)
@@ -380,15 +383,15 @@ export class MySqlMaidRepository implements IMaidRepository {
 
     const services = await getServices.then((results) => {
       if (results) {
-        return results
+        return results as Services
       }
     }).catch((err) => {
       throw new Error(err)
     })
 
-    const rating = await getRating.then((results) => {
+    const ratings = await getRating.then((results) => {
       if (results) {
-        return results
+        return results as [Rating]
       }
     }).catch((err) => {
       throw new Error(err)
@@ -407,13 +410,51 @@ export class MySqlMaidRepository implements IMaidRepository {
       image: getMaid.image
     }
 
+    const tempDisponibleDays = {
+      monday: !!disponibleDays.monday,
+      tuesday: !!disponibleDays.tuesday,
+      wednesday: !!disponibleDays.wednesday,
+      thursday: !!disponibleDays.thursday,
+      friday: !!disponibleDays.friday,
+      saturday: !!disponibleDays.saturday,
+      sunday: !!disponibleDays.sunday
+    }
+
+    const tempDisponiblePeriod = {
+      morning: !!disponiblePeriod.morning,
+      afternoon: !!disponiblePeriod.afternoon,
+      night: !!disponiblePeriod.night
+    }
+
+    const tempServices = {
+      nanny: !!services.nanny,
+      careHouse: !!services.careHouse,
+      cleanHouse: !!services.cleanHouse,
+      ironClothes: !!services.ironClothes,
+      washClothes: !!services.washClothes,
+      washDishes: !!services.washDishes,
+      cook: !!services.cook
+    }
+
+    const tempRatings = []
+    for (let i = 0; i < ratings.length; i++) {
+      const rating = {
+        stars: ratings[i].stars,
+        goodWork: !!ratings[i].goodWork,
+        onTime: !!ratings[i].onTime,
+        arrivedOnTime: !!ratings[i].arrivedOnTime
+      }
+      tempRatings.push(rating)
+    }
+
     const maid = {
       maid: tempMaid,
       location: location,
-      disponible_days: disponibleDays,
-      disponible_period: disponiblePeriod,
-      services: services,
-      rating: rating
+      disponible_days: tempDisponibleDays,
+      disponible_period: tempDisponiblePeriod,
+      services: tempServices,
+      rating: tempRatings,
+      getInteractions
     }
 
     return maid
