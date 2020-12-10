@@ -14,8 +14,13 @@ import { updateMaidController } from './useCases/updateMaid'
 import { updateMaidLocationController } from './useCases/updateMaidLocation'
 import { updateServicesController } from './useCases/updateServices'
 import { verifyAccessToken } from './helpers/jwtHelpers'
+import { interactController } from './useCases/interact'
 
 const router = Router()
+
+router.post('/create/interaction', verifyAccessToken, (request, response) => {
+  return interactController.handle(request, response)
+})
 
 router.delete('/delete/client/:id', verifyAccessToken, (request, response) => {
   return deleteClientController.handle(request, response)

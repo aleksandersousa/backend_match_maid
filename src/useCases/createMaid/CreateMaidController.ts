@@ -31,8 +31,6 @@ export class CreateMaidController {
 
     try {
       const hashedPassword = await bcrypt.hash(password, 10)
-      const accessToken = await signAcessToken(email)
-      const refreshToken = await signRefreshToken(email)
 
       await this._createMaidUseCase.execute({
         cpf,
@@ -48,7 +46,10 @@ export class CreateMaidController {
         image
       }, location, disponibleDays, disponiblePeriod, services)
 
-      return response.status(2001).send({
+      const accessToken = await signAcessToken(email)
+      const refreshToken = await signRefreshToken(email)
+
+      return response.status(201).send({
         error: false,
         accessToken: accessToken,
         refreshToken: refreshToken

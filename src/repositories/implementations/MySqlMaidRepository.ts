@@ -8,6 +8,7 @@ import { DisponiblePeriod } from '../../entities/DisponiblePeriod'
 import { Services } from '../../entities/Services'
 import mysql from 'mysql'
 import { Rating } from '../../entities/Rating'
+import { MySqlInteractionRepository } from './MySqlInteractionsRepository'
 
 export class MySqlMaidRepository implements IMaidRepository {
   private options = {
@@ -89,29 +90,6 @@ export class MySqlMaidRepository implements IMaidRepository {
       }
     }).catch((err) => {
       throw new Error(err)
-    })
-  }
-
-  async findRatingByCpf (cpf: string): Promise<Rating> {
-    const db = mysql.createConnection(this.options)
-    const getRating = new Promise((resolve, reject) => {
-      db.query('SELECT * FROM rating WHERE maidCpf = ?', [cpf], (error: any, results: any) => {
-        if (error) throw error
-        if (results.length > 0) {
-          return resolve(results[0])
-        }
-        return resolve(null)
-      })
-    })
-    db.end()
-
-    return getRating.then(function (results) {
-      if (results) {
-        return new Rating(results as Rating)
-      }
-    }).catch((err) => {
-      console.log('Error on search rating cpf: ' + err)
-      return null
     })
   }
 
@@ -262,34 +240,47 @@ export class MySqlMaidRepository implements IMaidRepository {
     db.end()
   }
 
-  async updateMaidRating (rating: Rating): Promise<void> {
+  async createMaidRating (rating: Rating): Promise<void> {
     const db = mysql.createConnection(this.options)
-
-    const ratingAlreadyExists = await this.findRatingByCpf(rating.maidCpf)
-
-    if (ratingAlreadyExists) {
-      const sqlQuery = `UPDATE rating SET
-        maidCpf = ?,
-        stars = ?,
-        goodWork = ?,
-        onTime = ?,
-        arrivedOnTime = ? WHERE maidCpf = ?`
-      db.query(sqlQuery, [
-        rating.maidCpf,
-        rating.stars,
-        rating.goodWork,
-        rating.onTime,
-        rating.arrivedOnTime,
-        rating.maidCpf
-      ], (error: any, results: any) => {
-        if (error) throw error
-      })
-    } else {
-      db.query('INSERT INTO rating SET ?', rating, (error: any, response: any) => {
-        if (error) throw error
-      })
-    }
+    db.query('INSERT INTO rating SET ?', rating, (error: any, response: any) => {
+      if (error) throw error
+    })
     db.end()
+  }
+
+  async getRatings (maidCpf: string): Promise<[Object]> {
+    const db = mysql.createConnection(this.options)
+    const get = new Promise((resolve, reject) => {
+      db.query('SELECT * FROM rating WHERE maidCpf = ?', maidCpf, (err, results) => {
+        if (err) {
+          return reject(err)
+        }
+        if (results.length > 0) {
+          return resolve(results)
+        }
+        return resolve([])
+      })
+    })
+    db.end()
+
+    return get.then((results: any) => {
+      if (results) {
+        const ratings = []
+        for (let i = 0; i < results.length; i++) {
+          const rating = {
+            stars: results[i].stars,
+            goodWork: results[i].goodWork,
+            onTime: results[i].onTime,
+            arrivedOnTime: results[i].arrivedOnTime
+          }
+          ratings.push(rating)
+        }
+
+        return ratings as unknown as [Object]
+      }
+    }).catch((err) => {
+      throw new Error(err)
+    })
   }
 
   async getMaid (id: number): Promise<Object> {
@@ -430,6 +421,7 @@ export class MySqlMaidRepository implements IMaidRepository {
 
   async getMaids (): Promise<[Maid]> {
     const db = mysql.createConnection(this.options)
+
     const get = new Promise((resolve, reject) => {
       db.query('SELECT * FROM maid', (error: any, results: any) => {
         if (error) throw error
@@ -439,6 +431,7 @@ export class MySqlMaidRepository implements IMaidRepository {
         return resolve([])
       })
     })
+
     db.end()
 
     return get.then((results) => {
@@ -547,10 +540,15 @@ export class MySqlMaidRepository implements IMaidRepository {
       return null
     })
 
-    const maids = getMaids.then((results: any) => {
+    const maids = getMaids.then(async (results: any) => {
       if (results) {
         const maids = []
+        const interactionsRepository = new MySqlInteractionRepository()
+
         for (let i = 0; i < results.length; i++) {
+          const ratings = await this.getRatings(results[i].cpf)
+          const interactions = await interactionsRepository.getInteractionsById(results[i].id)
+
           const maid = {
             id: results[i].id,
             name: results[i].name,
@@ -563,6 +561,7 @@ export class MySqlMaidRepository implements IMaidRepository {
             numberOfVisits: results[i].numberOfVisits,
             image: results[i].image
           }
+
           const locations = {
             latitude: locationList[i].latitude,
             longitude: locationList[i].longitude,
@@ -603,7 +602,9 @@ export class MySqlMaidRepository implements IMaidRepository {
             locations,
             disponibleDays,
             disponiblePeriods,
-            services
+            services,
+            ratings,
+            interactions
           })
         }
         return maids

@@ -33,6 +33,6 @@ export class RateMaidUseCase {
       throw new Error(error.message)
     }
 
-    await this._maidRepository.updateMaidRating(rating)
+    await this._maidRepository.createMaidRating(rating)
   }
 }

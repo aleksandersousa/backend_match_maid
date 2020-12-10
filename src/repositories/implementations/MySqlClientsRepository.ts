@@ -218,9 +218,20 @@ export class MySqlClientsRepository implements IClientRepository {
 
     const locationList = await getLocations.then((results: any) => {
       if (results) {
-        const locations = [] as unknown as [ClientLocation]
+        const locations = [] as unknown as [Object]
         for (let i = 0; i < results.length; i++) {
-          locations.push(new ClientLocation(results[i]))
+          const location = {
+            latitude: results[i].latitude,
+            longitude: results[i].longitude,
+            street: results[i].street,
+            houseNumber: results[i].houseNumber,
+            complement: results[i].complement,
+            neighborhood: results[i].neighborhood,
+            city: results[i].city,
+            cep: results[i].cep,
+            uf: results[i].uf
+          }
+          locations.push(location)
         }
         return locations
       }

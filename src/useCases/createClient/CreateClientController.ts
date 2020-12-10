@@ -24,8 +24,6 @@ export class CreateClientController {
 
     try {
       const hashedPassword = await bcrypt.hash(password, 10)
-      const accessToken = await signAcessToken(email)
-      const refreshToken = await signRefreshToken(email)
 
       await this._createClientUseCase.execute({
         cpf,
@@ -36,6 +34,10 @@ export class CreateClientController {
         birthDate,
         image
       }, location)
+
+      const accessToken = await signAcessToken(email)
+      const refreshToken = await signRefreshToken(email)
+
       return response.status(201).send({
         error: false,
         accessToken: accessToken,

@@ -98,21 +98,18 @@ CREATE TABLE IF NOT EXISTS premium_state (
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS rating (
-  maidCpf VARCHAR(15) UNIQUE NOT NULL PRIMARY KEY,
+  maidCpf VARCHAR(15) NOT NULL,
   stars DECIMAL(10, 2) NOT NULL,
   goodWork BOOLEAN DEFAULT 0,
   onTime BOOLEAN DEFAULT 0,
-  arrivedOnTime BOOLEAN DEFAULT 0,
-  INDEX(maidCpf)
+  arrivedOnTime BOOLEAN DEFAULT 0
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS interactions (
   clientId INT NOT NULL,
   maidId INT NOT NULL,
   accessTime DATETIME NOT NULL,
-  INDEX(clientId),
-  INDEX(maidId),
-  PRIMARY KEY (clientId, maidId, accessTime)
+  PRIMARY KEY (accessTime)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 ALTER TABLE client_location ADD FOREIGN KEY (clientCpf) REFERENCES client (cpf);
@@ -121,4 +118,3 @@ ALTER TABLE disponible_days ADD FOREIGN KEY (maidCpf) REFERENCES maid (cpf);
 ALTER TABLE disponible_period ADD FOREIGN KEY (maidCpf) REFERENCES maid (cpf);
 ALTER TABLE services ADD FOREIGN KEY (maidCpf) REFERENCES maid (cpf);
 ALTER TABLE premium_state ADD FOREIGN KEY (maidCpf) REFERENCES maid (cpf);
-ALTER TABLE rating ADD FOREIGN KEY (maidCpf) REFERENCES maid (cpf);

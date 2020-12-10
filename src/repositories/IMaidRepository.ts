@@ -19,15 +19,15 @@ export interface IMaidRepository {
   ): Promise<void>
   findMaidByEmail(email: string): Promise<Maid>
   findMaidById(id: number): Promise<Maid>
-  findRatingByCpf(cpf: string): Promise<Rating>
   deleteMaid(cpf: string): Promise<void>
   updateMaid(maid: Maid, id: number): Promise<void>
   updateMaidLocation(location: MaidLocation): Promise<void>
   updateMaidDisponibleDays(disponibleDays: DisponibleDays): Promise<void>
   updateMaidDisponiblePeriod(disponiblePeriod: DisponiblePeriod): Promise<void>
   updateMaidServices(services: Services): Promise<void>
-  updateMaidRating(rating: Rating): Promise<void>
+  createMaidRating(rating: Rating): Promise<void>
   getMaid(id: number): Promise<Object>
   getMaids(): Promise<[Maid]>
   getAllMaids(): Promise<[Object]>
+  getRatings(maidCpf: string): Promise<[Object]>
 }
