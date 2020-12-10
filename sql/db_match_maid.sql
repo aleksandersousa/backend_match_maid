@@ -90,8 +90,7 @@ CREATE TABLE IF NOT EXISTS services (
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS premium_state (
-  maidId INT NOT NULL PRIMARY KEY,
-  maidCpf VARCHAR(15) UNIQUE NOT NULL,
+  maidCpf VARCHAR(15) UNIQUE NOT NULL PRIMARY KEY,
   status BOOLEAN NOT NULL,
   dateTimeStart DATETIME NOT NULL,
   dateTimeEnd DATETIME NOT NULL,
@@ -105,6 +104,15 @@ CREATE TABLE IF NOT EXISTS rating (
   onTime BOOLEAN DEFAULT 0,
   arrivedOnTime BOOLEAN DEFAULT 0,
   INDEX(maidCpf)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS interactions (
+  clientId INT NOT NULL,
+  maidId INT NOT NULL,
+  accessTime DATETIME NOT NULL,
+  INDEX(clientId),
+  INDEX(maidId),
+  PRIMARY KEY (clientId, maidId, accessTime)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 ALTER TABLE client_location ADD FOREIGN KEY (clientCpf) REFERENCES client (cpf);
