@@ -1,5 +1,7 @@
 import { Request, Response } from 'express'
 import { LoginUseCase } from './LoginUseCase'
+import { ACESS_TOKEN_SECRET } from '../../endpoints'
+import jwt from 'jsonwebtoken'
 
 export class LoginController {
   private _loginUseCase: LoginUseCase
@@ -16,9 +18,13 @@ export class LoginController {
 
     try {
       if (await this._loginUseCase.execute({ email, password })) {
+        const user = { email: email }
+
+        const accessToken = jwt.sign(user, ACESS_TOKEN_SECRET)
+
         return response.status(200).send({
           error: false,
-          token: 'Logged with success!'
+          token: accessToken
         })
       } else {
         return response.status(200).send({

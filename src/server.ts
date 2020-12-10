@@ -1,8 +1,5 @@
 import { app } from './app'
-
-const {
-  PORT = 3333
-} = process.env
+import { PORT } from './endpoints'
 
 app.listen(3333, () => {
   console.log(`http://localhost:${PORT}`)
