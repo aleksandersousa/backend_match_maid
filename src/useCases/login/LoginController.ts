@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { LoginUseCase } from './LoginUseCase'
-import { signAcessToken } from 'src/helpers/jwtHelpers'
+import { signAcessToken, signRefreshToken } from 'src/helpers/jwtHelpers'
 
 export class LoginController {
   private _loginUseCase: LoginUseCase
@@ -18,15 +18,17 @@ export class LoginController {
     try {
       if (await this._loginUseCase.execute({ email, password })) {
         const accessToken = await signAcessToken(email)
+        const refreshToken = await signRefreshToken(email)
 
         return response.status(200).send({
           error: false,
-          token: accessToken
+          accessToken: accessToken,
+          refreshToken: refreshToken
         })
       } else {
         return response.status(200).send({
           error: true,
-          token: 'Not Allowed.'
+          acessToken: 'Not Allowed.'
         })
       }
     } catch (err) {

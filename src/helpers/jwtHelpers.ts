@@ -1,4 +1,5 @@
-import { ACCESS_TOKEN_SECRET } from '../endpoints'
+import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '../endpoints'
+import { client } from './initRedis'
 import jwt from 'jsonwebtoken'
 
 const signAcessToken = (email: any) => {
@@ -43,4 +44,54 @@ const verifyAccessToken = (request: any, response: any, next: any) => {
   })
 }
 
-export { signAcessToken, verifyAccessToken }
+const signRefreshToken = (email: any) => {
+  return new Promise((resolve, reject) => {
+    const payload = {}
+    const secret = REFRESH_TOKEN_SECRET
+    const options = {
+      expiresIn: '1y',
+      audience: email
+    }
+
+    jwt.sign(payload, secret, options, (err, token) => {
+      if (err) {
+        return reject(err)
+      }
+
+      client.set(email, token, 'EX', 365 * 24 * 60 * 60, (err, reply) => {
+        if (err) {
+          return reject(new Error(err.message))
+        }
+        return resolve(token)
+      })
+    })
+  })
+}
+
+const verifyRefreshToken = (refreshToken: any) => {
+  return new Promise((resolve, reject) => {
+    jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, payload) => {
+      if (err) {
+        return reject(err)
+      }
+
+      const userEmail = payload.aud
+
+      client.get(userEmail, (err, result) => {
+        if (err) {
+          return reject(new Error(err.message))
+        }
+
+        if (refreshToken === result) {
+          return resolve(userEmail)
+        }
+
+        return reject(new Error('Unauthorized.'))
+      })
+
+      return resolve(refreshToken)
+    })
+  })
+}
+
+export { signAcessToken, signRefreshToken, verifyAccessToken, verifyRefreshToken }

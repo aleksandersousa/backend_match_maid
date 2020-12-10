@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { CreateClientUseCase } from './CreateClientUseCase'
 import bcrypt from 'bcrypt'
+import { signAcessToken, signRefreshToken } from 'src/helpers/jwtHelpers'
 
 export class CreateClientController {
   private _createClientUseCase: CreateClientUseCase
@@ -23,6 +24,8 @@ export class CreateClientController {
 
     try {
       const hashedPassword = await bcrypt.hash(password, 10)
+      const accessToken = await signAcessToken(email)
+      const refreshToken = await signRefreshToken(email)
 
       await this._createClientUseCase.execute({
         cpf,
@@ -35,7 +38,8 @@ export class CreateClientController {
       }, location)
       return response.status(201).send({
         error: false,
-        message: 'Client added successfuly!'
+        accessToken: accessToken,
+        refreshToken: refreshToken
       })
     } catch (err) {
       return response.status(400).json({

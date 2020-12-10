@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { CreateMaidUseCase } from './CreateMaidUseCase'
 import bcrypt from 'bcrypt'
+import { signAcessToken, signRefreshToken } from 'src/helpers/jwtHelpers'
 
 export class CreateMaidController {
   private _createMaidUseCase: CreateMaidUseCase
@@ -30,6 +31,8 @@ export class CreateMaidController {
 
     try {
       const hashedPassword = await bcrypt.hash(password, 10)
+      const accessToken = await signAcessToken(email)
+      const refreshToken = await signRefreshToken(email)
 
       await this._createMaidUseCase.execute({
         cpf,
@@ -45,9 +48,10 @@ export class CreateMaidController {
         image
       }, location, disponibleDays, disponiblePeriod, services)
 
-      return response.status(201).send({
+      return response.status(2001).send({
         error: false,
-        message: 'Maid added successfuly!'
+        accessToken: accessToken,
+        refreshToken: refreshToken
       })
     } catch (err) {
       return response.status(400).send({
