@@ -7,7 +7,6 @@ import { getClientByIdController } from './useCases/getClientById'
 import { findMaidByIdController } from './useCases/getMaidById'
 import { listAllClientsController } from './useCases/listAllClients'
 import { listAllMaidsController } from './useCases/listAllMaids'
-import { loginController } from './useCases/login'
 import { rateMaidController } from './useCases/rateMaid'
 import { updateClientController } from './useCases/updateClient'
 import { updateClientLocationController } from './useCases/updateClientLocation'
@@ -16,12 +15,9 @@ import { udpateDisponiblePeriodController } from './useCases/updateDisponiblePer
 import { updateMaidController } from './useCases/updateMaid'
 import { updateMaidLocationController } from './useCases/updateMaidLocation'
 import { updateServicesController } from './useCases/updateServices'
+import { verifyAccessToken } from './helpers/jwtHelpers'
 
 const router = Router()
-
-router.post('/login', (request, response) => {
-  return loginController.handle(request, response)
-})
 
 router.post('/create/client', (request, response) => {
   return createClientController.handle(request, response)
@@ -31,59 +27,59 @@ router.post('/create/maid', (request, response) => {
   return createMaidController.handle(request, response)
 })
 
-router.delete('/delete/client/:id', (request, response) => {
+router.delete('/delete/client/:id', verifyAccessToken, (request, response) => {
   return deleteClientController.handle(request, response)
 })
 
-router.delete('/delete/maid/:id', (request, response) => {
+router.delete('/delete/maid/:id', verifyAccessToken, (request, response) => {
   return deleteMaidController.handle(request, response)
 })
 
-router.put('/update/client/:id', (request, response) => {
+router.put('/update/client/:id', verifyAccessToken, (request, response) => {
   return updateClientController.handle(request, response)
 })
 
-router.put('/update/client/clientLocation/:id', (request, response) => {
+router.put('/update/client/clientLocation/:id', verifyAccessToken, (request, response) => {
   return updateClientLocationController.handle(request, response)
 })
 
-router.put('/update/maid/:id', (request, response) => {
+router.put('/update/maid/:id', verifyAccessToken, (request, response) => {
   return updateMaidController.handle(request, response)
 })
 
-router.put('/update/maid/location/:id', (request, response) => {
+router.put('/update/maid/location/:id', verifyAccessToken, (request, response) => {
   return updateMaidLocationController.handle(request, response)
 })
 
-router.put('/update/maid/disponibleDays/:id', (request, response) => {
+router.put('/update/maid/disponibleDays/:id', verifyAccessToken, (request, response) => {
   return updateDisponibleDaysController.handle(request, response)
 })
 
-router.put('/update/maid/disponiblePeriod/:id', (request, response) => {
+router.put('/update/maid/disponiblePeriod/:id', verifyAccessToken, (request, response) => {
   return udpateDisponiblePeriodController.handle(request, response)
 })
 
-router.put('/update/maid/services/:id', (request, response) => {
+router.put('/update/maid/services/:id', verifyAccessToken, (request, response) => {
   return updateServicesController.handle(request, response)
 })
 
-router.post('/update/maid/rating/:id', (request, response) => {
+router.post('/update/maid/rating/:id', verifyAccessToken, (request, response) => {
   return rateMaidController.handle(request, response)
 })
 
-router.get('/get/client/:id', (request, response) => {
+router.get('/get/client/:id', verifyAccessToken, (request, response) => {
   return getClientByIdController.handle(request, response)
 })
 
-router.get('/get/clients', (request, response) => {
+router.get('/get/clients', verifyAccessToken, (request, response) => {
   return listAllClientsController.handle(request, response)
 })
 
-router.get('/get/maid/:id', (request, response) => {
+router.get('/get/maid/:id', verifyAccessToken, (request, response) => {
   return findMaidByIdController.handle(request, response)
 })
 
-router.get('/get/maids', (request, response) => {
+router.get('/get/maids', verifyAccessToken, (request, response) => {
   return listAllMaidsController.handle(request, response)
 })
 

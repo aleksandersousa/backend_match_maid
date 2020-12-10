@@ -20,12 +20,12 @@ export class LoginUseCase {
 
       if (!clientAlreadyExists) {
         throw new Error('Can not find user.')
-      } else {
-        try {
-          return await bcrypt.compare(data.password, clientAlreadyExists.password)
-        } catch (err) {
-          throw new Error(err)
-        }
+      }
+
+      try {
+        return await bcrypt.compare(data.password, clientAlreadyExists.password)
+      } catch (err) {
+        throw new Error(err)
       }
     }
 
