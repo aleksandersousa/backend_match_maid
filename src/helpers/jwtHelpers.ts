@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '../endpoints'
+import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '../endpoints.config'
 import { client } from './initRedis'
 import jwt from 'jsonwebtoken'
 
