@@ -11,6 +11,8 @@ export class RateMaidController {
   async handle (request: Request, response: Response): Promise<Response> {
     const id = request.params.id as unknown as number
     const {
+      clientId,
+      clientName,
       stars,
       goodWork,
       onTime,
@@ -19,6 +21,8 @@ export class RateMaidController {
 
     try {
       await this._rateMaidUseCase.execute({
+        clientId,
+        clientName,
         stars,
         goodWork,
         onTime,

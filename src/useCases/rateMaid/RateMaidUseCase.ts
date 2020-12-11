@@ -19,6 +19,8 @@ export class RateMaidUseCase {
 
     const rating = new Rating({
       maidCpf: maidAlreadyExists.cpf,
+      clientId: data.clientId,
+      clientName: data.clientName,
       stars: data.stars,
       goodWork: data.goodWork,
       onTime: data.onTime,

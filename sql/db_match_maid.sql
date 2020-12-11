@@ -99,6 +99,8 @@ CREATE TABLE IF NOT EXISTS premium_state (
 
 CREATE TABLE IF NOT EXISTS rating (
   maidCpf VARCHAR(15) NOT NULL,
+  clientId INT NOT NULL,
+  clientName VARCHAR(50) NOT NULL,
   stars DECIMAL(10, 2) NOT NULL,
   goodWork BOOLEAN DEFAULT 0,
   onTime BOOLEAN DEFAULT 0,

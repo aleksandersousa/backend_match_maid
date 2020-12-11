@@ -37,7 +37,7 @@ export class Client {
   @jf.date().required()
   public birthDate: Date
 
-  @jf.string().required()
+  @jf.string()
   public image: string
 
   constructor (props: Omit<Client, 'id'>) {

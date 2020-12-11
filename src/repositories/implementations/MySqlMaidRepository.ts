@@ -268,6 +268,8 @@ export class MySqlMaidRepository implements IMaidRepository {
         const ratings = []
         for (let i = 0; i < results.length; i++) {
           const rating = {
+            clientId: results[i].clientId,
+            clientName: results[i].clientName,
             stars: results[i].stars,
             goodWork: results[i].goodWork,
             onTime: results[i].onTime,
@@ -439,6 +441,8 @@ export class MySqlMaidRepository implements IMaidRepository {
     const tempRatings = []
     for (let i = 0; i < ratings.length; i++) {
       const rating = {
+        clientId: ratings[i].clientId,
+        name: ratings[i].clientName,
         stars: ratings[i].stars,
         goodWork: !!ratings[i].goodWork,
         onTime: !!ratings[i].onTime,

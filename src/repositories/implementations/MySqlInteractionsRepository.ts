@@ -44,4 +44,28 @@ export class MySqlInteractionRepository implements IInteractionsRepository {
       throw new Error(err)
     })
   }
+
+  async getAllInteractions (): Promise<[Interactions]> {
+    const db = mysql.createConnection(this.options)
+    const getInteractions = new Promise((resolve, reject) => {
+      db.query('SELECT * FROM interactions', (error: any, results: any) => {
+        if (error) {
+          return reject(error)
+        }
+        if (results.length > 0) {
+          return resolve(results)
+        }
+        return resolve([])
+      })
+    })
+    db.end()
+
+    return getInteractions.then((results) => {
+      if (results) {
+        return results as unknown as [Interactions]
+      }
+    }).catch((err) => {
+      throw new Error(err)
+    })
+  }
 }

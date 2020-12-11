@@ -23,9 +23,16 @@ export class InteractUseCase {
   async execute (data: IInteractRequestDTO) {
     const clientAlreadyExists = await this._clientRepository.findClientById(data.clientId)
     const maidAlreadyExists = await this._maidRepository.findMaidById(data.maidId)
+    const interactions = await this._interactionsRepository.getAllInteractions()
 
     if (!clientAlreadyExists || !maidAlreadyExists) {
       throw new Error('Client or maid does not exists.')
+    }
+
+    for (let i = 0; i < interactions.length; i++) {
+      if (data.accessTime === interactions[i].accessTime) {
+        return new Error('ERR DUPENTRY: time already registered.')
+      }
     }
 
     const interaction = new Interactions(data)

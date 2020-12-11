@@ -54,7 +54,7 @@ export class Maid {
   @jf.number().required()
   public numberOfVisits: number
 
-  @jf.string().required()
+  @jf.string()
   public image: string
 
   constructor (props: Omit<Maid, 'id'>) {

@@ -1,6 +1,8 @@
 export interface IRateMaidResquestDTO {
-  stars: number,
-  goodWork: boolean,
-  onTime: boolean,
+  clientId: number
+  clientName: string
+  stars: number
+  goodWork: boolean
+  onTime: boolean
   arrivedOnTime: boolean
 }

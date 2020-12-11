@@ -10,6 +10,16 @@ export class Rating {
   @jf
     .number()
     .required()
+  clientId: number
+
+  @jf
+    .string()
+    .required()
+  clientName: string
+
+  @jf
+    .number()
+    .required()
   public stars: number
 
   @jf

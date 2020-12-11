@@ -18,6 +18,10 @@ import { interactController } from './useCases/interact'
 
 const router = Router()
 
+router.post('/create/maid/rating/:id', verifyAccessToken, (request, response) => {
+  return rateMaidController.handle(request, response)
+})
+
 router.post('/create/interaction', verifyAccessToken, (request, response) => {
   return interactController.handle(request, response)
 })
@@ -56,10 +60,6 @@ router.put('/update/maid/disponiblePeriod/:id', verifyAccessToken, (request, res
 
 router.put('/update/maid/services/:id', verifyAccessToken, (request, response) => {
   return updateServicesController.handle(request, response)
-})
-
-router.post('/update/maid/rating/:id', verifyAccessToken, (request, response) => {
-  return rateMaidController.handle(request, response)
 })
 
 router.get('/get/client/:id', verifyAccessToken, (request, response) => {

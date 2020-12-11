@@ -23,14 +23,24 @@ export class LoginUseCase {
       }
 
       try {
-        return await bcrypt.compare(data.password, clientAlreadyExists.password)
+        const results = {
+          exists: await bcrypt.compare(data.password, clientAlreadyExists.password),
+          isMaid: false,
+          id: clientAlreadyExists.id
+        }
+        return results
       } catch (err) {
         throw new Error(err)
       }
     }
 
     try {
-      return await bcrypt.compare(data.password, maidAlreadyExists.password)
+      const results = {
+        exists: await bcrypt.compare(data.password, maidAlreadyExists.password),
+        isMaid: true,
+        id: maidAlreadyExists.id
+      }
+      return results
     } catch (err) {
       throw new Error(err)
     }

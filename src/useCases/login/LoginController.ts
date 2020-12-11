@@ -16,12 +16,15 @@ export class LoginController {
     } = request.body
 
     try {
-      if (await this._loginUseCase.execute({ email, password })) {
+      const results = await this._loginUseCase.execute({ email, password })
+      if (results.exists) {
         const accessToken = await signAcessToken(email)
         const refreshToken = await signRefreshToken(email)
 
         return response.status(200).send({
           error: false,
+          isMaid: results.isMaid,
+          id: results.id,
           accessToken: accessToken,
           refreshToken: refreshToken
         })
