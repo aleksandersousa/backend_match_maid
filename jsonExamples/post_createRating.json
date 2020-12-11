@@ -1,4 +1,6 @@
 {
+  "clientId": 1,
+  "clientName": "Test User",
 	"stars": 8.7,
 	"goodWork": true,
 	"onTime": true,
