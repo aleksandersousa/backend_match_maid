@@ -26,7 +26,7 @@ export interface IMaidRepository {
   updateMaidDisponiblePeriod(disponiblePeriod: DisponiblePeriod): Promise<void>
   updateMaidServices(services: Services): Promise<void>
   createMaidRating(rating: Rating): Promise<void>
-  getMaid(id: number): Promise<Object>
+  getMaid(id: number, all?: boolean): Promise<Object>
   getMaids(): Promise<[Maid]>
   getAllMaids(): Promise<[Object]>
   getRatings(maidCpf: string): Promise<[Object]>

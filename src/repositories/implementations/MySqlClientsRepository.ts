@@ -127,7 +127,7 @@ export class MySqlClientsRepository implements IClientRepository {
     db.end()
   }
 
-  async getClient (id: number): Promise<Object> {
+  async getClient (id: number, all?: boolean): Promise<Object> {
     const db = mysql.createConnection(this.options)
 
     const getClient = await this.findClientById(id)
@@ -152,13 +152,14 @@ export class MySqlClientsRepository implements IClientRepository {
 
     const location = await getLocation.then((results) => {
       if (results) {
-        return results
+        return results as ClientLocation
       }
     }).catch((err) => {
       throw new Error(err)
     })
 
-    const tempClient = {
+    let tempClient = {}
+    tempClient = {
       id: getClient.id,
       name: getClient.name,
       email: getClient.email,
@@ -167,9 +168,25 @@ export class MySqlClientsRepository implements IClientRepository {
       image: getClient.image
     }
 
+    const tempLocation = {
+      latitude: location.latitude,
+      longitude: location.longitude,
+      street: location.street,
+      houseNumber: location.houseNumber,
+      complement: location.complement,
+      neighborhood: location.neighborhood,
+      city: location.city,
+      cep: location.cep,
+      uf: location.uf
+    }
+
+    if (all) {
+      tempClient = getClient
+    }
+
     const client = {
       client: tempClient,
-      location: location
+      location: tempLocation
     }
 
     return client

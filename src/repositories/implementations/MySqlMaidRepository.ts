@@ -285,7 +285,7 @@ export class MySqlMaidRepository implements IMaidRepository {
     })
   }
 
-  async getMaid (id: number): Promise<Object> {
+  async getMaid (id: number, all?: boolean): Promise<Object> {
     const db = mysql.createConnection(this.options)
     const interactionsRepository = new MySqlInteractionRepository()
 
@@ -399,7 +399,9 @@ export class MySqlMaidRepository implements IMaidRepository {
       throw new Error(err)
     })
 
-    const tempMaid = {
+    let tempMaid = {}
+
+    tempMaid = {
       id: getMaid.id,
       name: getMaid.name,
       email: getMaid.email,
@@ -438,17 +440,22 @@ export class MySqlMaidRepository implements IMaidRepository {
       cook: !!services.cook
     }
 
-    const tempRatings = []
-    for (let i = 0; i < ratings.length; i++) {
-      const rating = {
-        clientId: ratings[i].clientId,
-        name: ratings[i].clientName,
-        stars: ratings[i].stars,
-        goodWork: !!ratings[i].goodWork,
-        onTime: !!ratings[i].onTime,
-        arrivedOnTime: !!ratings[i].arrivedOnTime
+    let tempRatings = []
+    if (all) {
+      tempMaid = getMaid
+      tempRatings = ratings
+    } else {
+      for (let i = 0; i < ratings.length; i++) {
+        const rating = {
+          clientId: ratings[i].clientId,
+          name: ratings[i].clientName,
+          stars: ratings[i].stars,
+          goodWork: !!ratings[i].goodWork,
+          onTime: !!ratings[i].onTime,
+          arrivedOnTime: !!ratings[i].arrivedOnTime
+        }
+        tempRatings.push(rating)
       }
-      tempRatings.push(rating)
     }
 
     const maid = {

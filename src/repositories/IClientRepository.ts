@@ -8,7 +8,7 @@ export interface IClientRepository {
   deleteClient(cpf: string): Promise<void>
   updateClient(client: Client, id: number): Promise<void>
   updateClientLocation(location: ClientLocation): Promise<void>
-  getClient(id: number): Promise<Object>
+  getClient(id: number, all?: boolean): Promise<Object>
   getClients(): Promise<[Client]>
   listAllClients(): Promise<[Object]>
 }

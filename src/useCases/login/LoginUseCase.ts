@@ -23,7 +23,7 @@ export class LoginUseCase {
       }
 
       try {
-        const client = await this._clientRepository.getClient(clientAlreadyExists.id)
+        const client = await this._clientRepository.getClient(clientAlreadyExists.id, true)
         const results = {
           exists: await bcrypt.compare(data.password, clientAlreadyExists.password),
           isMaid: false,
@@ -36,7 +36,7 @@ export class LoginUseCase {
     }
 
     try {
-      const maid = await this._maidRepository.getMaid(maidAlreadyExists.id)
+      const maid = await this._maidRepository.getMaid(maidAlreadyExists.id, true)
       const results = {
         exists: await bcrypt.compare(data.password, maidAlreadyExists.password),
         isMaid: true,
