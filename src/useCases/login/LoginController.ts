@@ -22,11 +22,10 @@ export class LoginController {
         const refreshToken = await signRefreshToken(email)
 
         return response.status(200).send({
-          error: false,
-          isMaid: results.isMaid,
-          id: results.id,
           accessToken: accessToken,
-          refreshToken: refreshToken
+          refreshToken: refreshToken,
+          isMaid: results.isMaid,
+          user: results.user
         })
       } else {
         return response.status(200).send({
