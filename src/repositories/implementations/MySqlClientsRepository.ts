@@ -78,7 +78,7 @@ export class MySqlClientsRepository implements IClientRepository {
 
   async updateClient (client: Client, id: number): Promise<void> {
     const db = mysql.createConnection(this.options)
-    const sqlQuery = `UPDATE client SET  
+    const sqlQuery = `UPDATE client SET
       name = ?, 
       email = ?, 
       password = ?,
@@ -186,7 +186,7 @@ export class MySqlClientsRepository implements IClientRepository {
 
     const client = {
       client: tempClient,
-      location: tempLocation
+      locations: tempLocation
     }
 
     return client

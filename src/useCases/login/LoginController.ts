@@ -25,6 +25,7 @@ export class LoginController {
           accessToken: accessToken,
           refreshToken: refreshToken,
           isMaid: results.isMaid,
+          clientId: results.clientId,
           user: results.user
         })
       } else {

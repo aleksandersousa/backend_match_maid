@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { UpdateMaidUseCase } from './UpdateMaidUseCase'
+import bcrypt from 'bcrypt'
 
 export class UpdateMaidController {
   private _updateMaidUseCase: UpdateMaidUseCase
@@ -25,11 +26,13 @@ export class UpdateMaidController {
     } = request.body
 
     try {
+      const hashedPassword = await bcrypt.hash(password, 10)
+
       await this._updateMaidUseCase.execute({
         cpf,
         name,
         email,
-        password,
+        password: hashedPassword,
         phoneNumber,
         birthDate,
         status,

@@ -14,10 +14,9 @@ export class LoginUseCase {
 
   async execute (data: ILoginRequestDTO) {
     const maidAlreadyExists = await this._maidRepository.findMaidByEmail(data.email)
+    const clientAlreadyExists = await this._clientRepository.findClientByEmail(data.email)
 
     if (!maidAlreadyExists) {
-      const clientAlreadyExists = await this._clientRepository.findClientByEmail(data.email)
-
       if (!clientAlreadyExists) {
         throw new Error('Can not find user.')
       }
@@ -27,6 +26,7 @@ export class LoginUseCase {
         const results = {
           exists: await bcrypt.compare(data.password, clientAlreadyExists.password),
           isMaid: false,
+          clientId: clientAlreadyExists.id,
           user: client
         }
         return results
@@ -40,6 +40,7 @@ export class LoginUseCase {
       const results = {
         exists: await bcrypt.compare(data.password, maidAlreadyExists.password),
         isMaid: true,
+        clientId: clientAlreadyExists.id,
         user: maid
       }
       return results

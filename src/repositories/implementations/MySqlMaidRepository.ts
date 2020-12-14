@@ -9,6 +9,7 @@ import { Services } from '../../entities/Services'
 import mysql from 'mysql'
 import { Rating } from '../../entities/Rating'
 import { MySqlInteractionRepository } from './MySqlInteractionsRepository'
+// import { MySqlClientsRepository } from './MySqlClientsRepository'
 
 export class MySqlMaidRepository implements IMaidRepository {
   private options = {
@@ -122,7 +123,10 @@ export class MySqlMaidRepository implements IMaidRepository {
       password = ?,
       phoneNumber = ?,
       birthDate = ?,
-      status = ? WHERE id = ?`
+      status = ?,
+      bibliography = ?,
+      pricePerHour = ?,
+      numberOfVisits = ? WHERE id = ?`
     db.query(sqlQuery, [
       maid.cpf,
       maid.name,
@@ -131,6 +135,28 @@ export class MySqlMaidRepository implements IMaidRepository {
       maid.phoneNumber,
       maid.birthDate,
       maid.status,
+      maid.bibliography,
+      maid.pricePerHour,
+      maid.numberOfVisits,
+      id
+    ], (error: any, results: any) => {
+      if (error) throw error
+    })
+
+    const sqlQuery2 = `UPDATE client SET 
+      cpf = ?, 
+      name = ?, 
+      email = ?, 
+      password = ?,
+      phoneNumber = ?,
+      birthDate = ? WHERE id = ?`
+    db.query(sqlQuery2, [
+      maid.cpf,
+      maid.name,
+      maid.email,
+      maid.password,
+      maid.phoneNumber,
+      maid.birthDate,
       id
     ], (error: any, results: any) => {
       if (error) throw error
@@ -460,11 +486,11 @@ export class MySqlMaidRepository implements IMaidRepository {
 
     const maid = {
       maid: tempMaid,
-      location: location,
-      disponible_days: tempDisponibleDays,
-      disponible_period: tempDisponiblePeriod,
+      locations: location,
+      disponibleDays: tempDisponibleDays,
+      disponiblePeriods: tempDisponiblePeriod,
       services: tempServices,
-      rating: tempRatings,
+      ratings: tempRatings,
       getInteractions
     }
 

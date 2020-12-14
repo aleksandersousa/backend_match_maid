@@ -15,6 +15,8 @@ export class UpdateMaidUseCase {
 
     if (!maidAlreadyExists) {
       throw new Error('Maid does not exist.')
+    } else if (maidAlreadyExists.cpf !== data.cpf) {
+      throw new Error('Invalid cpf.')
     }
 
     const maid = new Maid(data)

@@ -15,6 +15,8 @@ export class UpdateClientUseCase {
 
     if (!clientExists) {
       throw new Error('Client does not exist.')
+    } else if (clientExists.cpf !== data.cpf) {
+      throw new Error('Invalid cpf.')
     }
 
     const client = new Client(data)

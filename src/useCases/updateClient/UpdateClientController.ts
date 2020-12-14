@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { UpdateClientUseCase } from './UpdateClientUseCase'
+import bcrypt from 'bcrypt'
 
 export class UpdateClientController {
   private _updateClientUseCase: UpdateClientUseCase
@@ -21,11 +22,13 @@ export class UpdateClientController {
     } = request.body
 
     try {
+      const hashedPassword = await bcrypt.hash(password, 10)
+
       await this._updateClientUseCase.execute({
         cpf,
         name,
         email,
-        password,
+        password: hashedPassword,
         phoneNumber,
         birthDate,
         image
