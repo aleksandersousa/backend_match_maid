@@ -491,7 +491,7 @@ export class MySqlMaidRepository implements IMaidRepository {
       disponiblePeriods: tempDisponiblePeriod,
       services: tempServices,
       ratings: tempRatings,
-      getInteractions
+      interactions: getInteractions
     }
 
     return maid
